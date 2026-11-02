@@ -1,0 +1,20 @@
+{
+  "page": "#fafafa",
+  "sidebar": "#f4f4f5",
+  "surface": "#ffffff",
+  "ink": "#09090b",
+  "ink-soft": "#27272a",
+  "muted": "#71717a",
+  "line": "#e4e4e7",
+  "line-strong": "#d4d4d8",
+  "hover": "#ececee",
+  "accent": "#0f172a",
+  "accent-ink": "#fafafa",
+  "accent-soft": "#f1f1f3",
+  "danger": "#ef4444",
+  "danger-soft": "#fef2f2",
+  "danger-ink": "#991b1b",
+  "boost": "#c2410c",
+  "boost-soft": "#fff7ed",
+  "link": "#2563eb"
+}

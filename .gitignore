@@ -1,0 +1,12 @@
+build/
+build-*/
+out/
+CMakeUserPresets.json
+*.user
+.vs/
+.vscode/
+.qtcreator/
+
+# 참고용으로 받아 둔 원본 프로젝트 (각자 git 저장소)
+ai-chatroom/
+CodePet/

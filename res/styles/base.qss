@@ -1,0 +1,350 @@
+/*
+ * AITalk 공통 스타일시트.
+ * @{토큰} 은 ThemeManager 가 styles/<theme>.json 값과 글꼴 크기(font-*)로 치환한다.
+ * 위젯은 objectName(#이름)과 동적 프로퍼티([role="..."])로 구분한다.
+ */
+
+QWidget {
+    color: @{ink};
+    font-size: @{font-base}pt;
+}
+
+QWidget#mainRoot {
+    background: @{page};
+    border: 1px solid @{line-strong};
+}
+
+QToolTip {
+    background: @{accent};
+    color: @{accent-ink};
+    border: none;
+    padding: 4px 8px;
+    border-radius: 6px;
+}
+
+/* ---------- 타이틀바 ---------- */
+QWidget#titleBar {
+    background: @{sidebar};
+    border-bottom: 1px solid @{line};
+}
+QLabel#titleBarTitle {
+    color: @{ink-soft};
+    font-weight: 700;
+    font-size: @{font-sm}pt;
+}
+QToolButton#titleBarButton,
+QToolButton#titleBarClose {
+    border: none;
+    border-radius: 0;
+    background: transparent;
+}
+QToolButton#titleBarButton:hover { background: @{hover}; }
+QToolButton#titleBarClose:hover { background: #e81123; }
+
+/* ---------- 공통 컨트롤 ---------- */
+QPushButton {
+    background: @{surface};
+    border: 1px solid @{line-strong};
+    border-radius: 8px;
+    padding: 5px 12px;
+}
+QPushButton:hover { background: @{hover}; }
+QPushButton:disabled { color: @{muted}; }
+QPushButton[variant="primary"] {
+    background: @{accent};
+    color: @{accent-ink};
+    border-color: @{accent};
+    font-weight: 600;
+}
+QPushButton[variant="primary"]:disabled { background: @{line-strong}; border-color: @{line-strong}; }
+QPushButton[variant="text"] {
+    background: transparent;
+    border: none;
+    color: @{muted};
+    padding: 4px 6px;
+}
+QPushButton[variant="text"]:hover { color: @{ink}; }
+
+QPushButton[chip="true"] {
+    border-radius: 13px;
+    padding: 4px 11px;
+    font-size: @{font-sm}pt;
+    min-height: 16px;
+}
+QPushButton[chip="true"]:checked {
+    background: @{accent};
+    color: @{accent-ink};
+    border-color: @{accent};
+}
+
+QToolButton#iconButton {
+    border: none;
+    border-radius: 6px;
+    background: transparent;
+    padding: 4px;
+}
+QToolButton#iconButton:hover { background: @{hover}; }
+QToolButton#iconButton:checked { background: @{line}; }
+
+QLineEdit, QSpinBox, QComboBox, QPlainTextEdit#noteEditor {
+    background: @{surface};
+    border: 1px solid @{line-strong};
+    border-radius: 8px;
+    padding: 5px 8px;
+    selection-background-color: @{accent};
+    selection-color: @{accent-ink};
+}
+QLineEdit:focus, QSpinBox:focus, QComboBox:focus, QPlainTextEdit#noteEditor:focus {
+    border-color: @{accent};
+}
+QComboBox::drop-down { border: none; width: 18px; }
+QComboBox QAbstractItemView {
+    background: @{surface};
+    border: 1px solid @{line-strong};
+    selection-background-color: @{hover};
+    selection-color: @{ink};
+    outline: none;
+}
+
+QCheckBox { spacing: 8px; }
+
+QMenu {
+    background: @{surface};
+    border: 1px solid @{line-strong};
+    border-radius: 8px;
+    padding: 4px;
+}
+QMenu::item { padding: 6px 18px 6px 12px; border-radius: 5px; }
+QMenu::item:selected { background: @{hover}; }
+QMenu::item:disabled { color: @{muted}; }
+QMenu::separator { height: 1px; background: @{line}; margin: 4px 6px; }
+
+QScrollBar:vertical { background: transparent; width: 10px; margin: 2px; }
+QScrollBar::handle:vertical { background: @{line-strong}; border-radius: 3px; min-height: 32px; }
+QScrollBar::handle:vertical:hover { background: @{muted}; }
+QScrollBar:horizontal { background: transparent; height: 10px; margin: 2px; }
+QScrollBar::handle:horizontal { background: @{line-strong}; border-radius: 3px; min-width: 32px; }
+QScrollBar::add-line, QScrollBar::sub-line { width: 0; height: 0; }
+QScrollBar::add-page, QScrollBar::sub-page { background: none; }
+
+QSplitter::handle { background: @{line}; }
+
+QTabWidget::pane { border: none; }
+QTabBar::tab {
+    background: transparent;
+    color: @{muted};
+    padding: 6px 12px;
+    border: none;
+    border-bottom: 2px solid transparent;
+}
+QTabBar::tab:selected { color: @{ink}; border-bottom-color: @{accent}; font-weight: 600; }
+QTabBar::tab:hover:!selected { color: @{ink-soft}; }
+
+/* ---------- 세션 사이드바 (panel/SessionPanel) ---------- */
+QWidget#sessionPanel {
+    background: @{sidebar};
+}
+QLabel#panelTitle {
+    color: @{muted};
+    font-weight: 700;
+    font-size: @{font-xs}pt;
+    letter-spacing: 1px;
+}
+QListWidget#sessionList {
+    background: transparent;
+    border: none;
+    outline: none;
+}
+QListWidget#sessionList::item {
+    border-radius: 10px;
+    margin: 1px 0;
+}
+QListWidget#sessionList::item:selected { background: @{surface}; }
+QListWidget#sessionList::item:hover:!selected { background: @{hover}; }
+QLabel#sessionItemTitle { font-weight: 600; }
+QLabel#sessionItemMeta, ElidedLabel#sessionItemPreview {
+    color: @{muted};
+    font-size: @{font-xs}pt;
+}
+
+/* ---------- 방 헤더 (widget/RoomHeader) ---------- */
+QWidget#roomHeader {
+    background: @{surface};
+    border-bottom: 1px solid @{line};
+}
+ElidedLabel#roomTitle {
+    font-size: @{font-lg}pt;
+    font-weight: 700;
+}
+QLabel#roomState {
+    color: @{muted};
+    font-size: @{font-xs}pt;
+}
+QPushButton#agentChip {
+    border-radius: 16px;
+    padding: 0;
+    background: @{surface};
+    border: 1px solid @{line-strong};
+    min-height: 30px;
+}
+QPushButton#agentChip:hover { background: @{hover}; }
+QPushButton#agentChip[active="false"] { background: @{page}; border-style: dashed; }
+QLabel#agentChipName { font-size: @{font-sm}pt; font-weight: 600; }
+QPushButton#agentChip[active="false"] QLabel#agentChipName { color: @{muted}; }
+
+/* ---------- 메시지 목록 (widget/MessageListView, widget/MessageBubble) ---------- */
+QScrollArea#messageScroll { background: @{page}; border: none; }
+QWidget#messageCanvas { background: @{page}; }
+
+QLabel#messageName { font-weight: 700; font-size: @{font-sm}pt; }
+QLabel#messageMeta { color: @{muted}; font-size: @{font-xs}pt; }
+
+QFrame#bubble {
+    background: @{surface};
+    border: 1px solid @{line};
+    border-radius: 14px;
+}
+QFrame#bubble[role="user"] {
+    background: @{accent};
+    border-color: @{accent};
+}
+QFrame#bubble[role="user"] QLabel { color: @{accent-ink}; }
+QFrame#bubble[boosted="true"] { border-color: @{boost}; }
+QLabel#bubbleText { background: transparent; }
+
+QFrame#replyContext {
+    background: @{accent-soft};
+    border: none;
+    border-left: 3px solid @{line-strong};
+    border-radius: 6px;
+}
+QLabel#replyContextText { color: @{muted}; font-size: @{font-xs}pt; }
+
+QLabel#systemNotice {
+    color: @{muted};
+    background: @{accent-soft};
+    border-radius: 10px;
+    padding: 3px 12px;
+    font-size: @{font-xs}pt;
+}
+QLabel#systemNotice[tone="error"] { color: @{danger-ink}; background: @{danger-soft}; }
+QLabel#systemNotice[tone="boost"] { color: @{boost}; background: @{boost-soft}; }
+
+QPushButton#reactionPill {
+    background: @{surface};
+    border: 1px solid @{line};
+    border-radius: 10px;
+    padding: 1px 7px;
+    font-size: @{font-xs}pt;
+}
+QPushButton#reactionPill:hover { border-color: @{line-strong}; }
+QPushButton#reactionPill[mine="true"] { border-color: @{accent}; }
+
+QPushButton#loadMore {
+    border-radius: 12px;
+    padding: 4px 14px;
+    color: @{muted};
+    font-size: @{font-xs}pt;
+}
+
+/* ---------- 입력 중 표시 / 입력창 ---------- */
+QLabel#typingPill {
+    background: @{surface};
+    border: 1px solid @{line};
+    border-radius: 11px;
+    padding: 2px 10px;
+    color: @{muted};
+    font-size: @{font-xs}pt;
+}
+
+QFrame#composerBox {
+    background: @{surface};
+    border: 1px solid @{line-strong};
+    border-radius: 14px;
+}
+QPlainTextEdit#composerInput {
+    background: transparent;
+    border: none;
+    selection-background-color: @{accent};
+    selection-color: @{accent-ink};
+}
+QPushButton#sendButton {
+    border-radius: 10px;
+    padding: 0;
+}
+
+QFrame#replyPreview {
+    background: @{accent-soft};
+    border: none;
+    border-left: 3px solid @{accent};
+    border-radius: 8px;
+}
+QLabel#replyPreviewAuthor { font-weight: 700; font-size: @{font-sm}pt; }
+QLabel#replyPreviewText { color: @{muted}; font-size: @{font-sm}pt; }
+
+QFrame#mentionPopup {
+    background: @{surface};
+    border: 1px solid @{line-strong};
+    border-radius: 10px;
+}
+QListWidget#mentionList { background: transparent; border: none; outline: none; }
+QListWidget#mentionList::item { padding: 5px 8px; border-radius: 6px; }
+QListWidget#mentionList::item:selected { background: @{hover}; color: @{ink}; }
+
+/* ---------- 오른쪽 패널 (panel/InspectorPanel) ---------- */
+QWidget#inspectorPanel {
+    background: @{sidebar};
+}
+QScrollArea#inspectorScroll, QWidget#inspectorCanvas { background: transparent; border: none; }
+QFrame#memberCard {
+    background: @{surface};
+    border: 1px solid @{line};
+    border-radius: 12px;
+}
+QLabel#memberCardName { font-weight: 700; }
+QLabel#memberCardMeta { color: @{muted}; font-size: @{font-xs}pt; }
+QLabel#memberCardError { color: @{danger}; font-size: @{font-xs}pt; }
+
+/* ---------- 토스트 / 대화상자 ---------- */
+QLabel#toast {
+    background: @{accent};
+    color: @{accent-ink};
+    border-radius: 8px;
+    padding: 8px 16px;
+}
+
+QDialog { background: @{page}; }
+QLabel#dialogHint { color: @{muted}; font-size: @{font-sm}pt; }
+QGroupBox {
+    border: 1px solid @{line};
+    border-radius: 10px;
+    margin-top: 14px;
+    padding: 12px 10px 8px 10px;
+    background: @{surface};
+}
+QGroupBox::title {
+    subcontrol-origin: margin;
+    left: 12px;
+    padding: 0 4px;
+    font-weight: 700;
+}
+QTableWidget {
+    background: @{surface};
+    border: 1px solid @{line};
+    border-radius: 8px;
+    gridline-color: @{line};
+}
+QHeaderView::section {
+    background: @{sidebar};
+    border: none;
+    border-bottom: 1px solid @{line};
+    padding: 5px 8px;
+    font-weight: 600;
+}
+QPlainTextEdit#installHint {
+    background: @{accent-soft};
+    border: 1px solid @{line};
+    border-radius: 8px;
+    font-family: "Cascadia Mono", "Consolas", monospace;
+    font-size: @{font-sm}pt;
+}
