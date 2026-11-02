@@ -11,7 +11,7 @@
 
 MemberCard::MemberCard(const QString& memberId, QWidget* parent)
     : QFrame(parent)
-    , m_id(memberId)
+    , id(memberId)
 {
     setObjectName(QStringLiteral("memberCard"));
     const MemberInfo* info = Members::find(memberId);
@@ -30,38 +30,38 @@ MemberCard::MemberCard(const QString& memberId, QWidget* parent)
     top->setSpacing(6);
     auto* name = new QLabel(info ? info->name : memberId, this);
     name->setObjectName(QStringLiteral("memberCardName"));
-    m_dot = new StatusDot(8, this);
-    m_status = new QLabel(this);
-    m_status->setObjectName(QStringLiteral("memberCardMeta"));
+    this->dot = new StatusDot(8, this);
+    this->status = new QLabel(this);
+    this->status->setObjectName(QStringLiteral("memberCardMeta"));
     top->addWidget(name);
-    top->addWidget(m_dot);
-    top->addWidget(m_status);
+    top->addWidget(this->dot);
+    top->addWidget(this->status);
     top->addStretch(1);
     col->addLayout(top);
 
-    m_model = new QLabel(this);
-    m_model->setObjectName(QStringLiteral("memberCardMeta"));
-    m_model->setWordWrap(true);
-    m_stats = new QLabel(this);
-    m_stats->setObjectName(QStringLiteral("memberCardMeta"));
-    m_error = new QLabel(this);
-    m_error->setObjectName(QStringLiteral("memberCardError"));
-    m_error->setWordWrap(true);
-    m_error->hide();
-    col->addWidget(m_model);
-    col->addWidget(m_stats);
-    col->addWidget(m_error);
+    this->model = new QLabel(this);
+    this->model->setObjectName(QStringLiteral("memberCardMeta"));
+    this->model->setWordWrap(true);
+    this->stats = new QLabel(this);
+    this->stats->setObjectName(QStringLiteral("memberCardMeta"));
+    this->error = new QLabel(this);
+    this->error->setObjectName(QStringLiteral("memberCardError"));
+    this->error->setWordWrap(true);
+    this->error->hide();
+    col->addWidget(this->model);
+    col->addWidget(this->stats);
+    col->addWidget(this->error);
     lay->addLayout(col, 1);
 }
 
 void MemberCard::setState(const State& s)
 {
-    m_dot->setStatus(s.status);
-    m_status->setText(StatusDot::labelFor(s.status));
-    m_model->setText(s.cliPath.isEmpty() ? Text("member.noCli") : s.model);
-    m_model->setToolTip(s.cliPath);
-    m_stats->setText(s.calls ? Text("member.stats").arg(s.calls).arg(s.lastMs / 1000.0, 0, 'f', 1) : Text("member.noCalls"));
-    m_error->setText(s.lastError.left(160));
-    m_error->setToolTip(s.lastError);
-    m_error->setVisible(!s.lastError.isEmpty());
+    this->dot->setStatus(s.status);
+    this->status->setText(StatusDot::labelFor(s.status));
+    this->model->setText(s.cliPath.isEmpty() ? Text("member.noCli") : s.model);
+    this->model->setToolTip(s.cliPath);
+    this->stats->setText(s.calls ? Text("member.stats").arg(s.calls).arg(s.lastMs / 1000.0, 0, 'f', 1) : Text("member.noCalls"));
+    this->error->setText(s.lastError.left(160));
+    this->error->setToolTip(s.lastError);
+    this->error->setVisible(!s.lastError.isEmpty());
 }

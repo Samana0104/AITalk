@@ -16,6 +16,6 @@ signals:
     void cleared();
 
 private:
-    QLabel* m_author;
-    QLabel* m_excerpt;
+    QLabel* author;
+    QLabel* excerpt;
 };

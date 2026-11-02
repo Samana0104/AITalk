@@ -21,8 +21,8 @@ protected:
     void paintEvent(QPaintEvent* event) override;
 
 private:
-    int m_size;
-    QString m_id;
-    QString m_label;
-    QColor m_color;
+    int size;
+    QString id;
+    QString label;
+    QColor color;
 };

@@ -20,9 +20,9 @@ public:
 private:
     void tickDots();
 
-    QHBoxLayout* m_layout;
-    QList<QLabel*> m_pills;
-    QList<QPair<QString, QString>> m_entries;
-    QTimer m_timer;
-    int m_dots = 0;
+    QHBoxLayout* layout;
+    QList<QLabel*> pills;
+    QList<QPair<QString, QString>> entries;
+    QTimer timer;
+    int dots = 0;
 };

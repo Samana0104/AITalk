@@ -21,7 +21,7 @@ struct BoostDecision {
 // 멤버가 답에 "boost" 를 넣어 직접 켜는 경우는 RoomEngine 이 처리한다.
 class BoostRouter {
 public:
-    explicit BoostRouter(const AppConfig* config) : m_cfg(config) {}
+    explicit BoostRouter(const AppConfig* config) : config(config) {}
 
     // mode: auto | manual | off
     std::optional<BoostDecision> decide(const QString& memberId, const ChatSession& session, qint64 seen, const QString& mode);
@@ -37,7 +37,7 @@ public:
     void reset();
 
 private:
-    const AppConfig* m_cfg;
-    QHash<QString, qint64> m_pending;  // /boost 로 예약된 멤버 -> 시각
-    QHash<QString, qint64> m_lastAuto; // AI 요청으로 켠 마지막 시각
+    const AppConfig* config;
+    QHash<QString, qint64> pending;  // /boost 로 예약된 멤버 -> 시각
+    QHash<QString, qint64> lastAutoBoostAt; // AI 요청으로 켠 마지막 시각
 };

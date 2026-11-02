@@ -9,7 +9,7 @@ public:
     explicit StatusDot(int size = 8, QWidget* parent = nullptr);
 
     void setStatus(const QString& status);
-    QString status() const { return m_status; }
+    QString status() const { return this->currentStatus; }
 
     static QColor colorFor(const QString& status);
     static QString labelFor(const QString& status);
@@ -18,6 +18,6 @@ protected:
     void paintEvent(QPaintEvent* event) override;
 
 private:
-    int m_size;
-    QString m_status = QStringLiteral("idle");
+    int size;
+    QString currentStatus = QStringLiteral("idle");
 };

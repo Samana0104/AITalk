@@ -12,7 +12,7 @@ ElidedLabel::ElidedLabel(const QString& text, QWidget* parent)
 
 void ElidedLabel::setText(const QString& text)
 {
-    m_text = text;
+    this->fullText = text;
     setToolTip(text);
     updateGeometry();
     update();
@@ -20,14 +20,14 @@ void ElidedLabel::setText(const QString& text)
 
 void ElidedLabel::setElideMode(Qt::TextElideMode mode)
 {
-    m_mode = mode;
+    this->mode = mode;
     update();
 }
 
 QSize ElidedLabel::sizeHint() const
 {
     const QFontMetrics fm(font());
-    return { fm.horizontalAdvance(m_text) + 2, fm.height() };
+    return { fm.horizontalAdvance(this->fullText) + 2, fm.height() };
 }
 
 QSize ElidedLabel::minimumSizeHint() const
@@ -41,7 +41,7 @@ void ElidedLabel::paintEvent(QPaintEvent*)
     QPainter p(this);
     p.setPen(palette().color(foregroundRole()));
     const QRect r = contentsRect();
-    p.drawText(r, Qt::AlignVCenter | Qt::AlignLeft, fontMetrics().elidedText(m_text, m_mode, r.width()));
+    p.drawText(r, Qt::AlignVCenter | Qt::AlignLeft, fontMetrics().elidedText(this->fullText, this->mode, r.width()));
 }
 
 void ElidedLabel::mouseDoubleClickEvent(QMouseEvent* event)

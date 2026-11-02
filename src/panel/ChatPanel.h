@@ -35,12 +35,12 @@ private:
     void showAgentMenu(const QString& memberId);
     void startReply(qint64 messageId);
 
-    Application* m_app;
-    QPointer<ChatSession> m_session;
-    QList<QMetaObject::Connection> m_sessionConns;
+    Application* app;
+    QPointer<ChatSession> session;
+    QList<QMetaObject::Connection> sessionConnections;
 
-    RoomHeader* m_header;
-    MessageListView* m_messages;
-    TypingIndicator* m_typing;
-    ComposerWidget* m_composer;
+    RoomHeader* header;
+    MessageListView* messages;
+    TypingIndicator* typing;
+    ComposerWidget* composer;
 };

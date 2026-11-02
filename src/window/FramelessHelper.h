@@ -20,9 +20,9 @@ private:
     Qt::Edges edgesAt(const QPoint& pos) const;
     void setEdgeCursor(Qt::Edges edges);
 
-    QWidget* m_widget;
-    QWindow* m_window = nullptr;
-    int m_border;
-    bool m_overriding = false;
-    Qt::Edges m_current;
+    QWidget* widget;
+    QWindow* window = nullptr;
+    int border;
+    bool overriding = false;
+    Qt::Edges current;
 };

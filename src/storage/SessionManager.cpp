@@ -11,14 +11,14 @@
 
 SessionManager::SessionManager(const QString& root, const AppConfig* config, QObject* parent)
     : QObject(parent)
-    , m_root(root)
-    , m_cfg(config)
+    , root(root)
+    , config(config)
 {
 }
 
 void SessionManager::load()
 {
-    const QDir dir(m_root);
+    const QDir dir(this->root);
     for (const QString& name : dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot)) {
         if (!QFileInfo::exists(dir.filePath(name + QStringLiteral("/session.json"))))
             continue;
@@ -30,7 +30,7 @@ void SessionManager::load()
 
 QList<ChatSession*> SessionManager::sessions() const
 {
-    QList<ChatSession*> out = m_sessions;
+    QList<ChatSession*> out = this->loadedSessions;
     std::sort(out.begin(), out.end(), [](ChatSession* a, ChatSession* b) {
         return a->updatedAt() > b->updatedAt();
     });
@@ -39,7 +39,7 @@ QList<ChatSession*> SessionManager::sessions() const
 
 ChatSession* SessionManager::find(const QString& id) const
 {
-    for (ChatSession* s : m_sessions)
+    for (ChatSession* s : this->loadedSessions)
         if (s->id() == id)
             return s;
     return nullptr;
@@ -49,9 +49,9 @@ ChatSession* SessionManager::createSession(const QString& title)
 {
     QString t = title.trimmed();
     if (t.isEmpty())
-        t = m_sessions.isEmpty() ? m_cfg->defaultRoomName
-                                 : QStringLiteral("%1 %2").arg(m_cfg->defaultRoomName).arg(m_sessions.size() + 1);
-    ChatSession* s = ChatSession::create(m_root, t, m_cfg->speed, m_cfg->boostMode, this);
+        t = this->loadedSessions.isEmpty() ? this->config->defaultRoomName
+                                 : QStringLiteral("%1 %2").arg(this->config->defaultRoomName).arg(this->loadedSessions.size() + 1);
+    ChatSession* s = ChatSession::create(this->root, t, this->config->speed, this->config->boostMode, this);
     adopt(s);
     emit sessionsChanged();
     return s;
@@ -59,16 +59,16 @@ ChatSession* SessionManager::createSession(const QString& title)
 
 void SessionManager::adopt(ChatSession* session)
 {
-    m_sessions.append(session);
+    this->loadedSessions.append(session);
     connect(session, &ChatSession::messageAdded, this, &SessionManager::sessionsChanged);
     connect(session, &ChatSession::metaChanged, this, &SessionManager::sessionsChanged);
 }
 
 void SessionManager::setCurrent(ChatSession* session)
 {
-    if (!session || session == m_current)
+    if (!session || session == this->currentSession)
         return;
-    m_current = session;
+    this->currentSession = session;
     emit currentChanged(session);
 }
 
@@ -80,10 +80,10 @@ void SessionManager::renameSession(ChatSession* session, const QString& title)
 
 void SessionManager::removeSession(ChatSession* session)
 {
-    if (!session || !m_sessions.contains(session))
+    if (!session || !this->loadedSessions.contains(session))
         return;
     // 지우기 전에 현재 세션을 다른 곳으로 옮겨서 엔진이 먼저 떨어지게 한다.
-    if (session == m_current) {
+    if (session == this->currentSession) {
         ChatSession* next = nullptr;
         for (ChatSession* s : sessions())
             if (s != session) {
@@ -92,7 +92,7 @@ void SessionManager::removeSession(ChatSession* session)
             }
         setCurrent(next ? next : createSession());
     }
-    m_sessions.removeAll(session);
+    this->loadedSessions.removeAll(session);
     const QString dir = session->dir();
     session->deleteLater();
 

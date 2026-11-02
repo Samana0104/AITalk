@@ -6,37 +6,37 @@
 TypingIndicator::TypingIndicator(QWidget* parent)
     : QWidget(parent)
 {
-    m_layout = new QHBoxLayout(this);
-    m_layout->setContentsMargins(20, 2, 20, 2);
-    m_layout->setSpacing(6);
-    m_layout->addStretch(1);
-    m_timer.setInterval(450);
-    connect(&m_timer, &QTimer::timeout, this, &TypingIndicator::tickDots);
+    this->layout = new QHBoxLayout(this);
+    this->layout->setContentsMargins(20, 2, 20, 2);
+    this->layout->setSpacing(6);
+    this->layout->addStretch(1);
+    this->timer.setInterval(450);
+    connect(&this->timer, &QTimer::timeout, this, &TypingIndicator::tickDots);
     setVisible(false);
 }
 
 void TypingIndicator::setEntries(const QList<QPair<QString, QString>>& entries)
 {
-    if (entries == m_entries)
+    if (entries == this->entries)
         return;
-    m_entries = entries;
-    qDeleteAll(m_pills);
-    m_pills.clear();
+    this->entries = entries;
+    qDeleteAll(this->pills);
+    this->pills.clear();
     for (int i = 0; i < entries.size(); ++i) {
         auto* pill = new QLabel(this);
         pill->setObjectName(QStringLiteral("typingPill"));
-        m_layout->insertWidget(i, pill);
-        m_pills << pill;
+        this->layout->insertWidget(i, pill);
+        this->pills << pill;
     }
     setVisible(!entries.isEmpty());
-    entries.isEmpty() ? m_timer.stop() : m_timer.start();
+    entries.isEmpty() ? this->timer.stop() : this->timer.start();
     tickDots();
 }
 
 void TypingIndicator::tickDots()
 {
-    m_dots = (m_dots + 1) % 4;
-    const QString dots = QString(m_dots, QLatin1Char('.')).leftJustified(3, QLatin1Char(' '));
-    for (int i = 0; i < m_pills.size(); ++i)
-        m_pills[i]->setText(QStringLiteral("● %1 %2%3").arg(m_entries[i].first, m_entries[i].second, dots));
+    this->dots = (this->dots + 1) % 4;
+    const QString dots = QString(this->dots, QLatin1Char('.')).leftJustified(3, QLatin1Char(' '));
+    for (int i = 0; i < this->pills.size(); ++i)
+        this->pills[i]->setText(QStringLiteral("● %1 %2%3").arg(this->entries[i].first, this->entries[i].second, dots));
 }

@@ -19,7 +19,7 @@
 
 InspectorPanel::InspectorPanel(Application* app, QWidget* parent)
     : QWidget(parent)
-    , m_app(app)
+    , app(app)
 {
     setObjectName(QStringLiteral("inspectorPanel"));
     setAttribute(Qt::WA_StyledBackground);
@@ -43,7 +43,7 @@ InspectorPanel::InspectorPanel(Application* app, QWidget* parent)
     cards->setSpacing(8);
     for (const QString& id : Members::ids()) {
         auto* card = new MemberCard(id, canvas);
-        m_cards.insert(id, card);
+        this->cards.insert(id, card);
         cards->addWidget(card);
     }
     cards->addStretch(1);
@@ -55,46 +55,46 @@ InspectorPanel::InspectorPanel(Application* app, QWidget* parent)
     auto* nl = new QVBoxLayout(notePage);
     nl->setContentsMargins(0, 8, 0, 0);
     nl->setSpacing(8);
-    m_noteMember = new QComboBox(notePage);
+    this->noteMember = new QComboBox(notePage);
     for (const MemberInfo& m : Members::all())
-        m_noteMember->addItem(m.name, m.id);
+        this->noteMember->addItem(m.name, m.id);
     auto* hint = new QLabel(Text("inspector.notesHint"), notePage);
     hint->setObjectName(QStringLiteral("dialogHint"));
     hint->setWordWrap(true);
-    m_note = new QPlainTextEdit(notePage);
-    m_note->setObjectName(QStringLiteral("noteEditor"));
-    m_note->setPlaceholderText(Text("inspector.notesEmpty"));
-    m_saveNote = new QPushButton(Text("inspector.saveNote"), notePage);
-    m_saveNote->setEnabled(false);
-    nl->addWidget(m_noteMember);
+    this->note = new QPlainTextEdit(notePage);
+    this->note->setObjectName(QStringLiteral("noteEditor"));
+    this->note->setPlaceholderText(Text("inspector.notesEmpty"));
+    this->saveNoteButton = new QPushButton(Text("inspector.saveNote"), notePage);
+    this->saveNoteButton->setEnabled(false);
+    nl->addWidget(this->noteMember);
     nl->addWidget(hint);
-    nl->addWidget(m_note, 1);
-    nl->addWidget(m_saveNote, 0, Qt::AlignRight);
+    nl->addWidget(this->note, 1);
+    nl->addWidget(this->saveNoteButton, 0, Qt::AlignRight);
     tabs->addTab(notePage, Text("inspector.tabNotes"));
 
-    connect(m_noteMember, &QComboBox::currentIndexChanged, this, &InspectorPanel::loadNote);
-    connect(m_note, &QPlainTextEdit::textChanged, this, [this] {
-        m_noteDirty = true;
-        m_saveNote->setEnabled(true);
+    connect(this->noteMember, &QComboBox::currentIndexChanged, this, &InspectorPanel::loadNote);
+    connect(this->note, &QPlainTextEdit::textChanged, this, [this] {
+        this->noteDirty = true;
+        this->saveNoteButton->setEnabled(true);
     });
-    connect(m_saveNote, &QPushButton::clicked, this, &InspectorPanel::saveNote);
+    connect(this->saveNoteButton, &QPushButton::clicked, this, &InspectorPanel::saveNote);
 
-    connect(m_app->engine(), &RoomEngine::memberChanged, this, &InspectorPanel::refreshMember);
-    connect(m_app->sessions(), &SessionManager::currentChanged, this, &InspectorPanel::bindSession);
-    connect(m_app, &Application::configChanged, this, [this] {
+    connect(this->app->engine(), &RoomEngine::memberChanged, this, &InspectorPanel::refreshMember);
+    connect(this->app->sessions(), &SessionManager::currentChanged, this, &InspectorPanel::bindSession);
+    connect(this->app, &Application::configChanged, this, [this] {
         for (const QString& id : Members::ids())
             refreshMember(id);
     });
-    bindSession(m_app->sessions()->current());
+    bindSession(this->app->sessions()->current());
 }
 
 void InspectorPanel::bindSession(ChatSession* session)
 {
-    disconnect(m_noteConn);
-    m_session = session;
+    disconnect(this->noteConnection);
+    this->session = session;
     if (session) {
-        m_noteConn = connect(session, &ChatSession::noteChanged, this, [this](const QString& id) {
-            if (id == m_noteMember->currentData().toString() && !m_noteDirty)
+        this->noteConnection = connect(session, &ChatSession::noteChanged, this, [this](const QString& id) {
+            if (id == this->noteMember->currentData().toString() && !this->noteDirty)
                 loadNote();
         });
     }
@@ -105,15 +105,15 @@ void InspectorPanel::bindSession(ChatSession* session)
 
 void InspectorPanel::refreshMember(const QString& memberId)
 {
-    MemberCard* card = m_cards.value(memberId);
+    MemberCard* card = this->cards.value(memberId);
     if (!card)
         return;
-    const RoomEngine* engine = m_app->engine();
+    const RoomEngine* engine = this->app->engine();
     const MemberRuntime& rt = engine->runtime(memberId);
     MemberCard::State s;
     s.status = engine->statusOf(memberId);
     s.model = engine->modelLabelOf(memberId);
-    s.cliPath = m_app->hub()->binOf(memberId);
+    s.cliPath = this->app->hub()->binOf(memberId);
     s.calls = rt.calls;
     s.lastMs = rt.lastMs;
     s.lastError = rt.lastError;
@@ -122,17 +122,17 @@ void InspectorPanel::refreshMember(const QString& memberId)
 
 void InspectorPanel::loadNote()
 {
-    const QSignalBlocker block(m_note);
-    m_note->setPlainText(m_session ? m_session->readNote(m_noteMember->currentData().toString()) : QString());
-    m_noteDirty = false;
-    m_saveNote->setEnabled(false);
+    const QSignalBlocker block(this->note);
+    this->note->setPlainText(this->session ? this->session->readNote(this->noteMember->currentData().toString()) : QString());
+    this->noteDirty = false;
+    this->saveNoteButton->setEnabled(false);
 }
 
 void InspectorPanel::saveNote()
 {
-    if (!m_session)
+    if (!this->session)
         return;
-    m_noteDirty = false;
-    m_saveNote->setEnabled(false);
-    m_session->writeNote(m_noteMember->currentData().toString(), m_note->toPlainText());
+    this->noteDirty = false;
+    this->saveNoteButton->setEnabled(false);
+    this->session->writeNote(this->noteMember->currentData().toString(), this->note->toPlainText());
 }

@@ -11,37 +11,37 @@
 AgentHub::AgentHub(QObject* parent)
     : QObject(parent)
 {
-    m_backends.emplace(QStringLiteral("claude"), std::make_unique<ClaudeBackend>());
-    m_backends.emplace(QStringLiteral("gpt"), std::make_unique<CodexBackend>());
-    m_backends.emplace(QStringLiteral("gemini"), std::make_unique<AgyBackend>());
+    this->backends.emplace(QStringLiteral("claude"), std::make_unique<ClaudeBackend>());
+    this->backends.emplace(QStringLiteral("gpt"), std::make_unique<CodexBackend>());
+    this->backends.emplace(QStringLiteral("gemini"), std::make_unique<AgyBackend>());
 }
 
 AgentHub::~AgentHub() = default;
 
 void AgentHub::setConfig(const AppConfig* config)
 {
-    m_cfg = config;
+    this->config = config;
     if (auto* agy = dynamic_cast<AgyBackend*>(backend(QStringLiteral("gemini"))))
-        agy->setRotate(m_cfg->agents.value(QStringLiteral("gemini")).rotate);
+        agy->setRotate(this->config->agents.value(QStringLiteral("gemini")).rotate);
     refreshBins();
 }
 
 void AgentHub::refreshBins()
 {
-    m_bins = CliLocator::resolveAll(m_cfg ? m_cfg->bins : QMap<QString, QString>());
+    this->bins = CliLocator::resolveAll(this->config ? this->config->bins : QMap<QString, QString>());
     emit binsChanged();
 }
 
 AgentBackend* AgentHub::backend(const QString& memberId) const
 {
-    const auto it = m_backends.find(memberId);
-    return it == m_backends.end() ? nullptr : it->second.get();
+    const auto it = this->backends.find(memberId);
+    return it == this->backends.end() ? nullptr : it->second.get();
 }
 
 QString AgentHub::binOf(const QString& memberId) const
 {
     const MemberInfo* m = Members::find(memberId);
-    return m ? m_bins.value(m->cli) : QString();
+    return m ? this->bins.value(m->cli) : QString();
 }
 
 bool AgentHub::isAvailable(const QString& memberId) const
@@ -58,9 +58,9 @@ int AgentHub::maxPromptChars(const QString& memberId) const
 AgentCall* AgentHub::chat(const QString& memberId, const QString& brief, const QString& turn, bool boost, QObject* parent)
 {
     AgentBackend* b = backend(memberId);
-    if (!b || !m_cfg)
+    if (!b || !this->config)
         return nullptr;
-    const AgentConfig a = m_cfg->agents.value(memberId);
+    const AgentConfig a = this->config->agents.value(memberId);
 
     AgentRequest req;
     req.memberId = memberId;
@@ -69,7 +69,7 @@ AgentCall* AgentHub::chat(const QString& memberId, const QString& brief, const Q
     req.boost = boost && a.hasBoost();
     req.model = a.effectiveModel(req.boost);
     req.effort = a.effectiveEffort(req.boost);
-    req.timeoutMs = (req.boost ? m_cfg->boostTimeoutSec : m_cfg->turnTimeoutSec) * 1000;
+    req.timeoutMs = (req.boost ? this->config->boostTimeoutSec : this->config->turnTimeoutSec) * 1000;
     req.workDir = AppPaths::workDir(memberId);
     return b->start(binOf(memberId), req, parent);
 }

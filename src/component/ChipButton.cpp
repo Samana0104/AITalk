@@ -9,7 +9,7 @@ ChipButton::ChipButton(const QString& text, QWidget* parent)
 
 ChipButton::ChipButton(const QString& iconName, const QString& text, QWidget* parent)
     : QPushButton(text, parent)
-    , m_iconName(iconName)
+    , iconName(iconName)
 {
     setProperty("chip", true);
     setCursor(Qt::PointingHandCursor);
@@ -21,8 +21,8 @@ ChipButton::ChipButton(const QString& iconName, const QString& text, QWidget* pa
 
 void ChipButton::refreshIcon()
 {
-    if (m_iconName.isEmpty())
+    if (this->iconName.isEmpty())
         return;
     const QString tone = isChecked() ? QStringLiteral("accent-ink") : QStringLiteral("ink-soft");
-    setIcon(ThemeManager::instance().icon(m_iconName, tone));
+    setIcon(ThemeManager::instance().icon(this->iconName, tone));
 }

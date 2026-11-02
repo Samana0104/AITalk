@@ -23,7 +23,7 @@ public:
     void setRunning(bool running, bool sleeping);
     void setAgentState(const QString& memberId, const QString& status, const QString& model, bool boosting);
     void setInspectorVisible(bool visible);
-    AgentChip* chip(const QString& memberId) const { return m_chips.value(memberId); }
+    AgentChip* chip(const QString& memberId) const { return this->chips.value(memberId); }
 
 signals:
     void renameRequested(const QString& title);
@@ -38,14 +38,14 @@ private:
     void beginRename();
     void commitRename();
 
-    QStackedWidget* m_titleStack;
-    ElidedLabel* m_title;
-    QLineEdit* m_titleEdit;
-    QLabel* m_state;
-    ChipButton* m_power;
-    QComboBox* m_speed;
-    QComboBox* m_boost;
-    IconButton* m_inspector;
-    QMap<QString, AgentChip*> m_chips;
-    bool m_updating = false;
+    QStackedWidget* titleStack;
+    ElidedLabel* title;
+    QLineEdit* titleEdit;
+    QLabel* state;
+    ChipButton* power;
+    QComboBox* speed;
+    QComboBox* boost;
+    IconButton* inspector;
+    QMap<QString, AgentChip*> chips;
+    bool updating = false;
 };

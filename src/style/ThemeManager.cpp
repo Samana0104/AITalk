@@ -28,17 +28,17 @@ ThemeManager& ThemeManager::instance()
 
 void ThemeManager::apply(const QString& theme, int basePointSize)
 {
-    m_theme = theme == QLatin1String("dark") ? QStringLiteral("dark") : QStringLiteral("light");
-    m_tokens.clear();
-    const QJsonObject tokens = QJsonDocument::fromJson(readResource(QStringLiteral(":/styles/%1.json").arg(m_theme))).object();
+    this->themeName = theme == QLatin1String("dark") ? QStringLiteral("dark") : QStringLiteral("light");
+    this->tokens.clear();
+    const QJsonObject tokens = QJsonDocument::fromJson(readResource(QStringLiteral(":/styles/%1.json").arg(this->themeName))).object();
     for (auto it = tokens.begin(); it != tokens.end(); ++it)
-        m_tokens.insert(it.key(), it.value().toString());
+        this->tokens.insert(it.key(), it.value().toString());
 
     const int base = qBound(8, basePointSize, 18);
-    m_tokens.insert(QStringLiteral("font-base"), QString::number(base));
-    m_tokens.insert(QStringLiteral("font-sm"), QString::number(base - 1));
-    m_tokens.insert(QStringLiteral("font-xs"), QString::number(base - 2));
-    m_tokens.insert(QStringLiteral("font-lg"), QString::number(base + 2));
+    this->tokens.insert(QStringLiteral("font-base"), QString::number(base));
+    this->tokens.insert(QStringLiteral("font-sm"), QString::number(base - 1));
+    this->tokens.insert(QStringLiteral("font-xs"), QString::number(base - 2));
+    this->tokens.insert(QStringLiteral("font-lg"), QString::number(base + 2));
 
     QFont font = QApplication::font();
     font.setFamilies({ QStringLiteral("Segoe UI Variable Text"), QStringLiteral("Segoe UI"),
@@ -58,7 +58,7 @@ void ThemeManager::apply(const QString& theme, int basePointSize)
     pal.setColor(QPalette::Link, color(QStringLiteral("link")));
     pal.setColor(QPalette::PlaceholderText, color(QStringLiteral("muted")));
     QApplication::setPalette(pal);
-    QGuiApplication::styleHints()->setColorScheme(m_theme == QLatin1String("dark") ? Qt::ColorScheme::Dark : Qt::ColorScheme::Light);
+    QGuiApplication::styleHints()->setColorScheme(this->themeName == QLatin1String("dark") ? Qt::ColorScheme::Dark : Qt::ColorScheme::Light);
 
     QString qss = QString::fromUtf8(readResource(QStringLiteral(":/styles/base.qss")));
     static const QRegularExpression token(QStringLiteral(R"(@\{([a-z0-9-]+)\})"));
@@ -67,7 +67,7 @@ void ThemeManager::apply(const QString& theme, int basePointSize)
     for (auto it = token.globalMatch(qss); it.hasNext();) {
         const QRegularExpressionMatch m = it.next();
         out += qss.mid(last, m.capturedStart() - last);
-        out += m_tokens.value(m.captured(1), QStringLiteral("#ff00ff")); // 빠진 토큰은 눈에 띄게
+        out += this->tokens.value(m.captured(1), QStringLiteral("#ff00ff")); // 빠진 토큰은 눈에 띄게
         last = m.capturedEnd();
     }
     out += qss.mid(last);
@@ -78,7 +78,7 @@ void ThemeManager::apply(const QString& theme, int basePointSize)
 
 QColor ThemeManager::color(const QString& token) const
 {
-    return QColor(m_tokens.value(token, QStringLiteral("#ff00ff")));
+    return QColor(this->tokens.value(token, QStringLiteral("#ff00ff")));
 }
 
 QPixmap ThemeManager::svgPixmap(const QString& resourcePath, const QSize& size, const QColor& tint, qreal dpr) const

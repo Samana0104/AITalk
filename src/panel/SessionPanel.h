@@ -31,8 +31,8 @@ private:
     void renameSession(ChatSession* session);
     void deleteSession(ChatSession* session);
 
-    SessionManager* m_sessions;
-    QLineEdit* m_search;
-    QListWidget* m_list;
-    QTimer m_rebuildTimer;
+    SessionManager* sessions;
+    QLineEdit* search;
+    QListWidget* list;
+    QTimer rebuildTimer;
 };

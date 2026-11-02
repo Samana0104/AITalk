@@ -24,8 +24,8 @@ public:
 
     MessageBubble(const ChatMessage& message, const Context& ctx, QWidget* parent = nullptr);
 
-    qint64 messageId() const { return m_msg.id; }
-    const ChatMessage& message() const { return m_msg; }
+    qint64 messageId() const { return this->chatMessage.id; }
+    const ChatMessage& message() const { return this->chatMessage; }
 
     void updateMessage(const ChatMessage& message);
     void setMaxBubbleWidth(int width);
@@ -49,13 +49,13 @@ private:
     void showMenu(const QPoint& globalPos);
     void copyText();
 
-    ChatMessage m_msg;
-    Context m_ctx;
-    QFrame* m_bubble = nullptr;
-    QFrame* m_replyFrame = nullptr;
-    QLabel* m_text = nullptr;
-    QWidget* m_actions = nullptr;
-    QWidget* m_reactionRow = nullptr;
-    QHBoxLayout* m_reactionLayout = nullptr;
-    int m_idealTextWidth = -1; // 줄바꿈 없이 쓸 때 글 폭 (한 번만 잰다)
+    ChatMessage chatMessage;
+    Context context;
+    QFrame* bubble = nullptr;
+    QFrame* replyFrame = nullptr;
+    QLabel* text = nullptr;
+    QWidget* actions = nullptr;
+    QWidget* reactionRow = nullptr;
+    QHBoxLayout* reactionLayout = nullptr;
+    int idealTextWidth = -1; // 줄바꿈 없이 쓸 때 글 폭 (한 번만 잰다)
 };

@@ -34,12 +34,12 @@ private:
     void saveUiState() const;
     void setInspectorVisible(bool visible);
 
-    Application* m_app;
-    TitleBar* m_titleBar;
-    QSplitter* m_splitter;
-    SessionPanel* m_sessionPanel;
-    ChatPanel* m_chatPanel;
-    InspectorPanel* m_inspector;
-    Toast* m_toast;
-    bool m_trayHintShown = false;
+    Application* app;
+    TitleBar* titleBar;
+    QSplitter* splitter;
+    SessionPanel* sessionPanel;
+    ChatPanel* chatPanel;
+    InspectorPanel* inspector;
+    Toast* toast;
+    bool trayHintShown = false;
 };

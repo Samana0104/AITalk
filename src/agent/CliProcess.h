@@ -38,12 +38,12 @@ private:
     void finish(int exitCode, bool failedToStart);
     void killTree();
 
-    QProcess m_proc;
-    QTimer m_timer;
-    QElapsedTimer m_clock;
-    QByteArray m_input;
-    QByteArray m_out;
-    QByteArray m_err;
-    bool m_timedOut = false;
-    bool m_done = false;
+    QProcess process;
+    QTimer timer;
+    QElapsedTimer clock;
+    QByteArray input;
+    QByteArray standardOutput;
+    QByteArray standardError;
+    bool timedOut = false;
+    bool done = false;
 };

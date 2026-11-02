@@ -21,13 +21,13 @@ public:
 
     bool initialize();
 
-    const AppConfig& config() const { return m_config; }
+    const AppConfig& config() const { return this->appConfig; }
     void updateConfig(const AppConfig& config);
 
-    AgentHub* hub() const { return m_hub; }
-    SessionManager* sessions() const { return m_sessions; }
-    RoomEngine* engine() const { return m_engine; }
-    QSystemTrayIcon* tray() const { return m_tray; }
+    AgentHub* hub() const { return this->agentHub; }
+    SessionManager* sessions() const { return this->sessionManager; }
+    RoomEngine* engine() const { return this->roomEngine; }
+    QSystemTrayIcon* tray() const { return this->trayIcon; }
 
     void showMainWindow();
     void quit();
@@ -38,10 +38,10 @@ signals:
 private:
     void setupTray();
 
-    AppConfig m_config;
-    AgentHub* m_hub = nullptr;
-    SessionManager* m_sessions = nullptr;
-    RoomEngine* m_engine = nullptr;
-    QSystemTrayIcon* m_tray = nullptr;
-    std::unique_ptr<MainWindow> m_window;
+    AppConfig appConfig;
+    AgentHub* agentHub = nullptr;
+    SessionManager* sessionManager = nullptr;
+    RoomEngine* roomEngine = nullptr;
+    QSystemTrayIcon* trayIcon = nullptr;
+    std::unique_ptr<MainWindow> window;
 };

@@ -21,37 +21,37 @@ enum Column { ColMember, ColCli, ColStatus, ColVersion, ColPath, ColCount };
 
 DoctorDialog::DoctorDialog(AgentHub* hub, QWidget* parent)
     : QDialog(parent)
-    , m_hub(hub)
+    , hub(hub)
 {
     setWindowTitle(Text("doctor.title"));
     resize(760, 440);
 
     auto* lay = new QVBoxLayout(this);
-    m_summary = new QLabel(this);
-    m_summary->setObjectName(QStringLiteral("dialogHint"));
-    lay->addWidget(m_summary);
+    this->summary = new QLabel(this);
+    this->summary->setObjectName(QStringLiteral("dialogHint"));
+    lay->addWidget(this->summary);
 
-    m_table = new QTableWidget(int(Members::all().size()), ColCount, this);
-    m_table->setHorizontalHeaderLabels({ Text("doctor.colMember"), QStringLiteral("CLI"), Text("doctor.colStatus"), Text("doctor.colVersion"), Text("doctor.colPath") });
-    m_table->verticalHeader()->hide();
-    m_table->setEditTriggers(QAbstractItemView::NoEditTriggers);
-    m_table->setSelectionMode(QAbstractItemView::NoSelection);
-    m_table->horizontalHeader()->setSectionResizeMode(ColPath, QHeaderView::Stretch);
-    lay->addWidget(m_table, 1);
+    this->table = new QTableWidget(int(Members::all().size()), ColCount, this);
+    this->table->setHorizontalHeaderLabels({ Text("doctor.colMember"), QStringLiteral("CLI"), Text("doctor.colStatus"), Text("doctor.colVersion"), Text("doctor.colPath") });
+    this->table->verticalHeader()->hide();
+    this->table->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    this->table->setSelectionMode(QAbstractItemView::NoSelection);
+    this->table->horizontalHeader()->setSectionResizeMode(ColPath, QHeaderView::Stretch);
+    lay->addWidget(this->table, 1);
 
     lay->addWidget(new QLabel(Text("doctor.installHeader"), this));
-    m_install = new QPlainTextEdit(this);
-    m_install->setObjectName(QStringLiteral("installHint"));
-    m_install->setReadOnly(true);
-    m_install->setMaximumHeight(110);
-    lay->addWidget(m_install);
+    this->install = new QPlainTextEdit(this);
+    this->install->setObjectName(QStringLiteral("installHint"));
+    this->install->setReadOnly(true);
+    this->install->setMaximumHeight(110);
+    lay->addWidget(this->install);
 
     auto* buttons = new QDialogButtonBox(this);
     auto* again = buttons->addButton(Text("doctor.recheck"), QDialogButtonBox::ActionRole);
     auto* ok = buttons->addButton(Text("common.ok"), QDialogButtonBox::AcceptRole);
     ok->setProperty("variant", "primary");
     connect(again, &QPushButton::clicked, this, [this] {
-        m_hub->refreshBins();
+        this->hub->refreshBins();
         runChecks();
     });
     connect(buttons, &QDialogButtonBox::accepted, this, &QDialog::accept);
@@ -62,14 +62,14 @@ DoctorDialog::DoctorDialog(AgentHub* hub, QWidget* parent)
 
 void DoctorDialog::runChecks()
 {
-    m_pending = 0;
-    m_found = 0;
+    this->pending = 0;
+    this->found = 0;
     QStringList install;
     int row = 0;
     for (const MemberInfo& m : Members::all()) {
-        const QString bin = m_hub->binOf(m.id);
+        const QString bin = this->hub->binOf(m.id);
         auto set = [this, row](int col, const QString& text) {
-            m_table->setItem(row, col, new QTableWidgetItem(text));
+            this->table->setItem(row, col, new QTableWidgetItem(text));
         };
         set(ColMember, m.name);
         set(ColCli, m.cli);
@@ -79,16 +79,16 @@ void DoctorDialog::runChecks()
             set(ColStatus, Text("doctor.statusMissing"));
             install << QStringLiteral("# %1\n%2").arg(m.name, CliLocator::installHint(m.cli));
         } else {
-            ++m_found;
-            ++m_pending;
+            ++this->found;
+            ++this->pending;
             set(ColStatus, Text("doctor.statusChecking"));
             auto* proc = new CliProcess(this);
             connect(proc, &CliProcess::finished, this, [this, proc, row](const CliResult& r) {
                 static const QRegularExpression ver(QStringLiteral(R"(\d+\.\d+(\.\d+)?)"));
                 const QString out = QString::fromUtf8(r.out + r.err).trimmed();
                 const QString v = ver.match(out).captured(0);
-                m_table->setItem(row, ColVersion, new QTableWidgetItem(v.isEmpty() ? out.section(QLatin1Char('\n'), 0, 0).left(40) : v));
-                m_table->setItem(row, ColStatus, new QTableWidgetItem(r.exitCode == 0 ? Text("doctor.statusOk") : Text("doctor.statusFailed")));
+                this->table->setItem(row, ColVersion, new QTableWidgetItem(v.isEmpty() ? out.section(QLatin1Char('\n'), 0, 0).left(40) : v));
+                this->table->setItem(row, ColStatus, new QTableWidgetItem(r.exitCode == 0 ? Text("doctor.statusOk") : Text("doctor.statusFailed")));
                 proc->deleteLater();
                 finishOne();
             });
@@ -96,17 +96,17 @@ void DoctorDialog::runChecks()
         }
         ++row;
     }
-    m_table->resizeColumnsToContents();
-    m_table->horizontalHeader()->setSectionResizeMode(ColPath, QHeaderView::Stretch);
-    m_install->setPlainText(install.isEmpty() ? Text("doctor.allFound")
+    this->table->resizeColumnsToContents();
+    this->table->horizontalHeader()->setSectionResizeMode(ColPath, QHeaderView::Stretch);
+    this->install->setPlainText(install.isEmpty() ? Text("doctor.allFound")
                                               : install.join(QStringLiteral("\n\n")));
-    m_summary->setText(Text("doctor.summary")
-                           .arg(m_found)
+    this->summary->setText(Text("doctor.summary")
+                           .arg(this->found)
                            .arg(Members::all().size()));
 }
 
 void DoctorDialog::finishOne()
 {
-    if (--m_pending <= 0)
-        m_table->resizeColumnToContents(ColVersion);
+    if (--this->pending <= 0)
+        this->table->resizeColumnToContents(ColVersion);
 }

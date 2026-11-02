@@ -43,14 +43,14 @@ signals:
 private:
     DataManager() = default;
 
-    mutable QReadWriteLock m_lock;
-    QStringList m_languages;
-    QHash<QString, QHash<QString, QString>> m_strings; // key -> (언어 -> 문자열)
-    QString m_language = QStringLiteral("ko");
-    QString m_fallback = QStringLiteral("ko");
+    mutable QReadWriteLock lock;
+    QStringList availableLanguages;
+    QHash<QString, QHash<QString, QString>> strings; // key -> (언어 -> 문자열)
+    QString currentLanguage = QStringLiteral("ko");
+    QString fallback = QStringLiteral("ko");
 
-    mutable QMutex m_missingMutex;
-    mutable QSet<QString> m_missing;
+    mutable QMutex missingMutex;
+    mutable QSet<QString> missing;
 };
 
 // 언리얼 LOCTEXT 처럼 키로 현재 언어의 문자열을 가져온다.

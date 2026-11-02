@@ -12,5 +12,5 @@ public:
 private:
     void refreshIcon();
 
-    QString m_iconName;
+    QString iconName;
 };

@@ -18,7 +18,7 @@ AutoResizeTextEdit::AutoResizeTextEdit(QWidget* parent)
 
 void AutoResizeTextEdit::setMaxLines(int lines)
 {
-    m_maxLines = qMax(1, lines);
+    this->maxLines = qMax(1, lines);
     updateHeight();
 }
 
@@ -42,8 +42,8 @@ void AutoResizeTextEdit::updateHeight()
 {
     // QPlainTextDocumentLayout 의 높이 단위는 "줄" 이다. 최대 줄 수를 넘을 때만 스크롤바.
     const int raw = int(document()->documentLayout()->documentSize().height());
-    const int lines = qBound(1, raw, m_maxLines);
-    setVerticalScrollBarPolicy(raw > m_maxLines ? Qt::ScrollBarAsNeeded : Qt::ScrollBarAlwaysOff);
+    const int lines = qBound(1, raw, this->maxLines);
+    setVerticalScrollBarPolicy(raw > this->maxLines ? Qt::ScrollBarAsNeeded : Qt::ScrollBarAlwaysOff);
     const QMargins m = contentsMargins();
     const int h = lines * fontMetrics().lineSpacing() + int(document()->documentMargin() * 2) + m.top() + m.bottom() + frameWidth() * 2;
     if (height() != h)

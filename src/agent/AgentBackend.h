@@ -52,9 +52,9 @@ public:
     void abort() override;
 
 private:
-    Parser m_parser;
-    CliProcess* m_proc;
-    bool m_aborted = false;
+    Parser parser;
+    CliProcess* process;
+    bool aborted = false;
 };
 
 // CLI 별 어댑터. 새 CLI 를 붙이려면 이걸 구현해서 AgentHub 에 등록하면 된다.

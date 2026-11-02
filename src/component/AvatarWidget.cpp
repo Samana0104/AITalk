@@ -52,23 +52,23 @@ QPixmap renderAvatar(const QString& memberId, const QString& label, const QColor
 
 AvatarWidget::AvatarWidget(int size, QWidget* parent)
     : QWidget(parent)
-    , m_size(size)
-    , m_color(Qt::gray)
+    , size(size)
+    , color(Qt::gray)
 {
     setFixedSize(size, size);
 }
 
 void AvatarWidget::setIdentity(const QString& id, const QString& label, const QColor& color)
 {
-    m_id = id;
-    m_label = label;
-    m_color = color;
+    this->id = id;
+    this->label = label;
+    this->color = color;
     update();
 }
 
 QSize AvatarWidget::sizeHint() const
 {
-    return { m_size, m_size };
+    return { this->size, this->size };
 }
 
 QPixmap AvatarWidget::pixmapFor(const QString& memberId, int size, qreal dpr)
@@ -86,8 +86,8 @@ QPixmap AvatarWidget::pixmapFor(const QString& memberId, int size, qreal dpr)
 void AvatarWidget::paintEvent(QPaintEvent*)
 {
     QPainter p(this);
-    if (Members::isAgent(m_id))
-        p.drawPixmap(0, 0, pixmapFor(m_id, m_size, devicePixelRatioF()));
+    if (Members::isAgent(this->id))
+        p.drawPixmap(0, 0, pixmapFor(this->id, this->size, devicePixelRatioF()));
     else
-        p.drawPixmap(0, 0, renderAvatar(m_id, m_label, m_color, m_size, devicePixelRatioF()));
+        p.drawPixmap(0, 0, renderAvatar(this->id, this->label, this->color, this->size, devicePixelRatioF()));
 }

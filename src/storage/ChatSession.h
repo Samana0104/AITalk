@@ -20,17 +20,17 @@ public:
     static ChatSession* create(const QString& parentDir, const QString& title, const QString& speed,
                                const QString& boostMode, QObject* parent = nullptr);
 
-    QString id() const { return m_id; }
-    QString dir() const { return m_dir; }
-    QString title() const { return m_title; }
+    QString id() const { return this->sessionId; }
+    QString dir() const { return this->directory; }
+    QString title() const { return this->sessionTitle; }
     void setTitle(const QString& title);
-    qint64 createdAt() const { return m_createdAt; }
-    qint64 updatedAt() const { return m_updatedAt; }
+    qint64 createdAt() const { return this->creationTime; }
+    qint64 updatedAt() const { return this->lastUpdateTime; }
 
     // 방 설정
-    QString speed() const { return m_speed; }
+    QString speed() const { return this->conversationSpeed; }
     void setSpeed(const QString& speed);
-    QString boostMode() const { return m_boostMode; }
+    QString boostMode() const { return this->boostPolicy; }
     void setBoostMode(const QString& mode);
     bool isMemberEnabled(const QString& memberId) const;
     void setMemberEnabled(const QString& memberId, bool enabled);
@@ -38,10 +38,10 @@ public:
     void setSeen(const QString& memberId, qint64 messageId);
 
     // 메시지
-    const QList<ChatMessage>& messages() const { return m_messages; }
+    const QList<ChatMessage>& messages() const { return this->messageHistory; }
     const ChatMessage* byId(qint64 id) const;
     int indexOf(qint64 id) const;
-    qint64 lastId() const { return m_nextId - 1; }
+    qint64 lastId() const { return this->nextId - 1; }
     const ChatMessage* lastMessage() const;
     QList<ChatMessage> after(qint64 id) const;
     QList<ChatMessage> recent(int n) const;
@@ -71,17 +71,17 @@ private:
     ChatMessage* mutableById(qint64 id);
     QString notePath(const QString& memberId) const;
 
-    QString m_dir;
-    QString m_id;
-    QString m_title;
-    qint64 m_createdAt = 0;
-    qint64 m_updatedAt = 0;
-    QString m_speed;
-    QString m_boostMode;
-    QMap<QString, bool> m_enabled;
-    QMap<QString, qint64> m_seen;
+    QString directory;
+    QString sessionId;
+    QString sessionTitle;
+    qint64 creationTime = 0;
+    qint64 lastUpdateTime = 0;
+    QString conversationSpeed;
+    QString boostPolicy;
+    QMap<QString, bool> enabled;
+    QMap<QString, qint64> seen;
 
-    QList<ChatMessage> m_messages;
-    QHash<qint64, int> m_index;
-    qint64 m_nextId = 1;
+    QList<ChatMessage> messageHistory;
+    QHash<qint64, int> index;
+    qint64 nextId = 1;
 };

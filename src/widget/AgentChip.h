@@ -12,7 +12,7 @@ class AgentChip : public QPushButton {
 public:
     AgentChip(const QString& memberId, QWidget* parent = nullptr);
 
-    QString memberId() const { return m_id; }
+    QString memberId() const { return this->id; }
     void setState(const QString& status, const QString& modelLabel, bool boosting);
 
     // 글자 없는 QPushButton 이라 크기는 안쪽 레이아웃 기준으로
@@ -20,8 +20,8 @@ public:
     QSize minimumSizeHint() const override;
 
 private:
-    QString m_id;
-    AvatarWidget* m_avatar;
-    QLabel* m_name;
-    StatusDot* m_dot;
+    QString id;
+    AvatarWidget* avatar;
+    QLabel* name;
+    StatusDot* dot;
 };

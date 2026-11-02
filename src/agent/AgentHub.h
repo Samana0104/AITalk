@@ -32,7 +32,7 @@ signals:
 private:
     AgentBackend* backend(const QString& memberId) const;
 
-    const AppConfig* m_cfg = nullptr;
-    std::map<QString, std::unique_ptr<AgentBackend>> m_backends;
-    QMap<QString, QString> m_bins; // CLI 키 -> 경로 (없으면 빈 문자열)
+    const AppConfig* config = nullptr;
+    std::map<QString, std::unique_ptr<AgentBackend>> backends;
+    QMap<QString, QString> bins; // CLI 키 -> 경로 (없으면 빈 문자열)
 };

@@ -26,12 +26,12 @@ private:
     void loadNote();
     void saveNote();
 
-    Application* m_app;
-    QPointer<ChatSession> m_session;
-    QMetaObject::Connection m_noteConn;
-    QMap<QString, MemberCard*> m_cards;
-    QComboBox* m_noteMember;
-    QPlainTextEdit* m_note;
-    QPushButton* m_saveNote;
-    bool m_noteDirty = false;
+    Application* app;
+    QPointer<ChatSession> session;
+    QMetaObject::Connection noteConnection;
+    QMap<QString, MemberCard*> cards;
+    QComboBox* noteMember;
+    QPlainTextEdit* note;
+    QPushButton* saveNoteButton;
+    bool noteDirty = false;
 };

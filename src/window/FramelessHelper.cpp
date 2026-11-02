@@ -7,32 +7,32 @@
 
 FramelessHelper::FramelessHelper(QWidget* window, int border)
     : QObject(window)
-    , m_widget(window)
-    , m_border(border)
+    , widget(window)
+    , border(border)
 {
-    m_widget->winId(); // QWindow 를 지금 만든다
-    m_window = m_widget->windowHandle();
-    if (m_window)
-        m_window->installEventFilter(this);
+    this->widget->winId(); // QWindow 를 지금 만든다
+    this->window = this->widget->windowHandle();
+    if (this->window)
+        this->window->installEventFilter(this);
 }
 
 Qt::Edges FramelessHelper::edgesAt(const QPoint& pos) const
 {
     Qt::Edges e;
-    if (m_widget->isMaximized() || m_widget->isFullScreen())
+    if (this->widget->isMaximized() || this->widget->isFullScreen())
         return e;
-    if (pos.x() <= m_border) e |= Qt::LeftEdge;
-    if (pos.x() >= m_widget->width() - m_border) e |= Qt::RightEdge;
-    if (pos.y() <= m_border) e |= Qt::TopEdge;
-    if (pos.y() >= m_widget->height() - m_border) e |= Qt::BottomEdge;
+    if (pos.x() <= this->border) e |= Qt::LeftEdge;
+    if (pos.x() >= this->widget->width() - this->border) e |= Qt::RightEdge;
+    if (pos.y() <= this->border) e |= Qt::TopEdge;
+    if (pos.y() >= this->widget->height() - this->border) e |= Qt::BottomEdge;
     return e;
 }
 
 void FramelessHelper::setEdgeCursor(Qt::Edges edges)
 {
-    if (edges == m_current)
+    if (edges == this->current)
         return;
-    m_current = edges;
+    this->current = edges;
     Qt::CursorShape shape = Qt::ArrowCursor;
     if (edges == (Qt::LeftEdge | Qt::TopEdge) || edges == (Qt::RightEdge | Qt::BottomEdge))
         shape = Qt::SizeFDiagCursor;
@@ -44,20 +44,20 @@ void FramelessHelper::setEdgeCursor(Qt::Edges edges)
         shape = Qt::SizeVerCursor;
 
     if (edges) {
-        if (m_overriding)
+        if (this->overriding)
             QGuiApplication::changeOverrideCursor(shape);
         else
             QGuiApplication::setOverrideCursor(shape);
-        m_overriding = true;
-    } else if (m_overriding) {
+        this->overriding = true;
+    } else if (this->overriding) {
         QGuiApplication::restoreOverrideCursor();
-        m_overriding = false;
+        this->overriding = false;
     }
 }
 
 bool FramelessHelper::eventFilter(QObject* watched, QEvent* event)
 {
-    if (watched != m_window)
+    if (watched != this->window)
         return QObject::eventFilter(watched, event);
 
     switch (event->type()) {
@@ -71,7 +71,7 @@ bool FramelessHelper::eventFilter(QObject* watched, QEvent* event)
         auto* me = static_cast<QMouseEvent*>(event);
         const Qt::Edges e = edgesAt(me->position().toPoint());
         if (me->button() == Qt::LeftButton && e) {
-            m_window->startSystemResize(e);
+            this->window->startSystemResize(e);
             return true;
         }
         break;

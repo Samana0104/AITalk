@@ -8,12 +8,12 @@
 namespace {
 
 #ifdef Q_OS_WIN
-constexpr bool kWin = true;
+constexpr bool isWindows = true;
 #else
-constexpr bool kWin = false;
+constexpr bool isWindows = false;
 #endif
 
-QString exe(const QString& name) { return kWin ? name + QStringLiteral(".exe") : name; }
+QString exe(const QString& name) { return isWindows ? name + QStringLiteral(".exe") : name; }
 
 bool isFile(const QString& path)
 {
@@ -54,7 +54,7 @@ QString newestUnder(const QString& root, const QString& rest)
 QString home() { return QDir::homePath(); }
 QString appData() { return qEnvironmentVariable("APPDATA", home() + QStringLiteral("/AppData/Roaming")); }
 QString localAppData() { return qEnvironmentVariable("LOCALAPPDATA", home() + QStringLiteral("/AppData/Local")); }
-QString npmRoot() { return kWin ? appData() + QStringLiteral("/npm/node_modules") : QString(); }
+QString npmRoot() { return isWindows ? appData() + QStringLiteral("/npm/node_modules") : QString(); }
 
 }
 
@@ -75,22 +75,22 @@ QString resolve(const QString& key, const QMap<QString, QString>& overrides)
         return firstExisting({
             onPath(exe(QStringLiteral("claude"))),
             home() + QStringLiteral("/.local/bin/") + exe(QStringLiteral("claude")),
-            kWin ? npmRoot() + QStringLiteral("/@anthropic-ai/claude-code/bin/claude.exe") : QString(),
+            isWindows ? npmRoot() + QStringLiteral("/@anthropic-ai/claude-code/bin/claude.exe") : QString(),
         });
     }
     if (key == QLatin1String("codex")) {
         return firstExisting({
             onPath(exe(QStringLiteral("codex"))),
-            kWin ? localAppData() + QStringLiteral("/Programs/OpenAI/Codex/bin/codex.exe")
+            isWindows ? localAppData() + QStringLiteral("/Programs/OpenAI/Codex/bin/codex.exe")
                  : home() + QStringLiteral("/.local/bin/codex"),
-            kWin ? newestUnder(localAppData() + QStringLiteral("/OpenAI/Codex/bin"), QStringLiteral("codex.exe")) : QString(),
-            kWin ? newestUnder(npmRoot() + QStringLiteral("/@openai/codex/vendor"), QStringLiteral("codex/codex.exe")) : QString(),
+            isWindows ? newestUnder(localAppData() + QStringLiteral("/OpenAI/Codex/bin"), QStringLiteral("codex.exe")) : QString(),
+            isWindows ? newestUnder(npmRoot() + QStringLiteral("/@openai/codex/vendor"), QStringLiteral("codex/codex.exe")) : QString(),
         });
     }
     if (key == QLatin1String("agy")) {
         return firstExisting({
             onPath(exe(QStringLiteral("agy"))),
-            kWin ? localAppData() + QStringLiteral("/agy/bin/agy.exe") : home() + QStringLiteral("/.local/bin/agy"),
+            isWindows ? localAppData() + QStringLiteral("/agy/bin/agy.exe") : home() + QStringLiteral("/.local/bin/agy"),
         });
     }
     return {};
@@ -106,7 +106,7 @@ QMap<QString, QString> resolveAll(const QMap<QString, QString>& overrides)
 
 QString installHint(const QString& key)
 {
-    if (kWin) {
+    if (isWindows) {
         if (key == QLatin1String("claude")) return QStringLiteral("irm https://claude.ai/install.ps1 | iex");
         if (key == QLatin1String("codex")) return QStringLiteral("irm https://chatgpt.com/codex/install.ps1 | iex");
         if (key == QLatin1String("agy")) return QStringLiteral("irm https://antigravity.google/cli/install.ps1 | iex");

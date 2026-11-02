@@ -32,10 +32,10 @@ private:
     void closeMention();
     void positionMention();
 
-    ReplyPreview* m_reply;
-    QFrame* m_box;
-    AutoResizeTextEdit* m_input;
-    QPushButton* m_send;
-    MentionPopup* m_mention = nullptr;
-    qint64 m_replyTo = 0;
+    ReplyPreview* reply;
+    QFrame* box;
+    AutoResizeTextEdit* input;
+    QPushButton* sendButton;
+    MentionPopup* mention = nullptr;
+    qint64 replyTo = 0;
 };

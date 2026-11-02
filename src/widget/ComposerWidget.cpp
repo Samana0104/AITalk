@@ -23,76 +23,76 @@ ComposerWidget::ComposerWidget(QWidget* parent)
     lay->setContentsMargins(20, 6, 20, 16);
     lay->setSpacing(6);
 
-    m_reply = new ReplyPreview(this);
-    lay->addWidget(m_reply);
-    connect(m_reply, &ReplyPreview::cleared, this, &ComposerWidget::clearReply);
+    this->reply = new ReplyPreview(this);
+    lay->addWidget(this->reply);
+    connect(this->reply, &ReplyPreview::cleared, this, &ComposerWidget::clearReply);
 
-    m_box = new QFrame(this);
-    m_box->setObjectName(QStringLiteral("composerBox"));
-    auto* boxLay = new QHBoxLayout(m_box);
+    this->box = new QFrame(this);
+    this->box->setObjectName(QStringLiteral("composerBox"));
+    auto* boxLay = new QHBoxLayout(this->box);
     boxLay->setContentsMargins(12, 6, 6, 6);
     boxLay->setSpacing(8);
 
-    m_input = new AutoResizeTextEdit(m_box);
-    m_input->setObjectName(QStringLiteral("composerInput"));
-    m_input->setPlaceholderText(Text("composer.placeholder"));
-    m_input->installEventFilter(this);
-    boxLay->addWidget(m_input, 1, Qt::AlignVCenter);
+    this->input = new AutoResizeTextEdit(this->box);
+    this->input->setObjectName(QStringLiteral("composerInput"));
+    this->input->setPlaceholderText(Text("composer.placeholder"));
+    this->input->installEventFilter(this);
+    boxLay->addWidget(this->input, 1, Qt::AlignVCenter);
 
-    m_send = new QPushButton(m_box);
-    m_send->setObjectName(QStringLiteral("sendButton"));
-    m_send->setProperty("variant", "primary");
-    m_send->setFixedSize(34, 34);
-    m_send->setCursor(Qt::PointingHandCursor);
-    m_send->setToolTip(Text("composer.sendTip"));
-    m_send->setIconSize(QSize(16, 16));
-    auto refreshIcon = [this] { m_send->setIcon(ThemeManager::instance().icon(QStringLiteral("send"), QStringLiteral("accent-ink"))); };
+    this->sendButton = new QPushButton(this->box);
+    this->sendButton->setObjectName(QStringLiteral("sendButton"));
+    this->sendButton->setProperty("variant", "primary");
+    this->sendButton->setFixedSize(34, 34);
+    this->sendButton->setCursor(Qt::PointingHandCursor);
+    this->sendButton->setToolTip(Text("composer.sendTip"));
+    this->sendButton->setIconSize(QSize(16, 16));
+    auto refreshIcon = [this] { this->sendButton->setIcon(ThemeManager::instance().icon(QStringLiteral("send"), QStringLiteral("accent-ink"))); };
     refreshIcon();
     connect(&ThemeManager::instance(), &ThemeManager::themeChanged, this, refreshIcon);
-    boxLay->addWidget(m_send, 0, Qt::AlignBottom);
-    lay->addWidget(m_box);
+    boxLay->addWidget(this->sendButton, 0, Qt::AlignBottom);
+    lay->addWidget(this->box);
 
-    connect(m_send, &QPushButton::clicked, this, &ComposerWidget::send);
-    connect(m_input, &AutoResizeTextEdit::submitRequested, this, &ComposerWidget::send);
-    connect(m_input, &QPlainTextEdit::textChanged, this, &ComposerWidget::updateMention);
-    connect(m_input, &QPlainTextEdit::cursorPositionChanged, this, &ComposerWidget::updateMention);
+    connect(this->sendButton, &QPushButton::clicked, this, &ComposerWidget::send);
+    connect(this->input, &AutoResizeTextEdit::submitRequested, this, &ComposerWidget::send);
+    connect(this->input, &QPlainTextEdit::textChanged, this, &ComposerWidget::updateMention);
+    connect(this->input, &QPlainTextEdit::cursorPositionChanged, this, &ComposerWidget::updateMention);
 }
 
 void ComposerWidget::setReplyTarget(qint64 messageId, const QString& author, const QString& excerpt)
 {
-    m_replyTo = messageId;
-    m_reply->setTarget(author, excerpt);
-    m_reply->show();
+    this->replyTo = messageId;
+    this->reply->setTarget(author, excerpt);
+    this->reply->show();
     focusInput();
 }
 
 void ComposerWidget::clearReply()
 {
-    m_replyTo = 0;
-    m_reply->hide();
+    this->replyTo = 0;
+    this->reply->hide();
 }
 
 void ComposerWidget::focusInput()
 {
-    m_input->setFocus();
+    this->input->setFocus();
 }
 
 void ComposerWidget::setHint(const QString& placeholder)
 {
-    m_input->setPlaceholderText(placeholder);
+    this->input->setPlaceholderText(placeholder);
 }
 
 void ComposerWidget::send()
 {
-    if (m_mention && m_mention->isVisible()) {
-        acceptMention(m_mention->currentName());
+    if (this->mention && this->mention->isVisible()) {
+        acceptMention(this->mention->currentName());
         return;
     }
-    const QString text = m_input->toPlainText().trimmed();
+    const QString text = this->input->toPlainText().trimmed();
     if (text.isEmpty())
         return;
-    emit sendRequested(text, m_replyTo);
-    m_input->clear();
+    emit sendRequested(text, this->replyTo);
+    this->input->clear();
     clearReply();
 }
 
@@ -101,7 +101,7 @@ void ComposerWidget::send()
 void ComposerWidget::updateMention()
 {
     static const QRegularExpression trigger(QStringLiteral(R"(@([^\s@]*)$)"));
-    const QTextCursor cur = m_input->textCursor();
+    const QTextCursor cur = this->input->textCursor();
     const QString before = cur.block().text().left(cur.positionInBlock());
     const QRegularExpressionMatch m = trigger.match(before);
     if (!m.hasMatch()) {
@@ -121,40 +121,40 @@ void ComposerWidget::updateMention()
         closeMention();
         return;
     }
-    if (!m_mention) {
+    if (!this->mention) {
         // 입력칸 위로 떠야 하니 창(최상위 위젯)의 자식으로 만든다.
-        m_mention = new MentionPopup(window());
-        connect(m_mention, &MentionPopup::picked, this, &ComposerWidget::acceptMention);
+        this->mention = new MentionPopup(window());
+        connect(this->mention, &MentionPopup::picked, this, &ComposerWidget::acceptMention);
     }
-    m_mention->setCandidates(cands);
+    this->mention->setCandidates(cands);
     positionMention();
-    m_mention->show();
-    m_mention->raise();
+    this->mention->show();
+    this->mention->raise();
 }
 
 void ComposerWidget::positionMention()
 {
-    const QPoint topLeft = m_box->mapTo(window(), QPoint(0, 0));
-    m_mention->move(topLeft.x() + 8, topLeft.y() - m_mention->height() - 6);
+    const QPoint topLeft = this->box->mapTo(window(), QPoint(0, 0));
+    this->mention->move(topLeft.x() + 8, topLeft.y() - this->mention->height() - 6);
 }
 
 void ComposerWidget::closeMention()
 {
-    if (m_mention)
-        m_mention->hide();
+    if (this->mention)
+        this->mention->hide();
 }
 
 void ComposerWidget::acceptMention(const QString& name)
 {
     if (name.isEmpty())
         return;
-    QTextCursor cur = m_input->textCursor();
+    QTextCursor cur = this->input->textCursor();
     const QString before = cur.block().text().left(cur.positionInBlock());
     const qsizetype at = before.lastIndexOf(QLatin1Char('@'));
     if (at >= 0) {
         cur.movePosition(QTextCursor::Left, QTextCursor::KeepAnchor, int(before.size() - at));
         cur.insertText(QStringLiteral("@%1 ").arg(name));
-        m_input->setTextCursor(cur);
+        this->input->setTextCursor(cur);
     }
     closeMention();
     focusInput();
@@ -162,19 +162,19 @@ void ComposerWidget::acceptMention(const QString& name)
 
 bool ComposerWidget::eventFilter(QObject* watched, QEvent* event)
 {
-    if (watched == m_input && event->type() == QEvent::KeyPress && m_mention && m_mention->isVisible()) {
+    if (watched == this->input && event->type() == QEvent::KeyPress && this->mention && this->mention->isVisible()) {
         auto* key = static_cast<QKeyEvent*>(event);
         switch (key->key()) {
         case Qt::Key_Up:
-            m_mention->moveSelection(-1);
+            this->mention->moveSelection(-1);
             return true;
         case Qt::Key_Down:
-            m_mention->moveSelection(1);
+            this->mention->moveSelection(1);
             return true;
         case Qt::Key_Tab:
         case Qt::Key_Return:
         case Qt::Key_Enter:
-            acceptMention(m_mention->currentName());
+            acceptMention(this->mention->currentName());
             return true;
         case Qt::Key_Escape:
             closeMention();
@@ -183,7 +183,7 @@ bool ComposerWidget::eventFilter(QObject* watched, QEvent* event)
             break;
         }
     }
-    if (watched == m_input && event->type() == QEvent::FocusOut)
+    if (watched == this->input && event->type() == QEvent::FocusOut)
         closeMention();
     return QWidget::eventFilter(watched, event);
 }

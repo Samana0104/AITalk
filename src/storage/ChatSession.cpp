@@ -14,7 +14,7 @@
 
 namespace {
 
-constexpr int kMaxNoteChars = 4000;
+constexpr int maxNoteChars = 4000;
 
 qint64 nowMs() { return QDateTime::currentMSecsSinceEpoch(); }
 
@@ -39,14 +39,14 @@ void writeTextFile(const QString& path, const QString& text)
 
 ChatSession::ChatSession(const QString& dir, QObject* parent)
     : QObject(parent)
-    , m_dir(dir)
+    , directory(dir)
 {
     QDir(dir).mkpath(QStringLiteral("notes"));
     QDir(dir).mkpath(QStringLiteral("logs"));
     loadMeta();
     loadMessages();
     if (const ChatMessage* last = lastMessage())
-        m_updatedAt = qMax(m_updatedAt, last->ts);
+        this->lastUpdateTime = qMax(this->lastUpdateTime, last->ts);
 }
 
 ChatSession* ChatSession::create(const QString& parentDir, const QString& title, const QString& speed,
@@ -76,40 +76,40 @@ ChatSession* ChatSession::create(const QString& parentDir, const QString& title,
 
 void ChatSession::loadMeta()
 {
-    const QJsonObject o = readJsonFile(QDir(m_dir).filePath(QStringLiteral("session.json")));
-    m_id = o.value(QLatin1String("id")).toString(QFileInfo(m_dir).fileName());
-    m_title = o.value(QLatin1String("title")).toString(Text("sessions.new"));
-    m_createdAt = o.value(QLatin1String("createdAt")).toInteger(nowMs());
-    m_updatedAt = o.value(QLatin1String("updatedAt")).toInteger(m_createdAt);
-    m_speed = o.value(QLatin1String("speed")).toString(QStringLiteral("normal"));
-    m_boostMode = o.value(QLatin1String("boostMode")).toString(QStringLiteral("auto"));
+    const QJsonObject o = readJsonFile(QDir(this->directory).filePath(QStringLiteral("session.json")));
+    this->sessionId = o.value(QLatin1String("id")).toString(QFileInfo(this->directory).fileName());
+    this->sessionTitle = o.value(QLatin1String("title")).toString(Text("sessions.new"));
+    this->creationTime = o.value(QLatin1String("createdAt")).toInteger(nowMs());
+    this->lastUpdateTime = o.value(QLatin1String("updatedAt")).toInteger(this->creationTime);
+    this->conversationSpeed = o.value(QLatin1String("speed")).toString(QStringLiteral("normal"));
+    this->boostPolicy = o.value(QLatin1String("boostMode")).toString(QStringLiteral("auto"));
     const QJsonObject enabled = o.value(QLatin1String("enabled")).toObject();
     for (auto it = enabled.begin(); it != enabled.end(); ++it)
-        m_enabled.insert(it.key(), it.value().toBool(true));
+        this->enabled.insert(it.key(), it.value().toBool(true));
     const QJsonObject seen = o.value(QLatin1String("seen")).toObject();
     for (auto it = seen.begin(); it != seen.end(); ++it)
-        m_seen.insert(it.key(), it.value().toInteger());
+        this->seen.insert(it.key(), it.value().toInteger());
 }
 
 void ChatSession::saveMeta() const
 {
     QJsonObject enabled;
-    for (auto it = m_enabled.cbegin(); it != m_enabled.cend(); ++it)
+    for (auto it = this->enabled.cbegin(); it != this->enabled.cend(); ++it)
         enabled.insert(it.key(), it.value());
     QJsonObject seen;
-    for (auto it = m_seen.cbegin(); it != m_seen.cend(); ++it)
+    for (auto it = this->seen.cbegin(); it != this->seen.cend(); ++it)
         seen.insert(it.key(), it.value());
     const QJsonObject o {
-        { "id", m_id },
-        { "title", m_title },
-        { "createdAt", m_createdAt },
-        { "updatedAt", m_updatedAt },
-        { "speed", m_speed },
-        { "boostMode", m_boostMode },
+        { "id", this->sessionId },
+        { "title", this->sessionTitle },
+        { "createdAt", this->creationTime },
+        { "updatedAt", this->lastUpdateTime },
+        { "speed", this->conversationSpeed },
+        { "boostMode", this->boostPolicy },
         { "enabled", enabled },
         { "seen", seen },
     };
-    QSaveFile f(QDir(m_dir).filePath(QStringLiteral("session.json")));
+    QSaveFile f(QDir(this->directory).filePath(QStringLiteral("session.json")));
     if (f.open(QIODevice::WriteOnly)) {
         f.write(QJsonDocument(o).toJson(QJsonDocument::Indented));
         f.commit();
@@ -119,41 +119,41 @@ void ChatSession::saveMeta() const
 void ChatSession::setTitle(const QString& title)
 {
     const QString t = title.trimmed();
-    if (t.isEmpty() || t == m_title)
+    if (t.isEmpty() || t == this->sessionTitle)
         return;
-    m_title = t;
+    this->sessionTitle = t;
     saveMeta();
     emit metaChanged();
 }
 
 void ChatSession::setSpeed(const QString& speed)
 {
-    if (speed == m_speed)
+    if (speed == this->conversationSpeed)
         return;
-    m_speed = speed;
+    this->conversationSpeed = speed;
     saveMeta();
     emit metaChanged();
 }
 
 void ChatSession::setBoostMode(const QString& mode)
 {
-    if (mode == m_boostMode)
+    if (mode == this->boostPolicy)
         return;
-    m_boostMode = mode;
+    this->boostPolicy = mode;
     saveMeta();
     emit metaChanged();
 }
 
 bool ChatSession::isMemberEnabled(const QString& memberId) const
 {
-    return m_enabled.value(memberId, true);
+    return this->enabled.value(memberId, true);
 }
 
 void ChatSession::setMemberEnabled(const QString& memberId, bool enabled)
 {
     if (isMemberEnabled(memberId) == enabled)
         return;
-    m_enabled.insert(memberId, enabled);
+    this->enabled.insert(memberId, enabled);
     saveMeta();
     emit metaChanged();
 }
@@ -161,14 +161,14 @@ void ChatSession::setMemberEnabled(const QString& memberId, bool enabled)
 qint64 ChatSession::seenOf(const QString& memberId) const
 {
     // 처음 보는 멤버는 지난 기록을 "이미 읽은" 것으로 시작한다.
-    return m_seen.value(memberId, lastId());
+    return this->seen.value(memberId, lastId());
 }
 
 void ChatSession::setSeen(const QString& memberId, qint64 messageId)
 {
-    if (m_seen.value(memberId, -1) == messageId)
+    if (this->seen.value(memberId, -1) == messageId)
         return;
-    m_seen.insert(memberId, messageId);
+    this->seen.insert(memberId, messageId);
     saveMeta();
 }
 
@@ -176,7 +176,7 @@ void ChatSession::setSeen(const QString& memberId, qint64 messageId)
 
 void ChatSession::loadMessages()
 {
-    QFile f(QDir(m_dir).filePath(QStringLiteral("messages.jsonl")));
+    QFile f(QDir(this->directory).filePath(QStringLiteral("messages.jsonl")));
     if (!f.open(QIODevice::ReadOnly))
         return;
     while (!f.atEnd()) {
@@ -197,15 +197,15 @@ void ChatSession::loadMessages()
             continue;
         }
         const ChatMessage msg = ChatMessage::fromJson(rec);
-        m_index.insert(msg.id, int(m_messages.size()));
-        m_messages.append(msg);
-        m_nextId = qMax(m_nextId, msg.id + 1);
+        this->index.insert(msg.id, int(this->messageHistory.size()));
+        this->messageHistory.append(msg);
+        this->nextId = qMax(this->nextId, msg.id + 1);
     }
 }
 
 void ChatSession::appendRecord(const QJsonObject& record) const
 {
-    QFile f(QDir(m_dir).filePath(QStringLiteral("messages.jsonl")));
+    QFile f(QDir(this->directory).filePath(QStringLiteral("messages.jsonl")));
     if (f.open(QIODevice::WriteOnly | QIODevice::Append)) {
         f.write(QJsonDocument(record).toJson(QJsonDocument::Compact));
         f.write("\n");
@@ -214,48 +214,48 @@ void ChatSession::appendRecord(const QJsonObject& record) const
 
 ChatMessage* ChatSession::mutableById(qint64 id)
 {
-    const auto it = m_index.constFind(id);
-    return it == m_index.cend() ? nullptr : &m_messages[it.value()];
+    const auto it = this->index.constFind(id);
+    return it == this->index.cend() ? nullptr : &this->messageHistory[it.value()];
 }
 
 const ChatMessage* ChatSession::byId(qint64 id) const
 {
-    const auto it = m_index.constFind(id);
-    return it == m_index.cend() ? nullptr : &m_messages.at(it.value());
+    const auto it = this->index.constFind(id);
+    return it == this->index.cend() ? nullptr : &this->messageHistory.at(it.value());
 }
 
 int ChatSession::indexOf(qint64 id) const
 {
-    return m_index.value(id, -1);
+    return this->index.value(id, -1);
 }
 
 const ChatMessage* ChatSession::lastMessage() const
 {
-    return m_messages.isEmpty() ? nullptr : &m_messages.constLast();
+    return this->messageHistory.isEmpty() ? nullptr : &this->messageHistory.constLast();
 }
 
 QList<ChatMessage> ChatSession::after(qint64 id) const
 {
     // id 순서로 쌓이므로 뒤에서부터 훑는다.
-    qsizetype i = m_messages.size();
-    while (i > 0 && m_messages.at(i - 1).id > id)
+    qsizetype i = this->messageHistory.size();
+    while (i > 0 && this->messageHistory.at(i - 1).id > id)
         --i;
-    return m_messages.mid(i);
+    return this->messageHistory.mid(i);
 }
 
 QList<ChatMessage> ChatSession::recent(int n) const
 {
-    return n >= m_messages.size() ? m_messages : m_messages.mid(m_messages.size() - n);
+    return n >= this->messageHistory.size() ? this->messageHistory : this->messageHistory.mid(this->messageHistory.size() - n);
 }
 
 ChatMessage ChatSession::addMessage(ChatMessage m)
 {
-    m.id = m_nextId++;
+    m.id = this->nextId++;
     if (!m.ts)
         m.ts = nowMs();
-    m_index.insert(m.id, int(m_messages.size()));
-    m_messages.append(m);
-    m_updatedAt = m.ts;
+    this->index.insert(m.id, int(this->messageHistory.size()));
+    this->messageHistory.append(m);
+    this->lastUpdateTime = m.ts;
     appendRecord(m.toJson());
     emit messageAdded(m);
     return m;
@@ -285,7 +285,7 @@ bool ChatSession::applyReaction(qint64 targetId, const QString& by, const QStrin
 
 QString ChatSession::notePath(const QString& memberId) const
 {
-    return QDir(m_dir).filePath(QStringLiteral("notes/%1.md").arg(memberId));
+    return QDir(this->directory).filePath(QStringLiteral("notes/%1.md").arg(memberId));
 }
 
 QString ChatSession::readNote(const QString& memberId) const
@@ -296,7 +296,7 @@ QString ChatSession::readNote(const QString& memberId) const
 
 void ChatSession::writeNote(const QString& memberId, const QString& text)
 {
-    writeTextFile(notePath(memberId), text.trimmed().left(kMaxNoteChars) + QLatin1Char('\n'));
+    writeTextFile(notePath(memberId), text.trimmed().left(maxNoteChars) + QLatin1Char('\n'));
     emit noteChanged(memberId);
 }
 
@@ -305,7 +305,7 @@ void ChatSession::appendNote(const QString& memberId, const QString& line)
     QString note = readNote(memberId).trimmed();
     note += (note.isEmpty() ? QString() : QStringLiteral("\n")) + QStringLiteral("- ") + line.simplified();
     // 너무 길어지면 오래된 줄부터 버린다. 멤버에게는 정리하라고 따로 알려 준다.
-    while (note.size() > kMaxNoteChars && note.contains(QLatin1Char('\n')))
+    while (note.size() > maxNoteChars && note.contains(QLatin1Char('\n')))
         note = note.mid(note.indexOf(QLatin1Char('\n')) + 1);
     writeTextFile(notePath(memberId), note + QLatin1Char('\n'));
     emit noteChanged(memberId);
@@ -313,7 +313,7 @@ void ChatSession::appendNote(const QString& memberId, const QString& line)
 
 void ChatSession::log(const QString& who, const QString& text) const
 {
-    QFile f(QDir(m_dir).filePath(QStringLiteral("logs/%1.log").arg(who)));
+    QFile f(QDir(this->directory).filePath(QStringLiteral("logs/%1.log").arg(who)));
     if (f.open(QIODevice::WriteOnly | QIODevice::Append)) {
         const QString stamp = QDateTime::currentDateTime().toString(Qt::ISODate);
         f.write(QStringLiteral("[%1] %2\n").arg(stamp, text).toUtf8());

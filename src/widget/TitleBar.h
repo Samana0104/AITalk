@@ -26,7 +26,7 @@ private:
     void toggleMaximize();
     void updateMaximizeIcon();
 
-    QWidget* m_window;
-    QLabel* m_title;
-    IconButton* m_max;
+    QWidget* window;
+    QLabel* title;
+    IconButton* maximizeButton;
 };

@@ -26,7 +26,7 @@
 
 MainWindow::MainWindow(Application* app, QWidget* parent)
     : QWidget(parent)
-    , m_app(app)
+    , app(app)
 {
     setObjectName(QStringLiteral("mainRoot"));
     setAttribute(Qt::WA_StyledBackground);
@@ -39,55 +39,55 @@ MainWindow::MainWindow(Application* app, QWidget* parent)
     root->setContentsMargins(1, 1, 1, 1); // mainRoot 테두리 1px
     root->setSpacing(0);
 
-    m_titleBar = new TitleBar(this);
-    root->addWidget(m_titleBar);
+    this->titleBar = new TitleBar(this);
+    root->addWidget(this->titleBar);
 
-    m_splitter = new QSplitter(Qt::Horizontal, this);
-    m_splitter->setHandleWidth(1);
-    m_splitter->setChildrenCollapsible(false);
-    m_sessionPanel = new SessionPanel(m_app->sessions(), m_splitter);
-    m_chatPanel = new ChatPanel(m_app, m_splitter);
-    m_inspector = new InspectorPanel(m_app, m_splitter);
-    m_splitter->addWidget(m_sessionPanel);
-    m_splitter->addWidget(m_chatPanel);
-    m_splitter->addWidget(m_inspector);
-    m_splitter->setStretchFactor(0, 0);
-    m_splitter->setStretchFactor(1, 1);
-    m_splitter->setStretchFactor(2, 0);
-    m_splitter->setSizes({ 260, 700, 280 });
-    root->addWidget(m_splitter, 1);
+    this->splitter = new QSplitter(Qt::Horizontal, this);
+    this->splitter->setHandleWidth(1);
+    this->splitter->setChildrenCollapsible(false);
+    this->sessionPanel = new SessionPanel(this->app->sessions(), this->splitter);
+    this->chatPanel = new ChatPanel(this->app, this->splitter);
+    this->inspector = new InspectorPanel(this->app, this->splitter);
+    this->splitter->addWidget(this->sessionPanel);
+    this->splitter->addWidget(this->chatPanel);
+    this->splitter->addWidget(this->inspector);
+    this->splitter->setStretchFactor(0, 0);
+    this->splitter->setStretchFactor(1, 1);
+    this->splitter->setStretchFactor(2, 0);
+    this->splitter->setSizes({ 260, 700, 280 });
+    root->addWidget(this->splitter, 1);
 
-    m_toast = new Toast(this);
+    this->toast = new Toast(this);
     new FramelessHelper(this);
 
-    connect(m_titleBar, &TitleBar::settingsClicked, this, [this] { openSettings(); });
-    connect(m_sessionPanel, &SessionPanel::doctorRequested, this, &MainWindow::openDoctor);
-    connect(m_sessionPanel, &SessionPanel::refreshCliRequested, this, [this] {
-        m_app->hub()->refreshBins();
+    connect(this->titleBar, &TitleBar::settingsClicked, this, [this] { openSettings(); });
+    connect(this->sessionPanel, &SessionPanel::doctorRequested, this, &MainWindow::openDoctor);
+    connect(this->sessionPanel, &SessionPanel::refreshCliRequested, this, [this] {
+        this->app->hub()->refreshBins();
         showToast(Text("toast.cliRescanned"));
     });
-    connect(m_sessionPanel, &SessionPanel::exportRequested, this, &MainWindow::exportSession);
-    connect(m_chatPanel, &ChatPanel::exportRequested, this, &MainWindow::exportSession);
-    connect(m_chatPanel, &ChatPanel::inspectorToggled, this, &MainWindow::setInspectorVisible);
-    connect(m_chatPanel, &ChatPanel::agentSettingsRequested, this, &MainWindow::openSettings);
-    connect(m_chatPanel, &ChatPanel::toast, this, &MainWindow::showToast);
+    connect(this->sessionPanel, &SessionPanel::exportRequested, this, &MainWindow::exportSession);
+    connect(this->chatPanel, &ChatPanel::exportRequested, this, &MainWindow::exportSession);
+    connect(this->chatPanel, &ChatPanel::inspectorToggled, this, &MainWindow::setInspectorVisible);
+    connect(this->chatPanel, &ChatPanel::agentSettingsRequested, this, &MainWindow::openSettings);
+    connect(this->chatPanel, &ChatPanel::toast, this, &MainWindow::showToast);
 
     restoreUiState();
 }
 
 void MainWindow::showToast(const QString& text)
 {
-    m_toast->showMessage(text);
+    this->toast->showMessage(text);
 }
 
 void MainWindow::openSettings(const QString& agentId)
 {
-    SettingsDialog dlg(m_app->config(), m_app->hub(), this);
+    SettingsDialog dlg(this->app->config(), this->app->hub(), this);
     if (!agentId.isEmpty())
         dlg.focusAgent(agentId);
     if (dlg.exec() == QDialog::Accepted) {
-        const bool languageChanged = dlg.editedConfig().language != m_app->config().language;
-        m_app->updateConfig(dlg.editedConfig());
+        const bool languageChanged = dlg.editedConfig().language != this->app->config().language;
+        this->app->updateConfig(dlg.editedConfig());
         // 문자열은 위젯을 만들 때 박히므로 언어는 다시 시작해야 바뀐다.
         showToast(languageChanged ? Text("toast.restartForLanguage") : Text("toast.settingsSaved"));
     }
@@ -95,7 +95,7 @@ void MainWindow::openSettings(const QString& agentId)
 
 void MainWindow::openDoctor()
 {
-    DoctorDialog dlg(m_app->hub(), this);
+    DoctorDialog dlg(this->app->hub(), this);
     dlg.exec();
 }
 
@@ -110,7 +110,7 @@ void MainWindow::exportSession(ChatSession* session)
     if (file.isEmpty())
         return;
     QString err;
-    if (ChatExporter::exportMarkdown(*session, m_app->config().userName, file, &err))
+    if (ChatExporter::exportMarkdown(*session, this->app->config().userName, file, &err))
         showToast(Text("toast.exported").arg(QDir::toNativeSeparators(file)));
     else
         showToast(Text("toast.exportFailed").arg(err));
@@ -118,8 +118,8 @@ void MainWindow::exportSession(ChatSession* session)
 
 void MainWindow::setInspectorVisible(bool visible)
 {
-    m_inspector->setVisible(visible);
-    m_chatPanel->setInspectorVisible(visible);
+    this->inspector->setVisible(visible);
+    this->chatPanel->setInspectorVisible(visible);
 }
 
 void MainWindow::changeEvent(QEvent* event)
@@ -135,18 +135,18 @@ void MainWindow::changeEvent(QEvent* event)
 void MainWindow::closeEvent(QCloseEvent* event)
 {
     saveUiState();
-    QSystemTrayIcon* tray = m_app->tray();
-    if (m_app->config().closeToTray && tray && tray->isVisible()) {
+    QSystemTrayIcon* tray = this->app->tray();
+    if (this->app->config().closeToTray && tray && tray->isVisible()) {
         hide();
-        if (!m_trayHintShown) {
+        if (!this->trayHintShown) {
             tray->showMessage(QStringLiteral("AITalk"), Text("tray.stillRunning"));
-            m_trayHintShown = true;
+            this->trayHintShown = true;
         }
         event->ignore();
         return;
     }
     event->accept();
-    m_app->quit();
+    this->app->quit();
 }
 
 void MainWindow::restoreUiState()
@@ -155,7 +155,7 @@ void MainWindow::restoreUiState()
     if (const QByteArray g = s.value(QStringLiteral("window/geometry")).toByteArray(); !g.isEmpty())
         restoreGeometry(g);
     if (const QByteArray sp = s.value(QStringLiteral("window/splitter")).toByteArray(); !sp.isEmpty())
-        m_splitter->restoreState(sp);
+        this->splitter->restoreState(sp);
     setInspectorVisible(s.value(QStringLiteral("window/inspector"), true).toBool());
 }
 
@@ -163,6 +163,6 @@ void MainWindow::saveUiState() const
 {
     QSettings s(AppPaths::uiSettingsFile(), QSettings::IniFormat);
     s.setValue(QStringLiteral("window/geometry"), saveGeometry());
-    s.setValue(QStringLiteral("window/splitter"), m_splitter->saveState());
-    s.setValue(QStringLiteral("window/inspector"), m_inspector->isVisible());
+    s.setValue(QStringLiteral("window/splitter"), this->splitter->saveState());
+    s.setValue(QStringLiteral("window/inspector"), this->inspector->isVisible());
 }

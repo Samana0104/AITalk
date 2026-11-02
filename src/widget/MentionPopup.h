@@ -27,5 +27,5 @@ signals:
     void picked(const QString& name);
 
 private:
-    QListWidget* m_list;
+    QListWidget* list;
 };

@@ -17,10 +17,10 @@ private:
     void runChecks();
     void finishOne();
 
-    AgentHub* m_hub;
-    QTableWidget* m_table;
-    QLabel* m_summary;
-    QPlainTextEdit* m_install;
-    int m_pending = 0;
-    int m_found = 0;
+    AgentHub* hub;
+    QTableWidget* table;
+    QLabel* summary;
+    QPlainTextEdit* install;
+    int pending = 0;
+    int found = 0;
 };

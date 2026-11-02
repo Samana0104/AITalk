@@ -27,15 +27,15 @@ bool DataManager::loadStringTable(const QString& path, QString* error)
     for (qsizetype i = 1; i < header.size(); ++i)
         langs << header.at(i).trimmed();
 
-    QWriteLocker lock(&m_lock);
+    QWriteLocker lock(&this->lock);
     for (const QString& l : langs)
-        if (!m_languages.contains(l))
-            m_languages << l;
+        if (!this->availableLanguages.contains(l))
+            this->availableLanguages << l;
     for (const QStringList& row : std::as_const(rows)) {
         const QString key = row.value(0).trimmed();
         if (key.isEmpty())
             continue;
-        QHash<QString, QString>& entry = m_strings[key];
+        QHash<QString, QString>& entry = this->strings[key];
         for (qsizetype i = 0; i < langs.size(); ++i) {
             const QString value = row.value(i + 1);
             if (!value.isEmpty()) // 빈 칸은 번역 안 됨 → 대체 언어로
@@ -47,67 +47,67 @@ bool DataManager::loadStringTable(const QString& path, QString* error)
 
 QStringList DataManager::languages() const
 {
-    QReadLocker lock(&m_lock);
-    return m_languages;
+    QReadLocker lock(&this->lock);
+    return this->availableLanguages;
 }
 
 QString DataManager::languageName(const QString& code) const
 {
-    QReadLocker lock(&m_lock);
-    return m_strings.value(QStringLiteral("lang.name")).value(code, code);
+    QReadLocker lock(&this->lock);
+    return this->strings.value(QStringLiteral("lang.name")).value(code, code);
 }
 
 QString DataManager::language() const
 {
-    QReadLocker lock(&m_lock);
-    return m_language;
+    QReadLocker lock(&this->lock);
+    return this->currentLanguage;
 }
 
 void DataManager::setLanguage(const QString& code)
 {
     QString resolved = code.trimmed();
     {
-        QWriteLocker lock(&m_lock);
+        QWriteLocker lock(&this->lock);
         if (resolved.isEmpty() || resolved == QLatin1String("auto"))
             resolved = QLocale::system().name().section(QLatin1Char('_'), 0, 0); // ko_KR -> ko
-        if (!m_languages.contains(resolved))
-            resolved = m_languages.contains(QStringLiteral("en")) ? QStringLiteral("en") : m_fallback;
-        if (resolved == m_language)
+        if (!this->availableLanguages.contains(resolved))
+            resolved = this->availableLanguages.contains(QStringLiteral("en")) ? QStringLiteral("en") : this->fallback;
+        if (resolved == this->currentLanguage)
             return;
-        m_language = resolved;
+        this->currentLanguage = resolved;
     }
     emit languageChanged(resolved);
 }
 
 QString DataManager::fallbackLanguage() const
 {
-    QReadLocker lock(&m_lock);
-    return m_fallback;
+    QReadLocker lock(&this->lock);
+    return this->fallback;
 }
 
 void DataManager::setFallbackLanguage(const QString& code)
 {
-    QWriteLocker lock(&m_lock);
-    m_fallback = code;
+    QWriteLocker lock(&this->lock);
+    this->fallback = code;
 }
 
 QString DataManager::text(const QString& key) const
 {
     {
-        QReadLocker lock(&m_lock);
-        const auto it = m_strings.constFind(key);
-        if (it != m_strings.cend()) {
-            const auto value = it->constFind(m_language);
+        QReadLocker lock(&this->lock);
+        const auto it = this->strings.constFind(key);
+        if (it != this->strings.cend()) {
+            const auto value = it->constFind(this->currentLanguage);
             if (value != it->cend())
                 return value.value();
-            const auto fb = it->constFind(m_fallback);
+            const auto fb = it->constFind(this->fallback);
             if (fb != it->cend())
                 return fb.value();
         }
     }
-    QMutexLocker lock(&m_missingMutex);
-    if (!m_missing.contains(key)) {
-        m_missing.insert(key);
+    QMutexLocker lock(&this->missingMutex);
+    if (!this->missing.contains(key)) {
+        this->missing.insert(key);
         qWarning().noquote() << "[DataManager] missing text key:" << key;
     }
     return key;
@@ -115,6 +115,6 @@ QString DataManager::text(const QString& key) const
 
 bool DataManager::contains(const QString& key) const
 {
-    QReadLocker lock(&m_lock);
-    return m_strings.contains(key);
+    QReadLocker lock(&this->lock);
+    return this->strings.contains(key);
 }

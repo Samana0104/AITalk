@@ -7,8 +7,8 @@
 
 namespace {
 
-constexpr int kMaxBubbles = 4;
-constexpr int kMaxBubbleChars = 2000;
+constexpr int maxBubbles = 4;
+constexpr int maxBubbleChars = 2000;
 
 qint64 toId(const QJsonValue& v)
 {
@@ -34,8 +34,8 @@ AgentAction fromObject(const QJsonObject& o)
     }
     for (QString s : msgs) {
         s = s.trimmed();
-        if (!s.isEmpty() && a.messages.size() < kMaxBubbles)
-            a.messages << s.left(kMaxBubbleChars);
+        if (!s.isEmpty() && a.messages.size() < maxBubbles)
+            a.messages << s.left(maxBubbleChars);
     }
     if (a.action.isEmpty())
         a.action = a.messages.isEmpty() ? QStringLiteral("pass") : QStringLiteral("say");

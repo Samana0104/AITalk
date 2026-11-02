@@ -4,7 +4,7 @@
 
 IconButton::IconButton(const QString& icon, const QString& tooltip, QWidget* parent)
     : QToolButton(parent)
-    , m_icon(icon)
+    , icon(icon)
 {
     setObjectName(QStringLiteral("iconButton"));
     setAutoRaise(true);
@@ -18,17 +18,17 @@ IconButton::IconButton(const QString& icon, const QString& tooltip, QWidget* par
 
 void IconButton::setIconName(const QString& icon)
 {
-    m_icon = icon;
+    this->icon = icon;
     refresh();
 }
 
 void IconButton::setTone(const QString& token)
 {
-    m_tone = token;
+    this->tone = token;
     refresh();
 }
 
 void IconButton::refresh()
 {
-    setIcon(ThemeManager::instance().icon(m_icon, m_tone));
+    setIcon(ThemeManager::instance().icon(this->icon, this->tone));
 }

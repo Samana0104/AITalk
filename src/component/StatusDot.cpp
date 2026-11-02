@@ -6,16 +6,16 @@
 
 StatusDot::StatusDot(int size, QWidget* parent)
     : QWidget(parent)
-    , m_size(size)
+    , size(size)
 {
     setFixedSize(size, size);
 }
 
 void StatusDot::setStatus(const QString& status)
 {
-    if (status == m_status)
+    if (status == this->currentStatus)
         return;
-    m_status = status;
+    this->currentStatus = status;
     setToolTip(labelFor(status));
     update();
 }
@@ -45,9 +45,9 @@ void StatusDot::paintEvent(QPaintEvent*)
 {
     QPainter p(this);
     p.setRenderHint(QPainter::Antialiasing);
-    const QColor c = colorFor(m_status);
-    const QRectF r(0.5, 0.5, m_size - 1.0, m_size - 1.0);
-    if (m_status == QLatin1String("disabled") || m_status == QLatin1String("missing")) {
+    const QColor c = colorFor(this->currentStatus);
+    const QRectF r(0.5, 0.5, this->size - 1.0, this->size - 1.0);
+    if (this->currentStatus == QLatin1String("disabled") || this->currentStatus == QLatin1String("missing")) {
         p.setPen(QPen(c, 1.2));
         p.setBrush(Qt::NoBrush);
     } else {

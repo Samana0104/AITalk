@@ -50,9 +50,9 @@ QString ago(qint64 secs)
 
 QString elapsed(qint64 secs) { return ago(secs).remove(QStringLiteral(" 전")); }
 
-const QStringList kWeek { "일", "월", "화", "수", "목", "금", "토" };
+const QStringList weekdayNames { "일", "월", "화", "수", "목", "금", "토" };
 
-QString weekday(const QDateTime& d) { return kWeek.value(d.date().dayOfWeek() % 7); }
+QString weekday(const QDateTime& d) { return weekdayNames.value(d.date().dayOfWeek() % 7); }
 
 QString timeOfDay(int h)
 {

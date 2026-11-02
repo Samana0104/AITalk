@@ -12,7 +12,7 @@ class MemberCard : public QFrame {
 public:
     explicit MemberCard(const QString& memberId, QWidget* parent = nullptr);
 
-    QString memberId() const { return m_id; }
+    QString memberId() const { return this->id; }
 
     struct State {
         QString status;
@@ -25,10 +25,10 @@ public:
     void setState(const State& s);
 
 private:
-    QString m_id;
-    StatusDot* m_dot;
-    QLabel* m_status;
-    QLabel* m_model;
-    QLabel* m_stats;
-    QLabel* m_error;
+    QString id;
+    StatusDot* dot;
+    QLabel* status;
+    QLabel* model;
+    QLabel* stats;
+    QLabel* error;
 };

@@ -16,12 +16,12 @@ ReplyPreview::ReplyPreview(QWidget* parent)
 
     auto* text = new QVBoxLayout;
     text->setSpacing(0);
-    m_author = new QLabel(this);
-    m_author->setObjectName(QStringLiteral("replyPreviewAuthor"));
-    m_excerpt = new QLabel(this);
-    m_excerpt->setObjectName(QStringLiteral("replyPreviewText"));
-    text->addWidget(m_author);
-    text->addWidget(m_excerpt);
+    this->author = new QLabel(this);
+    this->author->setObjectName(QStringLiteral("replyPreviewAuthor"));
+    this->excerpt = new QLabel(this);
+    this->excerpt->setObjectName(QStringLiteral("replyPreviewText"));
+    text->addWidget(this->author);
+    text->addWidget(this->excerpt);
     lay->addLayout(text, 1);
 
     auto* close = new IconButton(QStringLiteral("close"), Text("composer.clearReply"), this);
@@ -33,6 +33,6 @@ ReplyPreview::ReplyPreview(QWidget* parent)
 
 void ReplyPreview::setTarget(const QString& author, const QString& excerpt)
 {
-    m_author->setText(QStringLiteral("↪ %1").arg(author));
-    m_excerpt->setText(fontMetrics().elidedText(excerpt, Qt::ElideRight, 520));
+    this->author->setText(QStringLiteral("↪ %1").arg(author));
+    this->excerpt->setText(fontMetrics().elidedText(excerpt, Qt::ElideRight, 520));
 }

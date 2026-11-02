@@ -54,9 +54,9 @@ public:
     RoomEngine(AgentHub* hub, const AppConfig* config, QObject* parent = nullptr);
     ~RoomEngine() override;
 
-    ChatSession* session() const { return m_session; }
-    bool isRunning() const { return m_running; }
-    bool isSleeping() const { return m_sleeping; }
+    ChatSession* session() const { return this->activeSession; }
+    bool isRunning() const { return this->running; }
+    bool isSleeping() const { return this->sleeping; }
 
     const MemberRuntime& runtime(const QString& memberId) const;
     // idle | reading | typing | offline | disabled | missing
@@ -122,16 +122,16 @@ private:
         bool quick = false;
     };
 
-    AgentHub* m_hub;
-    const AppConfig* m_cfg;
-    QPointer<ChatSession> m_session;
-    BoostRouter m_router;
-    QTimer m_timer;
-    std::map<QString, MemberRuntime> m_rt;
-    SparkState m_spark;
-    bool m_running = false;
-    bool m_sleeping = false;
-    qint64 m_startedAt = 0;
-    qint64 m_lastUserAt = 0;
-    quint64 m_epoch = 0; // 방을 끄거나 세션을 바꾸면 올라간다. 그 전 턴의 콜백은 무시된다.
+    AgentHub* hub;
+    const AppConfig* config;
+    QPointer<ChatSession> activeSession;
+    BoostRouter router;
+    QTimer timer;
+    std::map<QString, MemberRuntime> memberRuntimes;
+    SparkState spark;
+    bool running = false;
+    bool sleeping = false;
+    qint64 startedAt = 0;
+    qint64 lastUserAt = 0;
+    quint64 epoch = 0; // 방을 끄거나 세션을 바꾸면 올라간다. 그 전 턴의 콜백은 무시된다.
 };

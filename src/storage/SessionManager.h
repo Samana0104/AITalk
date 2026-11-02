@@ -16,7 +16,7 @@ public:
     void load();
 
     QList<ChatSession*> sessions() const; // 최근 활동 순
-    ChatSession* current() const { return m_current; }
+    ChatSession* current() const { return this->currentSession; }
     ChatSession* find(const QString& id) const;
 
     ChatSession* createSession(const QString& title = {});
@@ -38,8 +38,8 @@ signals:
 private:
     void adopt(ChatSession* session);
 
-    QString m_root;
-    const AppConfig* m_cfg;
-    QList<ChatSession*> m_sessions;
-    QPointer<ChatSession> m_current;
+    QString root;
+    const AppConfig* config;
+    QList<ChatSession*> loadedSessions;
+    QPointer<ChatSession> currentSession;
 };

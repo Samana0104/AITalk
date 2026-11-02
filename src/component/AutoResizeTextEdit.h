@@ -21,5 +21,5 @@ protected:
 private:
     void updateHeight();
 
-    int m_maxLines = 6;
+    int maxLines = 6;
 };

@@ -15,7 +15,7 @@ public:
     static QString relativeTime(qint64 ts);
 
 private:
-    ElidedLabel* m_title;
-    ElidedLabel* m_preview;
-    QLabel* m_time;
+    ElidedLabel* title;
+    ElidedLabel* preview;
+    QLabel* time;
 };

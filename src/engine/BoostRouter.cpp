@@ -102,14 +102,14 @@ QString heavyReason(const QString& text)
 
 std::optional<BoostDecision> BoostRouter::decide(const QString& id, const ChatSession& s, qint64 seen, const QString& mode)
 {
-    if (mode == QLatin1String("off") || !m_cfg->agents.value(id).hasBoost())
+    if (mode == QLatin1String("off") || !this->config->agents.value(id).hasBoost())
         return std::nullopt;
     const qint64 now = QDateTime::currentMSecsSinceEpoch();
 
-    if (m_pending.contains(id)) {
-        const qint64 at = m_pending.take(id);
+    if (this->pending.contains(id)) {
+        const qint64 at = this->pending.take(id);
         if (now - at < 10 * 60000)
-            return BoostDecision { QStringLiteral("command"), QStringLiteral("%1의 /boost").arg(m_cfg->userName) };
+            return BoostDecision { QStringLiteral("command"), QStringLiteral("%1의 /boost").arg(this->config->userName) };
     }
 
     QList<ChatMessage> fresh;
@@ -124,7 +124,7 @@ std::optional<BoostDecision> BoostRouter::decide(const QString& id, const ChatSe
         const QString hit = firstMatch(serious(), it->text);
         if (!hit.isEmpty())
             return BoostDecision { QStringLiteral("user"),
-                                   QStringLiteral("%1 \"%2\"").arg(Members::withJosa(Members::User, m_cfg->userName, QStringLiteral("이/가")), hit) };
+                                   QStringLiteral("%1 \"%2\"").arg(Members::withJosa(Members::User, this->config->userName, QStringLiteral("이/가")), hit) };
     }
     if (mode != QLatin1String("auto"))
         return std::nullopt;
@@ -137,10 +137,10 @@ std::optional<BoostDecision> BoostRouter::decide(const QString& id, const ChatSe
             continue;
         if (!it->isUser()) {
             // 멤버끼리는 일을 자주 부탁하니 진심모드 한도를 다 쓰지 않게 쿨다운.
-            const qint64 cool = qint64(m_cfg->boostAiRequestCooldownSec) * 1000;
-            if (now - m_lastAuto.value(id, 0) < cool)
+            const qint64 cool = qint64(this->config->boostAiRequestCooldownSec) * 1000;
+            if (now - this->lastAutoBoostAt.value(id, 0) < cool)
                 continue;
-            m_lastAuto.insert(id, now);
+            this->lastAutoBoostAt.insert(id, now);
         }
         return BoostDecision { QStringLiteral("context"), QStringLiteral("%1 (#%2)").arg(why).arg(it->id) };
     }
@@ -177,11 +177,11 @@ std::optional<BoostRouter::Command> BoostRouter::parseCommand(const QString& tex
 
 void BoostRouter::arm(const QString& memberId)
 {
-    m_pending.insert(memberId, QDateTime::currentMSecsSinceEpoch());
+    this->pending.insert(memberId, QDateTime::currentMSecsSinceEpoch());
 }
 
 void BoostRouter::reset()
 {
-    m_pending.clear();
-    m_lastAuto.clear();
+    this->pending.clear();
+    this->lastAutoBoostAt.clear();
 }

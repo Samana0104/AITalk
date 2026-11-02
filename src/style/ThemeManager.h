@@ -15,7 +15,7 @@ public:
     static ThemeManager& instance();
 
     void apply(const QString& theme, int basePointSize);
-    QString theme() const { return m_theme; }
+    QString theme() const { return this->themeName; }
 
     QColor color(const QString& token) const;
     QIcon icon(const QString& name, const QString& token = QStringLiteral("ink-soft")) const;
@@ -27,6 +27,6 @@ signals:
 private:
     ThemeManager() = default;
 
-    QString m_theme;
-    QHash<QString, QString> m_tokens;
+    QString themeName;
+    QHash<QString, QString> tokens;
 };

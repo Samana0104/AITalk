@@ -18,27 +18,27 @@ SessionItemWidget::SessionItemWidget(QWidget* parent)
 
     auto* top = new QHBoxLayout;
     top->setSpacing(6);
-    m_title = new ElidedLabel(QString(), this);
-    m_title->setObjectName(QStringLiteral("sessionItemTitle"));
-    QFont bold = m_title->font();
+    this->title = new ElidedLabel(QString(), this);
+    this->title->setObjectName(QStringLiteral("sessionItemTitle"));
+    QFont bold = this->title->font();
     bold.setBold(true);
-    m_title->setFont(bold);
-    m_time = new QLabel(this);
-    m_time->setObjectName(QStringLiteral("sessionItemMeta"));
-    top->addWidget(m_title, 1);
-    top->addWidget(m_time);
+    this->title->setFont(bold);
+    this->time = new QLabel(this);
+    this->time->setObjectName(QStringLiteral("sessionItemMeta"));
+    top->addWidget(this->title, 1);
+    top->addWidget(this->time);
     lay->addLayout(top);
 
-    m_preview = new ElidedLabel(QString(), this);
-    m_preview->setObjectName(QStringLiteral("sessionItemPreview"));
-    lay->addWidget(m_preview);
+    this->preview = new ElidedLabel(QString(), this);
+    this->preview->setObjectName(QStringLiteral("sessionItemPreview"));
+    lay->addWidget(this->preview);
 }
 
 void SessionItemWidget::setContent(const QString& title, const QString& preview, qint64 updatedAt)
 {
-    m_title->setText(title);
-    m_preview->setText(preview.isEmpty() ? Text("sessions.empty") : preview);
-    m_time->setText(relativeTime(updatedAt));
+    this->title->setText(title);
+    this->preview->setText(preview.isEmpty() ? Text("sessions.empty") : preview);
+    this->time->setText(relativeTime(updatedAt));
 }
 
 QString SessionItemWidget::relativeTime(qint64 ts)

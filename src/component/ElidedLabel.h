@@ -9,7 +9,7 @@ public:
     explicit ElidedLabel(const QString& text = {}, QWidget* parent = nullptr);
 
     void setText(const QString& text);
-    QString text() const { return m_text; }
+    QString text() const { return this->fullText; }
     void setElideMode(Qt::TextElideMode mode);
 
     QSize sizeHint() const override;
@@ -23,6 +23,6 @@ protected:
     void mouseDoubleClickEvent(QMouseEvent* event) override;
 
 private:
-    QString m_text;
-    Qt::TextElideMode m_mode = Qt::ElideRight;
+    QString fullText;
+    Qt::TextElideMode mode = Qt::ElideRight;
 };

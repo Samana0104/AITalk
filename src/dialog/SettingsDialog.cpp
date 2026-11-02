@@ -61,18 +61,18 @@ QLabel* hint(const QString& text, QWidget* parent)
 
 SettingsDialog::SettingsDialog(const AppConfig& config, const AgentHub* hub, QWidget* parent)
     : QDialog(parent)
-    , m_config(config)
-    , m_hub(hub)
+    , config(config)
+    , hub(hub)
 {
     setWindowTitle(Text("settings.title"));
     resize(620, 600);
 
     auto* lay = new QVBoxLayout(this);
-    m_tabs = new QTabWidget(this);
-    m_tabs->addTab(buildGeneralTab(), Text("settings.tabGeneral"));
-    m_tabs->addTab(buildAgentsTab(), Text("settings.tabAgents"));
-    m_tabs->addTab(buildAppearanceTab(), Text("settings.tabAppearance"));
-    lay->addWidget(m_tabs, 1);
+    this->tabs = new QTabWidget(this);
+    this->tabs->addTab(buildGeneralTab(), Text("settings.tabGeneral"));
+    this->tabs->addTab(buildAgentsTab(), Text("settings.tabAgents"));
+    this->tabs->addTab(buildAppearanceTab(), Text("settings.tabAppearance"));
+    lay->addWidget(this->tabs, 1);
 
     auto* buttons = new QDialogButtonBox(QDialogButtonBox::Save | QDialogButtonBox::Cancel, this);
     buttons->button(QDialogButtonBox::Save)->setText(Text("common.save"));
@@ -90,44 +90,44 @@ QWidget* SettingsDialog::buildGeneralTab()
     form->setContentsMargins(16, 16, 16, 16);
     form->setSpacing(10);
 
-    m_userName = new QLineEdit(m_config.userName, page);
-    m_roomName = new QLineEdit(m_config.defaultRoomName, page);
-    m_speed = dataCombo({ { Text("speed.slow"), "slow" }, { Text("speed.normal"), "normal" }, { Text("speed.fast"), "fast" } }, m_config.speed, page);
-    m_autoSleep = spin(0, 600, m_config.autoSleepMinutes, Text("unit.minutes"), page);
-    m_autoSleep->setSpecialValueText(Text("settings.neverSleep"));
-    m_maxInFlight = spin(1, 4, m_config.maxInFlight, Text("unit.members"), page);
-    m_history = spin(8, 200, m_config.historyForPrompt, Text("unit.messages"), page);
-    m_turnTimeout = spin(30, 900, m_config.turnTimeoutSec, Text("unit.seconds"), page);
-    m_boostMode = dataCombo({ { Text("boost.auto"), "auto" }, { Text("boost.manual"), "manual" }, { Text("boost.off"), "off" } }, m_config.boostMode, page);
-    m_spark = new QCheckBox(Text("settings.sparkCheck"), page);
-    m_spark->setChecked(m_config.sparkEnabled);
+    this->userName = new QLineEdit(this->config.userName, page);
+    this->roomName = new QLineEdit(this->config.defaultRoomName, page);
+    this->speed = dataCombo({ { Text("speed.slow"), "slow" }, { Text("speed.normal"), "normal" }, { Text("speed.fast"), "fast" } }, this->config.speed, page);
+    this->autoSleep = spin(0, 600, this->config.autoSleepMinutes, Text("unit.minutes"), page);
+    this->autoSleep->setSpecialValueText(Text("settings.neverSleep"));
+    this->maxInFlight = spin(1, 4, this->config.maxInFlight, Text("unit.members"), page);
+    this->history = spin(8, 200, this->config.historyForPrompt, Text("unit.messages"), page);
+    this->turnTimeout = spin(30, 900, this->config.turnTimeoutSec, Text("unit.seconds"), page);
+    this->boostMode = dataCombo({ { Text("boost.auto"), "auto" }, { Text("boost.manual"), "manual" }, { Text("boost.off"), "off" } }, this->config.boostMode, page);
+    this->spark = new QCheckBox(Text("settings.sparkCheck"), page);
+    this->spark->setChecked(this->config.sparkEnabled);
 
-    form->addRow(Text("settings.userName"), m_userName);
+    form->addRow(Text("settings.userName"), this->userName);
     form->addRow(QString(), hint(Text("settings.userNameHint"), page));
-    form->addRow(Text("settings.roomName"), m_roomName);
-    form->addRow(Text("settings.roomSpeed"), m_speed);
-    form->addRow(Text("settings.roomBoost"), m_boostMode);
-    form->addRow(Text("settings.autoSleep"), m_autoSleep);
+    form->addRow(Text("settings.roomName"), this->roomName);
+    form->addRow(Text("settings.roomSpeed"), this->speed);
+    form->addRow(Text("settings.roomBoost"), this->boostMode);
+    form->addRow(Text("settings.autoSleep"), this->autoSleep);
     form->addRow(QString(), hint(Text("settings.autoSleepHint"), page));
-    form->addRow(Text("settings.maxInFlight"), m_maxInFlight);
-    form->addRow(Text("settings.history"), m_history);
-    form->addRow(Text("settings.turnTimeout"), m_turnTimeout);
-    form->addRow(Text("settings.spark"), m_spark);
+    form->addRow(Text("settings.maxInFlight"), this->maxInFlight);
+    form->addRow(Text("settings.history"), this->history);
+    form->addRow(Text("settings.turnTimeout"), this->turnTimeout);
+    form->addRow(Text("settings.spark"), this->spark);
     return page;
 }
 
 QWidget* SettingsDialog::buildAgentsTab()
 {
-    m_agentScroll = new QScrollArea(this);
-    m_agentScroll->setWidgetResizable(true);
-    m_agentScroll->setFrameShape(QFrame::NoFrame);
-    auto* page = new QWidget(m_agentScroll);
+    this->agentScroll = new QScrollArea(this);
+    this->agentScroll->setWidgetResizable(true);
+    this->agentScroll->setFrameShape(QFrame::NoFrame);
+    auto* page = new QWidget(this->agentScroll);
     auto* lay = new QVBoxLayout(page);
     lay->setContentsMargins(16, 8, 16, 16);
     lay->addWidget(hint(Text("settings.agentsHint"), page));
 
     for (const MemberInfo& m : Members::all()) {
-        const AgentConfig a = m_config.agents.value(m.id);
+        const AgentConfig a = this->config.agents.value(m.id);
         AgentFields f;
         f.cliKey = m.cli;
         f.box = new QGroupBox(QStringLiteral("%1  ·  %2 CLI").arg(m.name, m.cli), page);
@@ -139,8 +139,8 @@ QWidget* SettingsDialog::buildAgentsTab()
         f.boostEffort = effortCombo(a.boostEffort, f.box);
 
         auto* binRow = new QHBoxLayout;
-        f.bin = new QLineEdit(m_config.bins.value(m.cli), f.box);
-        const QString detected = m_hub->binOf(m.id);
+        f.bin = new QLineEdit(this->config.bins.value(m.cli), f.box);
+        const QString detected = this->hub->binOf(m.id);
         f.bin->setPlaceholderText(detected.isEmpty() ? Text("settings.binNotFound") : Text("settings.binAuto").arg(detected));
         auto* browse = new QPushButton(Text("common.browse"), f.box);
         binRow->addWidget(f.bin, 1);
@@ -158,11 +158,11 @@ QWidget* SettingsDialog::buildAgentsTab()
         form->addRow(Text("settings.boostEffort"), f.boostEffort);
         form->addRow(Text("settings.binPath"), binRow);
         lay->addWidget(f.box);
-        m_agents.insert(m.id, f);
+        this->agents.insert(m.id, f);
     }
     lay->addStretch(1);
-    m_agentScroll->setWidget(page);
-    return m_agentScroll;
+    this->agentScroll->setWidget(page);
+    return this->agentScroll;
 }
 
 QWidget* SettingsDialog::buildAppearanceTab()
@@ -177,48 +177,48 @@ QWidget* SettingsDialog::buildAppearanceTab()
     const DataManager& data = DataManager::instance();
     for (const QString& code : data.languages())
         langs.append({ data.languageName(code), code });
-    m_language = dataCombo(langs, m_config.language, page);
-    form->addRow(Text("settings.language"), m_language);
+    this->language = dataCombo(langs, this->config.language, page);
+    form->addRow(Text("settings.language"), this->language);
     form->addRow(QString(), hint(Text("settings.languageHint"), page));
 
-    m_theme = dataCombo({ { Text("theme.light"), "light" }, { Text("theme.dark"), "dark" } }, m_config.theme, page);
-    m_fontSize = spin(8, 18, m_config.fontSize, QStringLiteral(" pt"), page);
-    m_closeToTray = new QCheckBox(Text("settings.closeToTray"), page);
-    m_closeToTray->setChecked(m_config.closeToTray);
-    form->addRow(Text("settings.theme"), m_theme);
-    form->addRow(Text("settings.fontSize"), m_fontSize);
-    form->addRow(Text("settings.closeBehavior"), m_closeToTray);
+    this->theme = dataCombo({ { Text("theme.light"), "light" }, { Text("theme.dark"), "dark" } }, this->config.theme, page);
+    this->fontSize = spin(8, 18, this->config.fontSize, QStringLiteral(" pt"), page);
+    this->closeToTray = new QCheckBox(Text("settings.closeToTray"), page);
+    this->closeToTray->setChecked(this->config.closeToTray);
+    form->addRow(Text("settings.theme"), this->theme);
+    form->addRow(Text("settings.fontSize"), this->fontSize);
+    form->addRow(Text("settings.closeBehavior"), this->closeToTray);
     return page;
 }
 
 void SettingsDialog::focusAgent(const QString& memberId)
 {
-    m_tabs->setCurrentIndex(1);
-    const AgentFields f = m_agents.value(memberId);
+    this->tabs->setCurrentIndex(1);
+    const AgentFields f = this->agents.value(memberId);
     if (f.box) {
-        m_agentScroll->ensureWidgetVisible(f.box);
+        this->agentScroll->ensureWidgetVisible(f.box);
         f.model->setFocus();
     }
 }
 
 AppConfig SettingsDialog::editedConfig() const
 {
-    AppConfig c = m_config;
-    c.userName = m_userName->text().trimmed().isEmpty() ? Text("config.defaultUserName") : m_userName->text().trimmed();
-    c.defaultRoomName = m_roomName->text().trimmed().isEmpty() ? Text("config.defaultRoomName") : m_roomName->text().trimmed();
-    c.speed = m_speed->currentData().toString();
-    c.autoSleepMinutes = m_autoSleep->value();
-    c.maxInFlight = m_maxInFlight->value();
-    c.historyForPrompt = m_history->value();
-    c.turnTimeoutSec = m_turnTimeout->value();
-    c.boostMode = m_boostMode->currentData().toString();
-    c.sparkEnabled = m_spark->isChecked();
-    c.language = m_language->currentData().toString();
-    c.theme = m_theme->currentData().toString();
-    c.fontSize = m_fontSize->value();
-    c.closeToTray = m_closeToTray->isChecked();
+    AppConfig c = this->config;
+    c.userName = this->userName->text().trimmed().isEmpty() ? Text("config.defaultUserName") : this->userName->text().trimmed();
+    c.defaultRoomName = this->roomName->text().trimmed().isEmpty() ? Text("config.defaultRoomName") : this->roomName->text().trimmed();
+    c.speed = this->speed->currentData().toString();
+    c.autoSleepMinutes = this->autoSleep->value();
+    c.maxInFlight = this->maxInFlight->value();
+    c.historyForPrompt = this->history->value();
+    c.turnTimeoutSec = this->turnTimeout->value();
+    c.boostMode = this->boostMode->currentData().toString();
+    c.sparkEnabled = this->spark->isChecked();
+    c.language = this->language->currentData().toString();
+    c.theme = this->theme->currentData().toString();
+    c.fontSize = this->fontSize->value();
+    c.closeToTray = this->closeToTray->isChecked();
 
-    for (auto it = m_agents.cbegin(); it != m_agents.cend(); ++it) {
+    for (auto it = this->agents.cbegin(); it != this->agents.cend(); ++it) {
         const AgentFields& f = it.value();
         AgentConfig a = c.agents.value(it.key());
         a.model = f.model->text().trimmed();

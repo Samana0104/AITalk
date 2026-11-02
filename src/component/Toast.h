@@ -17,5 +17,5 @@ protected:
 private:
     void reposition();
 
-    QTimer m_timer;
+    QTimer timer;
 };

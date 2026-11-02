@@ -24,7 +24,7 @@ IconButton* makeButton(const QString& icon, const QString& tip, const QString& o
 
 TitleBar::TitleBar(QWidget* window)
     : QWidget(window)
-    , m_window(window)
+    , window(window)
 {
     setObjectName(QStringLiteral("titleBar"));
     setAttribute(Qt::WA_StyledBackground);
@@ -36,39 +36,39 @@ TitleBar::TitleBar(QWidget* window)
 
     auto* logo = new QLabel(this);
     logo->setPixmap(QIcon(QStringLiteral(":/icons/app.svg")).pixmap(16, 16));
-    m_title = new QLabel(QStringLiteral("AITalk"), this);
-    m_title->setObjectName(QStringLiteral("titleBarTitle"));
+    this->title = new QLabel(QStringLiteral("AITalk"), this);
+    this->title->setObjectName(QStringLiteral("titleBarTitle"));
     lay->addWidget(logo);
-    lay->addWidget(m_title);
+    lay->addWidget(this->title);
     lay->addStretch(1);
 
     auto* settings = makeButton(QStringLiteral("settings"), Text("title.settings"), QStringLiteral("titleBarButton"), this);
     settings->setIconSize(QSize(15, 15));
     auto* min = makeButton(QStringLiteral("minimize"), Text("title.minimize"), QStringLiteral("titleBarButton"), this);
-    m_max = makeButton(QStringLiteral("maximize"), Text("title.maximize"), QStringLiteral("titleBarButton"), this);
+    this->maximizeButton = makeButton(QStringLiteral("maximize"), Text("title.maximize"), QStringLiteral("titleBarButton"), this);
     auto* close = makeButton(QStringLiteral("close"), Text("title.close"), QStringLiteral("titleBarClose"), this);
     lay->addWidget(settings);
     lay->addWidget(min);
-    lay->addWidget(m_max);
+    lay->addWidget(this->maximizeButton);
     lay->addWidget(close);
 
     connect(settings, &QToolButton::clicked, this, &TitleBar::settingsClicked);
-    connect(min, &QToolButton::clicked, m_window, &QWidget::showMinimized);
-    connect(m_max, &QToolButton::clicked, this, &TitleBar::toggleMaximize);
-    connect(close, &QToolButton::clicked, m_window, &QWidget::close);
+    connect(min, &QToolButton::clicked, this->window, &QWidget::showMinimized);
+    connect(this->maximizeButton, &QToolButton::clicked, this, &TitleBar::toggleMaximize);
+    connect(close, &QToolButton::clicked, this->window, &QWidget::close);
 
-    m_window->installEventFilter(this);
+    this->window->installEventFilter(this);
 }
 
 void TitleBar::setTitle(const QString& title)
 {
-    m_title->setText(title);
+    this->title->setText(title);
 }
 
 void TitleBar::mousePressEvent(QMouseEvent* event)
 {
-    if (event->button() == Qt::LeftButton && m_window->windowHandle()) {
-        m_window->windowHandle()->startSystemMove();
+    if (event->button() == Qt::LeftButton && this->window->windowHandle()) {
+        this->window->windowHandle()->startSystemMove();
         event->accept();
         return;
     }
@@ -83,19 +83,19 @@ void TitleBar::mouseDoubleClickEvent(QMouseEvent* event)
 
 bool TitleBar::eventFilter(QObject* watched, QEvent* event)
 {
-    if (watched == m_window && event->type() == QEvent::WindowStateChange)
+    if (watched == this->window && event->type() == QEvent::WindowStateChange)
         updateMaximizeIcon();
     return QWidget::eventFilter(watched, event);
 }
 
 void TitleBar::toggleMaximize()
 {
-    m_window->isMaximized() ? m_window->showNormal() : m_window->showMaximized();
+    this->window->isMaximized() ? this->window->showNormal() : this->window->showMaximized();
 }
 
 void TitleBar::updateMaximizeIcon()
 {
-    const bool max = m_window->isMaximized();
-    m_max->setIconName(max ? QStringLiteral("restore") : QStringLiteral("maximize"));
-    m_max->setToolTip(max ? Text("title.restore") : Text("title.maximize"));
+    const bool max = this->window->isMaximized();
+    this->maximizeButton->setIconName(max ? QStringLiteral("restore") : QStringLiteral("maximize"));
+    this->maximizeButton->setToolTip(max ? Text("title.restore") : Text("title.maximize"));
 }

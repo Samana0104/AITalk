@@ -14,6 +14,6 @@ public:
 private:
     void refresh();
 
-    QString m_icon;
-    QString m_tone = QStringLiteral("ink-soft");
+    QString icon;
+    QString tone = QStringLiteral("ink-soft");
 };

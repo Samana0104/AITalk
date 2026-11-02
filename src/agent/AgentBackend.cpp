@@ -20,12 +20,12 @@ AgentReply AgentReply::fromProcess(const CliResult& r, const QString& text)
 
 ProcessAgentCall::ProcessAgentCall(Parser parser, QObject* parent)
     : AgentCall(parent)
-    , m_parser(std::move(parser))
-    , m_proc(new CliProcess(this))
+    , parser(std::move(parser))
+    , process(new CliProcess(this))
 {
-    connect(m_proc, &CliProcess::finished, this, [this](const CliResult& r) {
-        if (!m_aborted)
-            emit finished(m_parser(r));
+    connect(this->process, &CliProcess::finished, this, [this](const CliResult& r) {
+        if (!this->aborted)
+            emit finished(this->parser(r));
         deleteLater();
     });
 }
@@ -38,20 +38,20 @@ void ProcessAgentCall::run(const QString& program, const QStringList& args, cons
         r.failedToStart = true;
         r.err = "CLI not found";
         QMetaObject::invokeMethod(this, [this, r] {
-            if (!m_aborted)
-                emit finished(m_parser(r));
+            if (!this->aborted)
+                emit finished(this->parser(r));
             deleteLater();
         }, Qt::QueuedConnection);
         return;
     }
-    m_proc->start(program, args, input, workDir, timeoutMs, env);
+    this->process->start(program, args, input, workDir, timeoutMs, env);
 }
 
 void ProcessAgentCall::abort()
 {
-    m_aborted = true;
-    if (m_proc->isRunning())
-        m_proc->kill(); // 끝나면 finished 핸들러에서 deleteLater
+    this->aborted = true;
+    if (this->process->isRunning())
+        this->process->kill(); // 끝나면 finished 핸들러에서 deleteLater
     else
         deleteLater();
 }

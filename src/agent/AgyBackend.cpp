@@ -10,9 +10,9 @@ AgentCall* AgyBackend::start(const QString& bin, const AgentRequest& req, QObjec
 {
     // 진심모드 턴은 다른 모델이라 대화를 따로 쓴다.
     const bool reuse = !req.boost;
-    if (reuse && !m_conversationId.isEmpty() && m_turns >= m_rotate) {
-        m_conversationId.clear();
-        m_turns = 0;
+    if (reuse && !this->conversationId.isEmpty() && this->turns >= this->rotate) {
+        this->conversationId.clear();
+        this->turns = 0;
     }
 
     const int timeoutSec = req.timeoutMs / 1000;
@@ -21,8 +21,8 @@ AgentCall* AgyBackend::start(const QString& bin, const AgentRequest& req, QObjec
         QStringLiteral("--output-format"), QStringLiteral("json"),
         QStringLiteral("--print-timeout"), QStringLiteral("%1s").arg(timeoutSec),
     };
-    if (reuse && !m_conversationId.isEmpty())
-        args << QStringLiteral("--conversation") << m_conversationId;
+    if (reuse && !this->conversationId.isEmpty())
+        args << QStringLiteral("--conversation") << this->conversationId;
     args << QStringLiteral("-p") << req.brief + QStringLiteral("\n\n=====\n\n") + req.turn;
 
     // agy 는 임시 폴더를 읽을 수 있으므로 방 전용 빈 폴더로 돌려 둔다.
@@ -46,19 +46,19 @@ AgentCall* AgyBackend::start(const QString& bin, const AgentRequest& req, QObjec
                 text = QStringLiteral("{\"action\":\"pass\"}");
             const QString cid = j.value(QLatin1String("conversation_id")).toString();
             if (reuse && !cid.isEmpty()) {
-                if (cid != m_conversationId) {
-                    m_conversationId = cid;
-                    m_turns = 0;
+                if (cid != this->conversationId) {
+                    this->conversationId = cid;
+                    this->turns = 0;
                 }
-                ++m_turns;
+                ++this->turns;
             }
             if (!status.isEmpty() && status != QLatin1String("SUCCESS"))
                 res.err += "\nstatus=" + status.toUtf8();
         } else {
             text = QString::fromUtf8(r.out);
             if (reuse) {
-                m_conversationId.clear();
-                m_turns = 0;
+                this->conversationId.clear();
+                this->turns = 0;
             }
         }
         return AgentReply::fromProcess(res, text);

@@ -28,24 +28,24 @@ private:
     QWidget* buildAgentsTab();
     QWidget* buildAppearanceTab();
 
-    AppConfig m_config;
-    const AgentHub* m_hub;
-    QTabWidget* m_tabs;
+    AppConfig config;
+    const AgentHub* hub;
+    QTabWidget* tabs;
 
-    QLineEdit* m_userName;
-    QLineEdit* m_roomName;
-    QComboBox* m_speed;
-    QSpinBox* m_autoSleep;
-    QSpinBox* m_maxInFlight;
-    QSpinBox* m_history;
-    QSpinBox* m_turnTimeout;
-    QComboBox* m_boostMode;
-    QCheckBox* m_spark;
+    QLineEdit* userName;
+    QLineEdit* roomName;
+    QComboBox* speed;
+    QSpinBox* autoSleep;
+    QSpinBox* maxInFlight;
+    QSpinBox* history;
+    QSpinBox* turnTimeout;
+    QComboBox* boostMode;
+    QCheckBox* spark;
 
-    QComboBox* m_language;
-    QComboBox* m_theme;
-    QSpinBox* m_fontSize;
-    QCheckBox* m_closeToTray;
+    QComboBox* language;
+    QComboBox* theme;
+    QSpinBox* fontSize;
+    QCheckBox* closeToTray;
 
     struct AgentFields {
         QGroupBox* box = nullptr;
@@ -56,6 +56,6 @@ private:
         QLineEdit* bin = nullptr;
         QString cliKey;
     };
-    QMap<QString, AgentFields> m_agents;
-    QScrollArea* m_agentScroll = nullptr;
+    QMap<QString, AgentFields> agents;
+    QScrollArea* agentScroll = nullptr;
 };
