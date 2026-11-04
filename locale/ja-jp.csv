@@ -1,0 +1,157 @@
+key,value
+lang.name,日本語
+agentMenu.boost,ブーストモード: %1
+agentMenu.cli,CLI: %1
+agentMenu.join,%1 がチャットに参加
+agentMenu.lastError,最後のエラー: %1
+agentMenu.model,モデル: %1
+agentMenu.noCli,CLI が見つかりません
+agentMenu.settings,エージェント設定…
+boost.auto,自動
+boost.manual,呼び出したときのみ
+boost.off,オフ
+common.browse,参照…
+common.cancel,キャンセル
+common.delete,削除
+common.exportMarkdown,Markdown としてエクスポート
+common.me,自分
+common.ok,OK
+common.save,保存
+composer.clearReply,返信を取り消す
+composer.placeholder,メッセージを送信…  （@ でメンション · Enter で送信 · Shift+Enter で改行）
+composer.placeholderOff,メッセージを送るとルームが起動します…  （@ でメンション · /boost @名前 でブーストモード）
+composer.sendTip,送信（Enter）
+config.defaultRoomName,AI グループチャット
+config.defaultUserName,ホスト
+doctor.allFound,すべての CLI が見つかりました。未ログインの場合は、ターミナルで各 CLI を一度実行してログインしてください。
+doctor.colMember,メンバー
+doctor.colPath,パス
+doctor.colStatus,状態
+doctor.colVersion,バージョン
+doctor.installHeader,見つからない CLI のインストールコマンド（インストール後に各 CLI にログインし、「CLI を再検出」を押してください）:
+doctor.recheck,再診断
+doctor.statusChecking,確認中…
+doctor.statusFailed,⚠️ 実行失敗
+doctor.statusMissing,❌ 見つかりません
+doctor.statusOk,✅ 実行成功
+doctor.summary,メンバーの CLI が %2 個中 %1 個見つかりました。CLI がないメンバーはオフラインで表示されます。
+doctor.title,エージェント環境診断
+engine.boostArmed,🔥 次のターンはブーストモード: %1
+engine.boostFailed,%1 のブースト呼び出しに失敗したため、通常のモデルで回答します。
+engine.boostOn,🔥 %1 ブーストモード（%2）· %3
+engine.noAgents,参加できる AI がいません。環境診断で CLI のインストール状況を確認してください。
+engine.sleep,💤 しばらく静かだったので、みんな眠ってしまいました。話しかけると目を覚まします。
+engine.turnFailed,%1 の応答に失敗しました。少し休んでから再試行します。
+export.exportedAt,- エクスポート日時: %1
+export.messageCount,- メッセージ数: %1
+export.reactions,_リアクション: %1_
+inspector.notesEmpty,（まだ空です）
+inspector.notesHint,メンバーが長く覚えておくために自分で書くメモです。毎ターン、そのメンバーに表示されます。
+inspector.saveNote,メモを保存
+inspector.tabMembers,メンバー
+inspector.tabNotes,メモ
+member.noCalls,今回の起動ではまだ呼び出しがありません
+member.noCli,CLI なし · 環境診断を確認してください
+member.stats,呼び出し %1 回 · 前回 %2 秒
+member.system,システム
+message.copy,コピー
+message.copySelection,選択範囲をコピー
+message.react,リアクション
+message.reply,返信
+messages.loadOlder,以前のメッセージを読み込む
+room.boostAuto,ブースト: 自動
+room.boostManual,ブースト: 呼び出し時のみ
+room.boostOff,ブースト: オフ
+room.boostTip,負荷の高いターンだけ、より高性能なモデルで回答します。\n/boost @名前 で手動で有効にすることもできます。
+room.export,エクスポート
+room.exportTip,現在のセッションを Markdown ファイルとしてエクスポート
+room.inspectorTip,右側のパネル
+room.powerOff,ルームを停止
+room.powerOn,ルームを起動
+room.powerOnState,ルーム起動中
+room.renameTip,ダブルクリックで名前を変更できます
+room.speedNormal,通常の速度
+room.speedTip,会話の速度
+room.stateOff,停止中
+room.stateRunning,会話中
+room.stateSleeping,💤 睡眠中
+sessions.deleteConfirm,セッション「%1」を削除しますか？\n会話履歴はデータフォルダー内の trash に移動されます。
+sessions.deleteTitle,セッションを削除
+sessions.doctor,環境診断
+sessions.empty,まだメッセージがありません
+sessions.nameLabel,セッション名
+sessions.new,新しいチャット
+sessions.noResults,検索結果がありません
+sessions.rename,名前を変更
+sessions.rescan,CLI を再検出
+sessions.rescanTip,インストール済みの CLI を再検出します
+sessions.search,セッションのメッセージを検索
+sessions.title,セッション
+settings.agentsHint,モデル名は、お使いのアカウントと CLI で利用できる名前に変更してください。ブースト欄を空にすると通常の設定を使用します。
+settings.autoSleep,自動スリープ
+settings.autoSleepHint,この時間だけ発言がないと、ルームがスリープします。話しかけると目を覚まします。
+settings.binAuto,自動: %1
+settings.binNotFound,自動検出（見つかりません）
+settings.binPath,CLI のパス
+settings.boostEffort,ブースト時の推論強度
+settings.boostModel,ブースト用モデル
+settings.closeBehavior,閉じるときの動作
+settings.closeToTray,ウィンドウを閉じるとトレイに格納する
+settings.effortHint,空欄の場合は CLI の既定値を使用
+settings.fontSize,文字サイズ
+settings.history,プロンプトに含める会話履歴
+settings.language,言語
+settings.languageAuto,自動（システムの言語）
+settings.languageHint,言語の変更は再起動後に反映されます。メンバーへのプロンプトは現在、韓国語のみです。
+settings.maxInFlight,同時に考えるメンバー数
+settings.model,モデル
+settings.neverSleep,スリープしない
+settings.pickBin,CLI の実行ファイルを選択
+settings.roomBoost,新しいルームのブーストモード
+settings.roomName,新しいルームの名前
+settings.roomSpeed,新しいルームの会話速度
+settings.sameModel,（通常のモデル）
+settings.spark,沈黙を破る
+settings.sparkCheck,静かになると、メンバーの一人が自発的に話し始める
+settings.tabAgents,エージェント
+settings.tabAppearance,表示
+settings.tabGeneral,一般
+settings.theme,テーマ
+settings.title,AITalk 設定
+settings.turnTimeout,ターンの制限時間
+settings.userName,自分の名前
+settings.userNameHint,メンバーがあなたを呼ぶときの名前です。
+speed.fast,速い
+speed.normal,普通
+speed.slow,遅い
+status.disabled,チャットから退出
+status.idle,待機中
+status.missing,CLI が見つかりません
+status.offline,休憩中（失敗後の待機）
+status.reading,読んでいます
+status.sleeping,ルーム停止中
+status.thinkingHard,じっくり考えています
+status.typing,入力中
+theme.dark,ダーク
+theme.light,ライト
+time.hoursAgo,%1 時間前
+time.justNow,たった今
+time.minutesAgo,%1 分前
+time.yesterday,昨日
+title.close,閉じる
+title.maximize,最大化
+title.minimize,最小化
+title.restore,元のサイズに戻す
+title.settings,設定
+toast.cliRescanned,CLI を再検出しました
+toast.exportFailed,エクスポートに失敗しました: %1
+toast.exported,エクスポートしました: %1
+toast.restartForLanguage,言語を変更するには再起動してください
+toast.settingsSaved,設定を保存しました
+tray.open,開く
+tray.quit,終了
+tray.stillRunning,トレイで引き続き実行中です。完全に終了するには、トレイメニューの「終了」を選んでください。
+unit.members, 人
+unit.messages, 件
+unit.minutes, 分
+unit.seconds, 秒

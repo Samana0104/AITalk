@@ -172,12 +172,17 @@ QWidget* SettingsDialog::buildAppearanceTab()
     form->setContentsMargins(16, 16, 16, 16);
     form->setSpacing(10);
 
-    // 언어 목록은 strings.csv 머리줄에서 온다 (열을 추가하면 여기도 늘어난다)
+    // locale/*.csv의 파일 이름과 lang.name에서 언어 목록을 구성한다.
     QList<QPair<QString, QString>> langs { { Text("settings.languageAuto"), QStringLiteral("auto") } };
     const DataManager& data = DataManager::instance();
-    for (const QString& code : data.languages())
+    for(const QString& code : data.languages())
+    {
         langs.append({ data.languageName(code), code });
-    this->language = dataCombo(langs, this->config.language, page);
+    }
+    const QString configuredLanguage = this->config.language.trimmed();
+    const QString selectedLanguage = configuredLanguage.isEmpty() || configuredLanguage.compare(QLatin1String("auto"), Qt::CaseInsensitive) == 0
+        ? QStringLiteral("auto") : data.ResolveLanguage(configuredLanguage);
+    this->language = dataCombo(langs, selectedLanguage, page);
     form->addRow(Text("settings.language"), this->language);
     form->addRow(QString(), hint(Text("settings.languageHint"), page));
 

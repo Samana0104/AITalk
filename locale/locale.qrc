@@ -1,0 +1,9 @@
+<!DOCTYPE RCC>
+<RCC version="1.0">
+  <qresource prefix="/locale">
+    <file>en-us.csv</file>
+    <file>ja-jp.csv</file>
+    <file>ko-kr.csv</file>
+    <file>zh-cn.csv</file>
+  </qresource>
+</RCC>

@@ -19,6 +19,7 @@ file(GLOB_RECURSE AITALK_SOURCES CONFIGURE_DEPENDS
 qt_add_executable(AITalk
     ${AITALK_SOURCES}
     res/resources.qrc
+    locale/locale.qrc
 )
 
 target_include_directories(AITalk PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)

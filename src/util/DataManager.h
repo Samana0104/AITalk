@@ -11,23 +11,23 @@
 
 // 앱 전역 데이터 창구 (싱글턴). 지금은 다국어 문자열 표를 맡는다.
 //
-// 문자열 표: res/i18n/strings.csv
-//   key,ko,en          ← 머리줄: 첫 칸은 키, 나머지는 언어 코드 (열을 추가하면 언어가 늘어난다)
-//   session.new,새 채팅,New chat
-// 여러 표를 불러오면 합쳐지고, 같은 키는 나중 것이 이긴다.
+// 문자열 표: locale/<언어-지역>.csv (key,value). 파일 이름이 언어 코드다.
+// 폴더의 모든 CSV를 검증한 뒤 한 번에 교체한다.
 //
 // 표는 읽기/쓰기 잠금으로 보호하므로 다른 스레드에서 불러와도 된다.
-class DataManager : public QObject, public Singleton<DataManager> {
+class DataManager : public QObject, public Singleton<DataManager>
+{
     Q_OBJECT
     SINGLETON(DataManager)
 
 public:
-    bool loadStringTable(const QString& path, QString* error = nullptr);
+    bool LoadLocales(const QString& directory, QString* error = nullptr);
+    QString ResolveLanguage(const QString& code) const;
 
-    QStringList languages() const;              // 표에 있는 언어 코드 (머리줄 순서)
+    QStringList languages() const;              // 파일 이름 순서의 언어 코드
     QString languageName(const QString& code) const; // "lang.name" 키 값 (한국어, English …)
     QString language() const;
-    // "auto"(또는 빈 값)면 OS 언어. 표에 없는 언어면 en, 그것도 없으면 대체 언어.
+    // "auto"(또는 빈 값)면 OS 언어. 미지원 언어면 en-us, 없으면 대체 언어.
     void setLanguage(const QString& code);
     QString fallbackLanguage() const;
     void setFallbackLanguage(const QString& code);
@@ -40,11 +40,13 @@ signals:
     void languageChanged(const QString& code);
 
 private:
+    QString ResolveLanguageLocked(const QString& code) const;
+
     mutable QReadWriteLock lock;
     QStringList availableLanguages;
     QHash<QString, QHash<QString, QString>> strings; // key -> (언어 -> 문자열)
-    QString currentLanguage = QStringLiteral("ko");
-    QString fallback = QStringLiteral("ko");
+    QString currentLanguage = QStringLiteral("ko-kr");
+    QString fallback = QStringLiteral("ko-kr");
 
     mutable QMutex missingMutex;
     mutable QSet<QString> missing;

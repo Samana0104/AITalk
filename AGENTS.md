@@ -56,7 +56,7 @@ void SendIfReady(bool isReady)
 - 검색은 `rg`로 범위를 좁히고, 이미 확인한 내용을 불필요하게 다시 읽지 않는다. 문서·로그·답변은 필요한 정보 위주로 유지한다.
 
 ## 프로젝트별 구현 규칙
-- UI 문자열은 `Text("key")`와 `res/i18n/strings.csv`로 관리한다. UI 코드에 표시 문구를 직접 넣지 않는다.
+- UI 문자열은 `Text("key")`와 `locale/<언어-지역>.csv`(`key,value`)로 관리한다. UI 코드에 표시 문구를 직접 넣지 않는다. 언어 파일 추가 시 `locale/locale.qrc`에도 등록한다.
 - 테마는 `res/styles/`, 에이전트 프롬프트는 `res/prompts/ko/`의 기존 구성을 활용한다.
 - 리소스 파일을 추가하면 `res/resources.qrc` 등록도 확인한다.
 - CLI 실행은 기존 `agent` 계층을 재사용한다. UI 스레드를 동기 대기나 긴 작업으로 막지 않는다.

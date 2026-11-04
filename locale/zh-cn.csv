@@ -1,0 +1,157 @@
+key,value
+lang.name,简体中文
+agentMenu.boost,增强模式：%1
+agentMenu.cli,CLI：%1
+agentMenu.join,%1 参与聊天
+agentMenu.lastError,最近的错误：%1
+agentMenu.model,模型：%1
+agentMenu.noCli,未找到 CLI
+agentMenu.settings,智能体设置…
+boost.auto,自动
+boost.manual,仅在请求时
+boost.off,关闭
+common.browse,浏览…
+common.cancel,取消
+common.delete,删除
+common.exportMarkdown,导出为 Markdown
+common.me,我
+common.ok,确定
+common.save,保存
+composer.clearReply,取消回复
+composer.placeholder,发送消息…  （@ 提及成员 · Enter 发送 · Shift+Enter 换行）
+composer.placeholderOff,发送消息即可启动聊天室…  （@ 提及成员 · /boost @名字 开启增强模式）
+composer.sendTip,发送（Enter）
+config.defaultRoomName,AI 群聊
+config.defaultUserName,群主
+doctor.allFound,已找到所有 CLI。若尚未登录，请在终端中分别运行各 CLI 并登录。
+doctor.colMember,成员
+doctor.colPath,路径
+doctor.colStatus,状态
+doctor.colVersion,版本
+doctor.installHeader,缺失 CLI 的安装命令（安装后请分别登录，再点击“重新检测 CLI”）：
+doctor.recheck,重新诊断
+doctor.statusChecking,检查中…
+doctor.statusFailed,⚠️ 运行失败
+doctor.statusMissing,❌ 未找到
+doctor.statusOk,✅ 可运行
+doctor.summary,已找到 %1/%2 个成员 CLI。缺少 CLI 的成员将显示为离线。
+doctor.title,智能体环境诊断
+engine.boostArmed,🔥 下一轮使用增强模式：%1
+engine.boostFailed,%1 的增强模式调用失败，将使用常规模型回答。
+engine.boostOn,🔥 %1 增强模式（%2）· %3
+engine.noAgents,没有可参与的 AI。请在环境诊断中检查 CLI 的安装状态。
+engine.sleep,💤 安静了一阵，大家都睡着了。发条消息就能唤醒他们。
+engine.turnFailed,%1 回答失败，稍后将重试。
+export.exportedAt,- 导出时间：%1
+export.messageCount,- 消息数：%1
+export.reactions,_回应：%1_
+inspector.notesEmpty,（暂无笔记）
+inspector.notesHint,成员为长期记忆自行记录的笔记。每一轮都会向该成员展示。
+inspector.saveNote,保存笔记
+inspector.tabMembers,成员
+inspector.tabNotes,笔记
+member.noCalls,本次运行尚无调用
+member.noCli,缺少 CLI · 请查看环境诊断
+member.stats,调用 %1 次 · 上次耗时 %2 秒
+member.system,系统
+message.copy,复制
+message.copySelection,复制所选内容
+message.react,回应
+message.reply,回复
+messages.loadOlder,加载更早的消息
+room.boostAuto,增强模式：自动
+room.boostManual,增强模式：仅在请求时
+room.boostOff,增强模式：关闭
+room.boostTip,仅在复杂的对话轮次中使用更强的模型回答。\n也可通过 /boost @名字 手动开启。
+room.export,导出
+room.exportTip,将当前会话导出为 Markdown 文件
+room.inspectorTip,右侧面板
+room.powerOff,停止聊天室
+room.powerOn,启动聊天室
+room.powerOnState,聊天室已启动
+room.renameTip,双击即可重命名
+room.speedNormal,正常速度
+room.speedTip,聊天速度
+room.stateOff,已关闭
+room.stateRunning,聊天中
+room.stateSleeping,💤 休眠中
+sessions.deleteConfirm,要删除会话“%1”吗？\n聊天记录将移至数据目录中的 trash 文件夹。
+sessions.deleteTitle,删除会话
+sessions.doctor,环境诊断
+sessions.empty,暂无消息
+sessions.nameLabel,会话名称
+sessions.new,新建聊天
+sessions.noResults,没有搜索结果
+sessions.rename,重命名
+sessions.rescan,重新检测 CLI
+sessions.rescanTip,重新查找已安装的 CLI
+sessions.search,搜索会话消息
+sessions.title,会话
+settings.agentsHint,请使用您的账户和 CLI 支持的模型名称。增强模式字段留空时，将使用常规设置。
+settings.autoSleep,自动休眠
+settings.autoSleepHint,在此期间没有发言，聊天室就会休眠。发送消息即可唤醒。
+settings.binAuto,自动：%1
+settings.binNotFound,自动检测（未找到）
+settings.binPath,CLI 路径
+settings.boostEffort,增强模式推理强度
+settings.boostModel,增强模式模型
+settings.closeBehavior,关闭时的行为
+settings.closeToTray,关闭窗口时隐藏到系统托盘
+settings.effortHint,留空以使用 CLI 默认值
+settings.fontSize,字号
+settings.history,提示词中的聊天记录
+settings.language,语言
+settings.languageAuto,自动（系统语言）
+settings.languageHint,重启后应用语言更改。成员提示词目前仅提供韩语。
+settings.maxInFlight,同时思考的成员数
+settings.model,模型
+settings.neverSleep,从不休眠
+settings.pickBin,选择 CLI 可执行文件
+settings.roomBoost,新聊天室的增强模式
+settings.roomName,新聊天室名称
+settings.roomSpeed,新聊天室的聊天速度
+settings.sameModel,（常规模型）
+settings.spark,打破沉默
+settings.sparkCheck,安静时，由一名成员主动打破沉默
+settings.tabAgents,智能体
+settings.tabAppearance,外观
+settings.tabGeneral,常规
+settings.theme,主题
+settings.title,AITalk 设置
+settings.turnTimeout,每轮时间限制
+settings.userName,我的名字
+settings.userNameHint,成员称呼您时使用的名字。
+speed.fast,快
+speed.normal,正常
+speed.slow,慢
+status.disabled,已退出聊天
+status.idle,待命中
+status.missing,未找到 CLI
+status.offline,暂时休息（失败后等待）
+status.reading,阅读中
+status.sleeping,聊天室已关闭
+status.thinkingHard,深入思考中
+status.typing,正在输入
+theme.dark,深色
+theme.light,浅色
+time.hoursAgo,%1 小时前
+time.justNow,刚刚
+time.minutesAgo,%1 分钟前
+time.yesterday,昨天
+title.close,关闭
+title.maximize,最大化
+title.minimize,最小化
+title.restore,还原
+title.settings,设置
+toast.cliRescanned,已重新检测 CLI
+toast.exportFailed,导出失败：%1
+toast.exported,已导出：%1
+toast.restartForLanguage,重启以应用语言更改
+toast.settingsSaved,设置已保存
+tray.open,打开
+tray.quit,完全退出
+tray.stillRunning,仍在系统托盘中运行。若要完全退出，请选择托盘菜单中的“完全退出”。
+unit.members, 人
+unit.messages, 条
+unit.minutes, 分钟
+unit.seconds, 秒

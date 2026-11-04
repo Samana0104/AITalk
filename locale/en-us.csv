@@ -1,0 +1,157 @@
+key,value
+lang.name,English
+agentMenu.boost,Boost: %1
+agentMenu.cli,CLI: %1
+agentMenu.join,%1 joins the chat
+agentMenu.lastError,Last error: %1
+agentMenu.model,Model: %1
+agentMenu.noCli,CLI not found
+agentMenu.settings,Agent settings…
+boost.auto,Auto
+boost.manual,Only when asked
+boost.off,Off
+common.browse,Browse…
+common.cancel,Cancel
+common.delete,Delete
+common.exportMarkdown,Export as Markdown
+common.me,Me
+common.ok,OK
+common.save,Save
+composer.clearReply,Cancel reply
+composer.placeholder,Send a message…  (@ to mention · Enter to send · Shift+Enter for a new line)
+composer.placeholderOff,Sending a message starts the room…  (@ to mention · /boost @name for boost mode)
+composer.sendTip,Send (Enter)
+config.defaultRoomName,AI Group Chat
+config.defaultUserName,Host
+doctor.allFound,"All CLIs were found. If one isn't logged in, run it once in a terminal to log in."
+doctor.colMember,Member
+doctor.colPath,Path
+doctor.colStatus,Status
+doctor.colVersion,Version
+doctor.installHeader,Install commands for missing CLIs (then log in to each CLI and press 'Rescan CLIs'):
+doctor.recheck,Check again
+doctor.statusChecking,Checking…
+doctor.statusFailed,⚠️ Failed to run
+doctor.statusMissing,❌ Not found
+doctor.statusOk,✅ Runs
+doctor.summary,Found %1 of %2 member CLIs. Members without a CLI are shown as offline.
+doctor.title,Agent environment check
+engine.boostArmed,🔥 Next turn in boost mode: %1
+engine.boostFailed,"%1's boost call failed, answering with the regular model."
+engine.boostOn,🔥 %1 boost mode (%2) · %3
+engine.noAgents,No AI can join. Check the CLI installs in Environment check.
+engine.sleep,"💤 It was quiet for a while, so everyone fell asleep. Say something to wake them up."
+engine.turnFailed,"%1 failed to answer, will rest and try again."
+export.exportedAt,- Exported at: %1
+export.messageCount,- Messages: %1
+export.reactions,_Reactions: %1_
+inspector.notesEmpty,(empty for now)
+inspector.notesHint,Notes each member keeps for itself to remember things. Shown to the member every turn.
+inspector.saveNote,Save note
+inspector.tabMembers,Members
+inspector.tabNotes,Notes
+member.noCalls,No calls yet this run
+member.noCli,No CLI · see Environment check
+member.stats,%1 calls · last %2 s
+member.system,System
+message.copy,Copy
+message.copySelection,Copy selection
+message.react,React
+message.reply,Reply
+messages.loadOlder,Load earlier messages
+room.boostAuto,Boost: auto
+room.boostManual,Boost: when asked
+room.boostOff,Boost: off
+room.boostTip,Only heavy turns go to a stronger model.\nYou can also turn it on with /boost @name.
+room.export,Export
+room.exportTip,Export this session as a Markdown file
+room.inspectorTip,Right panel
+room.powerOff,Stop room
+room.powerOn,Start room
+room.powerOnState,Room on
+room.renameTip,Double-click to rename
+room.speedNormal,Normal speed
+room.speedTip,Chat speed
+room.stateOff,Off
+room.stateRunning,Chatting
+room.stateSleeping,💤 Asleep
+sessions.deleteConfirm,"Delete the session ""%1""?\nIts history will be moved to the trash folder in the data directory."
+sessions.deleteTitle,Delete session
+sessions.doctor,Environment check
+sessions.empty,No messages yet
+sessions.nameLabel,Session name
+sessions.new,New chat
+sessions.noResults,No results
+sessions.rename,Rename
+sessions.rescan,Rescan CLIs
+sessions.rescanTip,Look for installed CLIs again
+sessions.search,Search messages
+sessions.title,Sessions
+settings.agentsHint,Change model names to ones that work with your account and CLI. Leave the boost fields empty to use the regular settings.
+settings.autoSleep,Auto sleep
+settings.autoSleepHint,"If you say nothing for this long, the room goes to sleep. Talk to wake it up."
+settings.binAuto,Auto: %1
+settings.binNotFound,Auto-detect (not found)
+settings.binPath,CLI path
+settings.boostEffort,Boost effort
+settings.boostModel,Boost model
+settings.closeBehavior,On close
+settings.closeToTray,Hide to tray when the window is closed
+settings.effortHint,Leave empty for the CLI default
+settings.fontSize,Font size
+settings.history,Chat history in prompt
+settings.language,Language
+settings.languageAuto,Auto (system language)
+settings.languageHint,The language changes after a restart. Member prompts are Korean-only for now.
+settings.maxInFlight,Members thinking at once
+settings.model,Model
+settings.neverSleep,Never
+settings.pickBin,Choose CLI executable
+settings.roomBoost,New room boost mode
+settings.roomName,New room name
+settings.roomSpeed,New room speed
+settings.sameModel,(regular model)
+settings.spark,Silence breaking
+settings.sparkCheck,"When it's quiet, one member breaks the silence"
+settings.tabAgents,Agents
+settings.tabAppearance,Appearance
+settings.tabGeneral,General
+settings.theme,Theme
+settings.title,AITalk Settings
+settings.turnTimeout,Turn time limit
+settings.userName,My name
+settings.userNameHint,What the members call you.
+speed.fast,Fast
+speed.normal,Normal
+speed.slow,Slow
+status.disabled,Left the chat
+status.idle,Idle
+status.missing,CLI not found
+status.offline,Resting (after a failure)
+status.reading,Reading
+status.sleeping,Room off
+status.thinkingHard,Thinking hard
+status.typing,Typing
+theme.dark,Dark
+theme.light,Light
+time.hoursAgo,%1 h ago
+time.justNow,just now
+time.minutesAgo,%1 min ago
+time.yesterday,yesterday
+title.close,Close
+title.maximize,Maximize
+title.minimize,Minimize
+title.restore,Restore
+title.settings,Settings
+toast.cliRescanned,Rescanned CLIs
+toast.exportFailed,Export failed: %1
+toast.exported,Exported: %1
+toast.restartForLanguage,Restart to apply the language
+toast.settingsSaved,Settings saved
+tray.open,Open
+tray.quit,Quit
+tray.stillRunning,"Still running in the tray. To quit completely, choose 'Quit' from the tray menu."
+unit.members, members
+unit.messages, messages
+unit.minutes, min
+unit.seconds, s

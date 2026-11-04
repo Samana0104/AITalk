@@ -1,0 +1,157 @@
+key,value
+lang.name,한국어
+agentMenu.boost,진심모드: %1
+agentMenu.cli,CLI: %1
+agentMenu.join,%1 대화 참여
+agentMenu.lastError,마지막 오류: %1
+agentMenu.model,모델: %1
+agentMenu.noCli,CLI를 찾지 못했어요
+agentMenu.settings,에이전트 설정…
+boost.auto,자동
+boost.manual,부를 때만
+boost.off,끔
+common.browse,찾기…
+common.cancel,취소
+common.delete,삭제
+common.exportMarkdown,마크다운으로 내보내기
+common.me,나
+common.ok,확인
+common.save,저장
+composer.clearReply,인용 해제
+composer.placeholder,메시지 보내기…  (@로 멤버 부르기 · Enter 전송 · Shift+Enter 줄바꿈)
+composer.placeholderOff,메시지를 보내면 방이 켜져요…  (@로 멤버 부르기 · /boost @이름 진심모드)
+composer.sendTip,보내기 (Enter)
+config.defaultRoomName,AI 단톡방
+config.defaultUserName,방장
+doctor.allFound,모든 CLI를 찾았어요. 로그인이 안 되어 있으면 각 CLI를 터미널에서 한 번 실행해 로그인하세요.
+doctor.colMember,멤버
+doctor.colPath,경로
+doctor.colStatus,상태
+doctor.colVersion,버전
+doctor.installHeader,없는 CLI 설치 명령 (설치 후 각 CLI에 로그인하고 'CLI 다시 탐지'):
+doctor.recheck,다시 진단
+doctor.statusChecking,확인 중…
+doctor.statusFailed,⚠️ 실행 실패
+doctor.statusMissing,❌ 없음
+doctor.statusOk,✅ 실행됨
+doctor.summary,멤버 CLI %1/%2개를 찾았어요. 없는 CLI의 멤버는 오프라인으로 표시됩니다.
+doctor.title,에이전트 환경 진단
+engine.boostArmed,🔥 다음 턴은 진심모드: %1
+engine.boostFailed,%1 진심모드 호출이 실패해서 평소 모델로 답해요.
+engine.boostOn,🔥 %1 진심모드 (%2) · %3
+engine.noAgents,참여할 수 있는 AI가 없어요. 환경 진단에서 CLI 설치 상태를 확인해 주세요.
+engine.sleep,💤 한동안 조용해서 다들 잠들었어요. 말을 걸면 깨어나요.
+engine.turnFailed,"%1 응답 실패, 잠시 쉬었다가 다시 시도해요."
+export.exportedAt,- 내보낸 시각: %1
+export.messageCount,- 메시지: %1개
+export.reactions,_반응: %1_
+inspector.notesEmpty,(아직 비어 있음)
+inspector.notesHint,멤버가 오래 기억하려고 스스로 적는 메모예요. 매 턴 멤버에게 보여 줍니다.
+inspector.saveNote,메모 저장
+inspector.tabMembers,멤버
+inspector.tabNotes,메모
+member.noCalls,이번 실행에서 아직 호출 없음
+member.noCli,CLI 없음 · 환경 진단을 확인하세요
+member.stats,호출 %1회 · 마지막 %2초
+member.system,시스템
+message.copy,복사
+message.copySelection,선택한 부분 복사
+message.react,반응
+message.reply,답장
+messages.loadOlder,이전 대화 불러오기
+room.boostAuto,진심모드 자동
+room.boostManual,진심모드 부를 때만
+room.boostOff,진심모드 끔
+room.boostTip,무거운 턴만 더 센 모델로 답하게 합니다.\n/boost @이름 으로 직접 켤 수도 있어요.
+room.export,내보내기
+room.exportTip,현재 세션을 마크다운 파일로 내보내기
+room.inspectorTip,오른쪽 패널
+room.powerOff,방 끄기
+room.powerOn,방 켜기
+room.powerOnState,방 켜짐
+room.renameTip,더블클릭하면 이름을 바꿀 수 있어요
+room.speedNormal,보통 속도
+room.speedTip,대화 속도
+room.stateOff,꺼짐
+room.stateRunning,대화 중
+room.stateSleeping,💤 잠듦
+sessions.deleteConfirm,"""%1"" 세션을 삭제할까요?\n대화 기록은 데이터 폴더의 trash 로 옮겨집니다."
+sessions.deleteTitle,세션 삭제
+sessions.doctor,환경 진단
+sessions.empty,아직 대화가 없어요
+sessions.nameLabel,세션 이름
+sessions.new,새 채팅
+sessions.noResults,검색 결과가 없어요
+sessions.rename,이름 바꾸기
+sessions.rescan,CLI 다시 탐지
+sessions.rescanTip,설치된 CLI를 다시 찾습니다
+sessions.search,세션 메시지 검색
+sessions.title,세션
+settings.agentsHint,모델 이름은 각자 계정·CLI에서 되는 이름으로 바꿔 쓰면 됩니다. 진심모드 칸을 비우면 평소 설정을 그대로 씁니다.
+settings.autoSleep,자동 잠들기
+settings.autoSleepHint,이 시간 동안 말이 없으면 방이 잠들어요. 말을 걸면 깨어나요.
+settings.binAuto,자동: %1
+settings.binNotFound,자동 탐지 (못 찾음)
+settings.binPath,CLI 경로
+settings.boostEffort,진심모드 effort
+settings.boostModel,진심모드 모델
+settings.closeBehavior,닫기 동작
+settings.closeToTray,창을 닫으면 트레이로 숨기기
+settings.effortHint,비우면 CLI 기본값
+settings.fontSize,글자 크기
+settings.history,프롬프트 대화 기록
+settings.language,언어
+settings.languageAuto,자동 (시스템 언어)
+settings.languageHint,언어는 다시 시작하면 바뀌어요. 멤버들에게 주는 프롬프트는 아직 한국어만 있어요.
+settings.maxInFlight,동시에 생각하는 멤버
+settings.model,모델
+settings.neverSleep,안 잠듦
+settings.pickBin,CLI 실행 파일 선택
+settings.roomBoost,새 방 진심모드
+settings.roomName,새 방 이름
+settings.roomSpeed,새 방 대화 속도
+settings.sameModel,(평소 모델)
+settings.spark,침묵 깨기
+settings.sparkCheck,조용하면 한 명이 알아서 침묵을 깬다
+settings.tabAgents,에이전트
+settings.tabAppearance,화면
+settings.tabGeneral,일반
+settings.theme,테마
+settings.title,AITalk 설정
+settings.turnTimeout,턴 제한 시간
+settings.userName,내 이름
+settings.userNameHint,멤버들이 부르는 이름이에요.
+speed.fast,빠르게
+speed.normal,보통
+speed.slow,느리게
+status.disabled,대화에서 빠짐
+status.idle,대기 중
+status.missing,CLI를 찾지 못함
+status.offline,잠시 쉬는 중 (실패 후 대기)
+status.reading,읽는 중
+status.sleeping,방 꺼짐
+status.thinkingHard,진지하게 생각 중
+status.typing,입력 중
+theme.dark,다크
+theme.light,라이트
+time.hoursAgo,%1시간 전
+time.justNow,방금
+time.minutesAgo,%1분 전
+time.yesterday,어제
+title.close,닫기
+title.maximize,최대화
+title.minimize,최소화
+title.restore,이전 크기로
+title.settings,설정
+toast.cliRescanned,CLI를 다시 찾았어요
+toast.exportFailed,내보내기 실패: %1
+toast.exported,내보냈어요: %1
+toast.restartForLanguage,언어는 다시 시작하면 바뀌어요
+toast.settingsSaved,설정을 저장했어요
+tray.open,열기
+tray.quit,완전 종료
+tray.stillRunning,트레이에서 계속 실행 중이에요. 완전히 끄려면 트레이 메뉴의 '완전 종료'를 누르세요.
+unit.members, 명
+unit.messages, 개
+unit.minutes, 분
+unit.seconds, 초

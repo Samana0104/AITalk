@@ -74,6 +74,5 @@
     <file>styles/dark.json</file>
     <file>prompts/ko/brief.md</file>
     <file>prompts/ko/spark_cards.txt</file>
-    <file>i18n/strings.csv</file>
   </qresource>
 </RCC>

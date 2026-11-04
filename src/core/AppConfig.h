@@ -41,7 +41,7 @@ struct AppConfig {
     QMap<QString, QString> bins;           // CLI 경로 직접 지정: claude, codex, agy
     QMap<QString, AgentConfig> agents;     // 멤버 id -> 모델 설정
 
-    QString language = QStringLiteral("auto"); // auto | res/i18n/strings.csv 의 언어 코드 (ko, en …)
+    QString language = QStringLiteral("auto"); // auto | locale/*.csv의 언어 코드 (ko-kr, en-us …), 기존 ko/en도 허용
     QString theme = QStringLiteral("light"); // light | dark
     int fontSize = 10;                       // pt
     bool closeToTray = false;

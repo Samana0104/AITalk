@@ -34,12 +34,15 @@ bool Application::initialize()
     const QString cfgFile = AppPaths::configFile();
     this->appConfig = AppConfig::load(cfgFile);
 
-    // 문자열 표는 작고(수 KB) 첫 위젯보다 먼저 있어야 하므로 여기서 바로 읽는다.
+    // 언어별 문자열 표를 첫 위젯보다 먼저 읽는다.
     DataManager& data = DataManager::instance();
     QString err;
-    if (!data.loadStringTable(QStringLiteral(":/i18n/strings.csv"), &err))
+    if(!data.LoadLocales(QStringLiteral(":/locale"), &err))
+    {
         qWarning().noquote() << "string table:" << err;
-    data.setFallbackLanguage(QStringLiteral("ko"));
+        return false;
+    }
+    data.setFallbackLanguage(QStringLiteral("ko-kr"));
     data.setLanguage(this->appConfig.language);
 
     if (!QFile::exists(cfgFile)) {
