@@ -7,6 +7,8 @@
 #include <QSet>
 #include <QStringList>
 
+#include "util/Singleton.h"
+
 // 앱 전역 데이터 창구 (싱글턴). 지금은 다국어 문자열 표를 맡는다.
 //
 // 문자열 표: res/i18n/strings.csv
@@ -15,14 +17,11 @@
 // 여러 표를 불러오면 합쳐지고, 같은 키는 나중 것이 이긴다.
 //
 // 표는 읽기/쓰기 잠금으로 보호하므로 다른 스레드에서 불러와도 된다.
-class DataManager : public QObject {
+class DataManager : public QObject, public Singleton<DataManager> {
     Q_OBJECT
+    SINGLETON(DataManager)
+
 public:
-    static DataManager& instance();
-
-    DataManager(const DataManager&) = delete;
-    DataManager& operator=(const DataManager&) = delete;
-
     bool loadStringTable(const QString& path, QString* error = nullptr);
 
     QStringList languages() const;              // 표에 있는 언어 코드 (머리줄 순서)
@@ -41,8 +40,6 @@ signals:
     void languageChanged(const QString& code);
 
 private:
-    DataManager() = default;
-
     mutable QReadWriteLock lock;
     QStringList availableLanguages;
     QHash<QString, QHash<QString, QString>> strings; // key -> (언어 -> 문자열)

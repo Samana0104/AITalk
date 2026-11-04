@@ -20,12 +20,6 @@ QByteArray readResource(const QString& path)
 }
 }
 
-ThemeManager& ThemeManager::instance()
-{
-    static ThemeManager* inst = new ThemeManager(); // 앱이 끝날 때까지 산다
-    return *inst;
-}
-
 void ThemeManager::apply(const QString& theme, int basePointSize)
 {
     this->themeName = theme == QLatin1String("dark") ? QStringLiteral("dark") : QStringLiteral("light");

@@ -6,14 +6,16 @@
 #include <QObject>
 #include <QPixmap>
 
+#include "util/Singleton.h"
+
 // 테마(라이트/다크)와 글꼴 크기를 앱 전체에 적용한다.
 //  - res/styles/<theme>.json 의 색 토큰과 글꼴 크기 토큰으로 res/styles/base.qss 의 @{토큰} 을 치환
 //  - res/icons/*.svg 의 currentColor 를 토큰 색으로 칠해서 아이콘을 만든다
-class ThemeManager : public QObject {
+class ThemeManager : public QObject, public Singleton<ThemeManager> {
     Q_OBJECT
-public:
-    static ThemeManager& instance();
+    SINGLETON(ThemeManager)
 
+public:
     void apply(const QString& theme, int basePointSize);
     QString theme() const { return this->themeName; }
 
@@ -25,8 +27,6 @@ signals:
     void themeChanged();
 
 private:
-    ThemeManager() = default;
-
     QString themeName;
     QHash<QString, QString> tokens;
 };

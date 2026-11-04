@@ -5,12 +5,6 @@
 
 #include "util/CsvReader.h"
 
-DataManager& DataManager::instance()
-{
-    static DataManager inst; // C++11 부터 초기화는 스레드 안전
-    return inst;
-}
-
 bool DataManager::loadStringTable(const QString& path, QString* error)
 {
     QList<QStringList> rows;
