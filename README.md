@@ -1,5 +1,7 @@
 # AITalk
 
+**한국어** | [English](README.en.md) | [日本語](README.ja.md) | [简体中文](README.zh-CN.md)
+
 Claude · ChatGPT · Gemini 셋이 상주하는 **데스크톱 AI 단톡방** (C++20 / Qt 6 Quick).
 
 - 대화 방식은 [ai-chatroom](https://github.com/Moris-kr/ai-chatroom)에서 가져왔다: 멤버마다 따로 스케줄링되고,
@@ -20,14 +22,26 @@ cmake -S . -B build -G Ninja -DCMAKE_PREFIX_PATH=C:/Qt/6.11.2/mingw_64 -DCMAKE_B
 cmake --build build
 ```
 
-Qt Creator에서는 `CMakeLists.txt`를 열면 된다. 빌드 폴더 밖에서 실행하려면 `windeployqt build/AITalk.exe`.
+Qt Creator에서는 `CMakeLists.txt`를 열면 된다.
 
-설정은 실행 파일 옆 `config/{config.json, ui.ini}`에 저장된다. 빌드할 때 프로젝트의 `config/`가 복사되며,
-이미 있는 파일은 덮어쓰지 않는다. 기본 설정값을 바꾸려면 프로젝트의 `config/config.json`을 고친다.
-예전 버전이 `%APPDATA%/AITalk`에 둔 설정은 처음 실행할 때 가져오고, 원본은 `.migrated`를 붙여 남긴다.
+배포본(`dist/`)은 Release 빌드로만 만든다. Debug 빌드 폴더로 설치하면 설치가 멈춘다.
 
-대화 데이터는 `%APPDATA%/AITalk` (환경 변수 `AITALK_HOME`으로 변경)에 저장된다:
-`sessions/<id>/{session.json, messages.jsonl, notes/, logs/}`.
+```bash
+cmake -S . -B build-release -G Ninja -DCMAKE_PREFIX_PATH=C:/Qt/6.11.2/mingw_64 -DCMAKE_BUILD_TYPE=Release
+cmake --build build-release
+cmake --install build-release
+```
+
+실행에 필요한 파일(exe·DLL·플러그인·QML 모듈·config)만 `dist/`에 모인다. 다른 PC에는 이 폴더를 그대로 넘기면 된다.
+실행 중인 `dist/AITalk.exe`는 덮어쓸 수 없으니, 설치 전에 트레이까지 완전히 종료한다.
+
+포터블 방식이라 설정과 대화 기록 모두 실행 파일 옆에 저장되고, 폴더만 지우면 앱이 깨끗이 사라진다.
+쓰기 권한이 없는 곳(`C:\Program Files` 등)에는 두지 않는다.
+
+- `config/{config.json, ui.ini}`: 설정. 빌드·설치할 때 프로젝트의 `config/`가 복사되며 이미 있는 파일은 덮어쓰지 않는다.
+  기본 설정값을 바꾸려면 프로젝트의 `config/config.json`을 고친다.
+- `data/sessions/<id>/{session.json, messages.jsonl, notes/, logs/}`: 대화 기록. `data/trash/`는 삭제한 세션.
+
 CLI가 실제로 무엇을 받고 돌려줬는지는 `logs/<멤버>.log`에서 볼 수 있다.
 
 ## 대화가 굴러가는 방식
@@ -59,10 +73,10 @@ Text("doctor.summary", found, total);                 // %1, %2 차례로
 - 표는 `res/locale/<언어-지역>.csv`이며 머리줄은 `key,value`다. 파일 이름이 언어 코드이고,
   `lang.name` 값이 설정 → 화면 → 언어에 표시되는 이름이다. 영어(`en-us`), 한국어(`ko-kr`), 중국어 간체(`zh-cn`), 일본어(`ja-jp`)를 제공한다.
 - 새 언어는 기존 CSV를 복사해 값을 번역하고 `res/locale/locale.qrc`에 등록하면 언어 목록에 자동으로 추가된다.
-  모든 언어에서 같은 키와 `%1`, `%2` 자리표시자를 유지한다. 자세한 형식과 검증 방법은 [res/locale/README.md](res/locale/README.md)를 참고한다.
+  모든 언어에서 같은 키와 `%1`, `%2` 자리표시자를 유지한다.
 - 값 안의 줄바꿈은 `\n`, 쉼표나 따옴표가 있으면 `"..."`로 감싸고 따옴표는 `""`.
 - 찾는 순서: 현재 언어 → `ko-kr`(대체 언어) → 키 그대로(경고 한 번). 빈 값은 번역 안 된 것으로 보고 `ko-kr`을 쓴다.
-- 언어는 `config.json`의 `ui.language`(`auto`면 OS 언어). 위젯을 만들 때 문자열이 들어가므로 바꾸면 다시 시작해야 한다.
+- 언어는 `config.json`의 `ui.language`(`auto`면 OS 언어). 화면을 만들 때 문자열이 들어가므로 바꾸면 다시 시작해야 한다.
 - 기존 `ko`·`en` 설정은 계속 인식하며 `KO_KR` 같은 표기도 허용한다. 정확한 지역이 없으면 같은 언어를,
   지원하지 않는 언어면 `en-us`를 선택한다. 설정에서 저장할 때는 `ko-kr`·`en-us` 같은 새 코드를 쓴다.
 - 아직 한국어만인 것: 멤버에게 주는 프롬프트(`res/prompts/ko`)와 진심모드 이유 문구. 이건 AI가 읽는 글이라 UI 표와 따로
