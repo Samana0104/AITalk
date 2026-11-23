@@ -42,6 +42,7 @@ signals:
 private:
     QString ResolveLanguageLocked(const QString& code) const;
 
+private:
     mutable QReadWriteLock lock;
     QStringList availableLanguages;
     QHash<QString, QHash<QString, QString>> strings; // key -> (언어 -> 문자열)

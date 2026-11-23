@@ -51,6 +51,7 @@ private:
     void Rebuild();
     static QString RelativeTime(qint64 timestamp);
 
+private:
     SessionManager* sessions;
     QString query;
     QList<Row> rows;

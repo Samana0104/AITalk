@@ -38,6 +38,7 @@ signals:
 private:
     void adopt(ChatSession* session);
 
+private:
     QString root;
     const AppConfig* config;
     QList<ChatSession*> loadedSessions;

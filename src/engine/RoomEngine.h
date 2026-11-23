@@ -22,22 +22,22 @@ struct SpeedPreset;
 // 방에 붙어 있는 동안 멤버 한 명의 스케줄 상태.
 struct MemberRuntime {
     QString id;
-    bool busy = false;
     QString status = QStringLiteral("idle"); // idle | reading | typing
-    qint64 seen = 0;            // 마지막으로 읽은 메시지 id
-    qint64 wakeAt = 0;          // 다음 턴 시작 예정 시각 (0: 없음)
     QString reason;             // 깨어나는 이유: new | urgent | idle | spark
     QString turnReason;         // 진행 중인 턴의 이유
-    qint64 idleAt = 0;
-    int idleStreak = 0;
-    qint64 lastEnd = 0;
-    int fails = 0;
-    qint64 offlineUntil = 0;    // 실패 후 쉬는 중
     QString lastError;
-    int calls = 0;
+    bool busy = false;
+    bool deepNow = false;       // 진심모드 턴 진행 중
+    qint64 seen = 0;            // 마지막으로 읽은 메시지 id
+    qint64 wakeAt = 0;          // 다음 턴 시작 예정 시각 (0: 없음)
+    qint64 idleAt = 0;
+    qint64 lastEnd = 0;
+    qint64 offlineUntil = 0;    // 실패 후 쉬는 중
     qint64 lastMs = 0;
     qint64 lastSelfBoostAt = 0;
-    bool deepNow = false;       // 진심모드 턴 진행 중
+    int idleStreak = 0;
+    int fails = 0;
+    int calls = 0;
     QPointer<AgentCall> call;
 };
 
@@ -112,11 +112,12 @@ private:
     void setStatus(MemberRuntime& a, const QString& status);
     int typingDelay(const QString& text) const;
 
+private:
     struct SparkState {
         qint64 base = -1;
-        int streak = 0;
         qint64 wait = -1;
         qint64 lastEnd = 0;
+        int streak = 0;
         QString lastBy;
         QString who;
         bool quick = false;

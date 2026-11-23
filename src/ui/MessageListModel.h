@@ -53,6 +53,7 @@ private:
     const ChatMessage* MessageAt(int row) const;
     QVariantList ReactionsOf(const ChatMessage& message) const;
 
+private:
     QPointer<ChatSession> session;
     QString userName;
     QList<QMetaObject::Connection> connections;

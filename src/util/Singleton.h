@@ -15,9 +15,6 @@ class Singleton {
 public:
     static T& instance()
     {
-        // 첫 호출 때 만든다 (C++11 부터 초기화는 스레드 안전).
-        // 일부러 지우지 않는다: 정적 객체는 QApplication 보다 늦게 소멸되므로
-        // 그때 QObject 정리를 하면 죽을 수 있다. 앱이 끝날 때 OS 가 회수하게 둔다.
         static T* inst = new T();
         return *inst;
     }

@@ -17,6 +17,7 @@ private:
     void runChecks();
     void finishOne();
 
+private:
     AgentHub* hub;
     QTableWidget* table;
     QLabel* summary;

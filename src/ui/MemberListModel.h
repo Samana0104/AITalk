@@ -41,6 +41,7 @@ public:
 private:
     QString StatusLabel(const QString& memberId, const QString& status) const;
 
+private:
     RoomEngine* engine;
     AgentHub* hub;
 };

@@ -28,6 +28,7 @@ private:
     QWidget* buildAgentsTab();
     QWidget* buildAppearanceTab();
 
+private:
     AppConfig config;
     const AgentHub* hub;
     QTabWidget* tabs;
@@ -50,10 +51,10 @@ private:
     struct AgentFields {
         QGroupBox* box = nullptr;
         QLineEdit* model = nullptr;
-        QComboBox* effort = nullptr;
         QLineEdit* boostModel = nullptr;
-        QComboBox* boostEffort = nullptr;
         QLineEdit* bin = nullptr;
+        QComboBox* effort = nullptr;
+        QComboBox* boostEffort = nullptr;
         QString cliKey;
     };
     QMap<QString, AgentFields> agents;

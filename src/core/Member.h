@@ -11,9 +11,9 @@ struct MemberInfo {
     QString id;           // 고정 키: claude, gpt, gemini (res/avatars, res/emoticons 폴더 이름과 같다)
     QString name;         // 화면 이름
     QString maker;
+    QString cli;          // agent/CliLocator 키: claude, codex, agy
     QColor color;         // 이름 글자색
     QColor avatarBg;      // SD 프사 뒤 파스텔 배경
-    QString cli;          // agent/CliLocator 키: claude, codex, agy
     QStringList aliases;  // 이 멤버를 부르는 표기(소문자)
     bool finalConsonant;  // 한국어로 읽었을 때 받침이 있는지 (조사 이/가 고르기)
 };

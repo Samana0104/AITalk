@@ -22,8 +22,8 @@ struct BriefInput {
 struct TurnInput {
     const ChatSession* session = nullptr;
     QString memberId;
-    qint64 seen = 0;         // 이 멤버가 마지막으로 읽은 메시지 id
     QString reason;          // new | urgent | idle | spark
+    qint64 seen = 0;         // 이 멤버가 마지막으로 읽은 메시지 id
     int historyCount = 40;
     int boostWaitSec = 0;    // 진심모드를 다시 직접 켤 수 있을 때까지 남은 초
 };

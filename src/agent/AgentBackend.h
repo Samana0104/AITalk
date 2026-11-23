@@ -11,18 +11,18 @@ struct AgentRequest {
     QString memberId;
     QString brief;      // 시스템 프롬프트 (방 규칙, 응답 형식)
     QString turn;       // 이번 턴 내용 (메모, 대화 기록, 상황)
-    bool boost = false;
     QString model;
     QString effort;
-    int timeoutMs = 150000;
     QString workDir;    // CLI 를 실행할 빈 폴더
+    bool boost = false;
+    int timeoutMs = 150000;
 };
 
 struct AgentReply {
     bool ok = false;
     QString text;       // 모델이 돌려준 원문 (JSON 액션이 들어 있어야 함)
-    qint64 ms = 0;
     QString detail;     // 실패 이유 (exit code, stderr 끝부분)
+    qint64 ms = 0;
 
     static AgentReply fromProcess(const CliResult& r, const QString& text);
 };

@@ -9,9 +9,9 @@ namespace {
 const QList<MemberInfo>& registry()
 {
     static const QList<MemberInfo> list = {
-        { "claude", "Claude", "Anthropic", QColor::fromRgb(0xd97a3a), QColor::fromRgb(0xf7d9c8), "claude", { "claude", "클로드" }, false },
-        { "gpt", "ChatGPT", "OpenAI", QColor::fromRgb(0x2f7cf6), QColor::fromRgb(0xd8f3ea), "codex", { "chatgpt", "gpt", "지피티", "챗지피티" }, false },
-        { "gemini", "Gemini", "Google", QColor::fromRgb(0x5b6cf0), QColor::fromRgb(0xdceaff), "agy", { "gemini", "제미나이", "제미니" }, false },
+        { "claude", "Claude", "Anthropic", "claude", QColor::fromRgb(0xd97a3a), QColor::fromRgb(0xf7d9c8), { "claude", "클로드" }, false },
+        { "gpt", "ChatGPT", "OpenAI", "codex", QColor::fromRgb(0x2f7cf6), QColor::fromRgb(0xd8f3ea), { "chatgpt", "gpt", "지피티", "챗지피티" }, false },
+        { "gemini", "Gemini", "Google", "agy", QColor::fromRgb(0x5b6cf0), QColor::fromRgb(0xdceaff), { "gemini", "제미나이", "제미니" }, false },
     };
     return list;
 }

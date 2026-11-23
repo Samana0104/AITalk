@@ -42,6 +42,7 @@ private:
     void setupTray();
     QQuickWindow* MainWindow() const;
 
+private:
     AppConfig appConfig;
     AgentHub* agentHub = nullptr;
     SessionManager* sessionManager = nullptr;

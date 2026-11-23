@@ -102,6 +102,7 @@ private:
     void BindSession(ChatSession* session);
     ChatSession* CurrentSession() const;
 
+private:
     static inline UiBridge* instance = nullptr;
 
     Application* app;

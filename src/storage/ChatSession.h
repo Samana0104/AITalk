@@ -71,6 +71,7 @@ private:
     ChatMessage* mutableById(qint64 id);
     QString notePath(const QString& memberId) const;
 
+private:
     QString directory;
     QString sessionId;
     QString sessionTitle;

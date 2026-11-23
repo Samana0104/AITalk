@@ -38,6 +38,7 @@ private:
     void finish(int exitCode, bool failedToStart);
     void killTree();
 
+private:
     QProcess process;
     QTimer timer;
     QElapsedTimer clock;

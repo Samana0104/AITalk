@@ -9,13 +9,13 @@
 struct ChatMessage {
     qint64 id = 0;
     qint64 ts = 0;          // ms (epoch)
+    qint64 replyTo = 0;     // 인용 답장 대상 메시지 id
     QString from;           // 멤버 id, "user", "system"
     QString text;
-    qint64 replyTo = 0;     // 인용 답장 대상 메시지 id
     QString kind;           // 시스템 알림 종류: info | error | boost | sleep
     QString model;          // AI 메시지를 쓴 모델 이름
-    bool boosted = false;   // 진심모드 설정으로 쓴 메시지
     QString emoticon;       // 이모티콘 메시지면 키 (text 는 비어 있다)
+    bool boosted = false;   // 진심모드 설정으로 쓴 메시지
     QMap<QString, QStringList> reactions; // 이모지 -> 반응한 사람들
 
     bool isUser() const;
