@@ -13,7 +13,7 @@
 #include "agent/CliLocator.h"
 #include "agent/CliProcess.h"
 #include "core/Member.h"
-#include "util/DataManager.h"
+#include "manager/DataManager.h"
 
 namespace {
 enum Column { ColMember, ColCli, ColStatus, ColVersion, ColPath, ColCount };

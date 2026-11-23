@@ -3,7 +3,7 @@
 #include "agent/AgentHub.h"
 #include "core/Member.h"
 #include "engine/RoomEngine.h"
-#include "util/DataManager.h"
+#include "manager/DataManager.h"
 
 MemberListModel::MemberListModel(RoomEngine* engine, AgentHub* hub, QObject* parent)
     : QAbstractListModel(parent)

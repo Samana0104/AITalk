@@ -10,7 +10,7 @@ find_package(Qt6 6.8 REQUIRED COMPONENTS Widgets Svg Quick)
 qt_standard_project_setup(REQUIRES 6.8)
 set(CMAKE_AUTORCC ON) # res/resources.qrc (qt_standard_project_setup 은 AUTORCC 를 켜지 않는다)
 
-# src/ 아래 폴더(app, core, storage, agent, engine, style, ui, dialog, util)를
+# src/ 아래 폴더(app, core, storage, agent, engine, manager, ui, dialog, util)를
 # 통째로 수집한다. 새 파일을 추가하면 다시 configure만 하면 된다.
 file(GLOB_RECURSE AITALK_SOURCES CONFIGURE_DEPENDS
     ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp

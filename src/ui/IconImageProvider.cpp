@@ -1,6 +1,6 @@
 #include "ui/IconImageProvider.h"
 
-#include "style/ThemeManager.h"
+#include "manager/ThemeManager.h"
 
 IconImageProvider::IconImageProvider()
     : QQuickImageProvider(QQuickImageProvider::Pixmap)

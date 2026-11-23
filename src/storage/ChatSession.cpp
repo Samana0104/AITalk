@@ -10,7 +10,7 @@
 #include <QUuid>
 
 #include "core/Member.h"
-#include "util/DataManager.h"
+#include "manager/DataManager.h"
 
 namespace {
 

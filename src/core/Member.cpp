@@ -2,7 +2,7 @@
 
 #include <QRegularExpression>
 
-#include "util/DataManager.h"
+#include "manager/DataManager.h"
 
 namespace {
 

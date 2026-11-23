@@ -26,48 +26,6 @@ Qt Creator에서는 `CMakeLists.txt`를 열면 된다. 빌드 폴더 밖에서 �
 `config.json`, `sessions/<id>/{session.json, messages.jsonl, notes/, logs/}`.
 CLI가 실제로 무엇을 받고 돌려줬는지는 `logs/<멤버>.log`에서 볼 수 있다.
 
-## 폴더 구조
-
-```
-res/                     리소스 (resources.qrc 로 실행 파일에 포함)
-  icons/                 UI 아이콘 SVG (currentColor → 테마 색으로 칠함)
-  avatars/               멤버 SD 캐릭터 프사 PNG (CodePet)
-  emoticons/<멤버>/      멤버별 캐릭터 이모티콘 15종 PNG (CodePet)
-  styles/                base.qss + light.json / dark.json 색 토큰
-  prompts/ko/            멤버에게 주는 방 규칙(brief.md), 침묵 깨기 카드
-  locale/                언어별 UI 문자열 (locale.qrc로 실행 파일에 포함)
-    en-us.csv            영어 (미국)
-    ko-kr.csv            한국어
-    zh-cn.csv            중국어 간체
-    ja-jp.csv            일본어
-
-src/
-  main.cpp
-  util/         DataManager(전역 데이터 싱글턴: 문자열 표·언어), CsvReader, Text("키") 호출
-  app/          Application(서비스 조립·트레이), AppPaths(데이터 경로)
-  core/         UI 없는 데이터 타입: AppConfig, Member(멤버 정보·멘션), ChatMessage,
-                AgentAction(JSON 액션 파싱), Emoticons(이모티콘 키·의미·그림 경로)
-  storage/      ChatSession(세션 하나: 메시지·메모·로그), SessionManager(목록·검색·삭제), ChatExporter(마크다운)
-  agent/        CLI 계층: CliLocator(경로 탐지), CliProcess(QProcess+타임아웃+트리 종료),
-                AgentBackend(인터페이스) + Claude/Codex/Agy 백엔드, AgentHub(멤버→백엔드)
-  engine/       대화 엔진: RoomEngine(스케줄러), PromptBuilder(프롬프트), BoostRouter(진심모드), SpeedPreset
-  style/        ThemeManager(색 토큰, 다이얼로그용 QSS 치환, SVG 아이콘 칠하기)
-  ui/           QML 연결 계층: UiBridge(QML 싱글턴 App), MessageListModel·SessionListModel·MemberListModel,
-                IconImageProvider(image://icon), AvatarImageProvider(image://avatar)
-  dialog/       SettingsDialog, DoctorDialog (아직 위젯. base.qss 로 꾸민다)
-
-qml/                     화면 (Qt Quick, AITalk QML 모듈. 하위 폴더도 한 모듈이라 타입 이름은 파일 이름)
-  Main.qml               프레임 없는 메인 창: TitleBar · SessionPanel | ChatPanel | InspectorPanel
-  panels/                화면 영역: TitleBar, SessionPanel, ChatPanel, InspectorPanel(+ MemberCard)
-  chat/                  채팅 영역 부품: RoomHeader, RoomComboBox, AgentChip, MessageDelegate, ReactionPicker,
-                         TypingIndicator, Composer
-  components/            재사용 부품: Icon, IconButton, ChipButton, Avatar, StatusDot, Toast, PopMenu,
-                         PanelDivider, GameDialog
-```
-
-의존 방향은 한쪽으로만: `util` ← `core` ← `storage` ← `agent`/`engine` ← `component` ← `widget` ← `panel`/`dialog` ← `window` ← `app`.
-아래 계층(core~engine)은 위젯을 모른다.
-
 ## 대화가 굴러가는 방식
 
 1. 방장이 메시지를 보내면(`RoomEngine::sendUserMessage`) 방이 켜지고 `messages.jsonl`에 쌓인다.
@@ -87,7 +45,7 @@ qml/                     화면 (Qt Quick, AITalk QML 모듈. 하위 폴더도 �
 UI 문자열은 코드에 직접 쓰지 않고 키로 부른다 (언리얼 `LOCTEXT` 처럼).
 
 ```cpp
-#include "util/DataManager.h"
+#include "manager/DataManager.h"
 
 label->setText(Text("sessions.new"));                 // 새 채팅 / New chat
 showToast(Text("toast.exported", path));              // 값의 %1 에 path

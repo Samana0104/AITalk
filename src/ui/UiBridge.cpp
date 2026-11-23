@@ -18,9 +18,9 @@
 #include "engine/RoomEngine.h"
 #include "storage/ChatExporter.h"
 #include "storage/ChatSession.h"
-#include "storage/SessionManager.h"
-#include "style/ThemeManager.h"
-#include "util/DataManager.h"
+#include "manager/SessionManager.h"
+#include "manager/ThemeManager.h"
+#include "manager/DataManager.h"
 
 UiBridge::UiBridge(Application* app, QObject* parent)
     : QObject(parent)

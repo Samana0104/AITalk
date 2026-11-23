@@ -1,4 +1,4 @@
-#include "storage/SessionManager.h"
+#include "manager/SessionManager.h"
 
 #include <QDateTime>
 #include <QDir>

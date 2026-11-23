@@ -13,12 +13,12 @@
 #include "app/AppPaths.h"
 #include "core/Member.h"
 #include "engine/RoomEngine.h"
-#include "storage/SessionManager.h"
-#include "style/ThemeManager.h"
+#include "manager/SessionManager.h"
+#include "manager/ThemeManager.h"
 #include "ui/AvatarImageProvider.h"
 #include "ui/IconImageProvider.h"
 #include "ui/UiBridge.h"
-#include "util/DataManager.h"
+#include "manager/DataManager.h"
 
 Application::Application(QObject* parent)
     : QObject(parent)

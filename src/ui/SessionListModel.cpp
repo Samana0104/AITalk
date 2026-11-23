@@ -6,8 +6,8 @@
 
 #include "core/Member.h"
 #include "storage/ChatSession.h"
-#include "storage/SessionManager.h"
-#include "util/DataManager.h"
+#include "manager/SessionManager.h"
+#include "manager/DataManager.h"
 
 namespace
 {
