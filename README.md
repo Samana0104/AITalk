@@ -1,6 +1,6 @@
 # AITalk
 
-Claude · ChatGPT · Gemini 셋이 상주하는 **데스크톱 AI 단톡방** (C++17 / Qt 6 Widgets).
+Claude · ChatGPT · Gemini 셋이 상주하는 **데스크톱 AI 단톡방** (C++20 / Qt 6 Quick).
 
 - 대화 방식은 [ai-chatroom](https://github.com/Moris-kr/ai-chatroom)에서 가져왔다: 멤버마다 따로 스케줄링되고,
   새 메시지를 몇 초 "읽은" 뒤 말하거나 넘기고, 조용하면 한 명이 침묵을 깨고, 방장이 오래 말이 없으면 잠든다.
@@ -12,7 +12,7 @@ Claude · ChatGPT · Gemini 셋이 상주하는 **데스크톱 AI 단톡방** (C
 
 ## 빌드
 
-필요: Qt 6.8 이상 (Widgets, Svg), CMake 3.21+, C++17 컴파일러.
+필요: Qt 6.8 이상 (Quick, Widgets, Svg), CMake 3.21+, C++20 컴파일러.
 
 ```bash
 # Windows + Qt 온라인 설치(MinGW) 예시
@@ -52,14 +52,15 @@ src/
   agent/        CLI 계층: CliLocator(경로 탐지), CliProcess(QProcess+타임아웃+트리 종료),
                 AgentBackend(인터페이스) + Claude/Codex/Agy 백엔드, AgentHub(멤버→백엔드)
   engine/       대화 엔진: RoomEngine(스케줄러), PromptBuilder(프롬프트), BoostRouter(진심모드), SpeedPreset
-  style/        ThemeManager(QSS 토큰 치환, SVG 아이콘 칠하기)
-  component/    재사용 작은 부품 (멤버 id 로 그림 찾는 정도만 앎): AvatarWidget, StatusDot, IconButton, ChipButton,
-                ElidedLabel, AutoResizeTextEdit, Toast
-  widget/       채팅 도메인 위젯: TitleBar, MessageBubble, MessageListView, ComposerWidget, MentionPopup,
-                ReplyPreview, TypingIndicator, AgentChip, RoomHeader, SessionItemWidget, MemberCard
-  panel/        창의 큰 영역: SessionPanel(왼쪽), ChatPanel(가운데), InspectorPanel(오른쪽: 멤버·메모)
-  dialog/       SettingsDialog, DoctorDialog
-  window/       MainWindow(프레임 없는 메인 창), FramelessHelper(가장자리 크기 조절)
+  style/        ThemeManager(색 토큰, 다이얼로그용 QSS 치환, SVG 아이콘 칠하기)
+  ui/           QML 연결 계층: UiBridge(QML 싱글턴 App), MessageListModel·SessionListModel·MemberListModel,
+                IconImageProvider(image://icon), AvatarImageProvider(image://avatar)
+  dialog/       SettingsDialog, DoctorDialog (아직 위젯. base.qss 로 꾸민다)
+
+qml/                     화면 (Qt Quick, AITalk QML 모듈)
+  Main.qml               프레임 없는 메인 창: TitleBar · SessionPanel | ChatPanel | InspectorPanel
+  ChatPanel.qml          RoomHeader · 메시지 목록(MessageDelegate) · TypingIndicator · Composer
+  그 밖                  재사용 부품: IconButton, ChipButton, Avatar, StatusDot, Toast, PopMenu, GameDialog …
 ```
 
 의존 방향은 한쪽으로만: `util` ← `core` ← `storage` ← `agent`/`engine` ← `component` ← `widget` ← `panel`/`dialog` ← `window` ← `app`.

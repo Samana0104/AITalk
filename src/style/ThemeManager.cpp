@@ -75,6 +75,32 @@ QColor ThemeManager::color(const QString& token) const
     return QColor(this->tokens.value(token, QStringLiteral("#ff00ff")));
 }
 
+QVariantMap ThemeManager::Tokens() const
+{
+    QVariantMap out;
+    for(auto it = this->tokens.cbegin(); it != this->tokens.cend(); ++it)
+    {
+        if(it.key().startsWith(QLatin1String("font-")))
+        {
+            continue;
+        }
+        QString key;
+        bool isUpperNext = false;
+        for(const QChar c : it.key())
+        {
+            if(c == QLatin1Char('-'))
+            {
+                isUpperNext = true;
+                continue;
+            }
+            key += isUpperNext ? c.toUpper() : c;
+            isUpperNext = false;
+        }
+        out.insert(key, QColor(it.value()));
+    }
+    return out;
+}
+
 QPixmap ThemeManager::svgPixmap(const QString& resourcePath, const QSize& size, const QColor& tint, qreal dpr) const
 {
     QByteArray svg = readResource(resourcePath);

@@ -6,13 +6,16 @@
 #include "core/AppConfig.h"
 
 class AgentHub;
-class MainWindow;
+class QMenu;
+class QQmlApplicationEngine;
+class QQuickWindow;
 class QSystemTrayIcon;
 class RoomEngine;
 class SessionManager;
+class UiBridge;
 
 // 앱 전체의 조립 지점. 설정·서비스(AgentHub, SessionManager, RoomEngine)를 만들고
-// 메인 창과 트레이 아이콘을 띄운다. UI 쪽은 이 객체를 통해 서비스에 접근한다.
+// QML 메인 창과 트레이 아이콘을 띄운다. UI 쪽은 이 객체를 통해 서비스에 접근한다.
 class Application : public QObject {
     Q_OBJECT
 public:
@@ -37,11 +40,14 @@ signals:
 
 private:
     void setupTray();
+    QQuickWindow* MainWindow() const;
 
     AppConfig appConfig;
     AgentHub* agentHub = nullptr;
     SessionManager* sessionManager = nullptr;
     RoomEngine* roomEngine = nullptr;
     QSystemTrayIcon* trayIcon = nullptr;
-    std::unique_ptr<MainWindow> window;
+    std::unique_ptr<QMenu> trayMenu; // 위젯 부모(창)가 없으므로 직접 소유한다
+    UiBridge* uiBridge = nullptr;
+    std::unique_ptr<QQmlApplicationEngine> qmlEngine;
 };

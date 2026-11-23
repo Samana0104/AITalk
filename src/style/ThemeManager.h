@@ -5,6 +5,7 @@
 #include <QIcon>
 #include <QObject>
 #include <QPixmap>
+#include <QVariantMap>
 
 #include "util/Singleton.h"
 
@@ -20,6 +21,8 @@ public:
     QString theme() const { return this->themeName; }
 
     QColor color(const QString& token) const;
+    // 색 토큰 전체. QML 에서 점 표기로 쓰도록 키를 camelCase 로 바꾼다 ("ink-soft" -> "inkSoft").
+    QVariantMap Tokens() const;
     QIcon icon(const QString& name, const QString& token = QStringLiteral("ink-soft")) const;
     QPixmap svgPixmap(const QString& resourcePath, const QSize& size, const QColor& tint, qreal dpr) const;
 

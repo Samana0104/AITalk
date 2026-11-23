@@ -5,6 +5,8 @@
 #include <QDebug>
 #include <QFile>
 #include <QMenu>
+#include <QQmlApplicationEngine>
+#include <QQuickWindow>
 #include <QSystemTrayIcon>
 
 #include "agent/AgentHub.h"
@@ -13,8 +15,10 @@
 #include "engine/RoomEngine.h"
 #include "storage/SessionManager.h"
 #include "style/ThemeManager.h"
+#include "ui/AvatarImageProvider.h"
+#include "ui/IconImageProvider.h"
+#include "ui/UiBridge.h"
 #include "util/DataManager.h"
-#include "window/MainWindow.h"
 
 Application::Application(QObject* parent)
     : QObject(parent)
@@ -23,8 +27,8 @@ Application::Application(QObject* parent)
 
 Application::~Application()
 {
-    // 창(위젯)이 서비스보다 먼저 사라져야 시그널이 죽은 위젯으로 가지 않는다.
-    this->window.reset();
+    // QML 창이 서비스보다 먼저 사라져야 시그널이 죽은 화면으로 가지 않는다.
+    this->qmlEngine.reset();
     if (this->roomEngine)
         this->roomEngine->stop();
 }
@@ -70,9 +74,17 @@ bool Application::initialize()
 
     connect(qApp, &QCoreApplication::aboutToQuit, this, [this] { this->roomEngine->stop(); });
 
-    this->window = std::make_unique<MainWindow>(this);
+    this->uiBridge = new UiBridge(this, this);
+    this->qmlEngine = std::make_unique<QQmlApplicationEngine>();
+    this->qmlEngine->addImageProvider(QStringLiteral("icon"), new IconImageProvider);
+    this->qmlEngine->addImageProvider(QStringLiteral("avatar"), new AvatarImageProvider);
+    this->qmlEngine->loadFromModule("AITalk", "Main");
+    if(!MainWindow())
+    {
+        qWarning() << "failed to load qml/Main.qml";
+        return false;
+    }
     setupTray();
-    this->window->show();
     return true;
 }
 
@@ -87,14 +99,26 @@ void Application::updateConfig(const AppConfig& config)
     emit configChanged();
 }
 
+QQuickWindow* Application::MainWindow() const
+{
+    if(!this->qmlEngine || this->qmlEngine->rootObjects().isEmpty())
+    {
+        return nullptr;
+    }
+    return qobject_cast<QQuickWindow*>(this->qmlEngine->rootObjects().constFirst());
+}
+
 void Application::showMainWindow()
 {
-    if (!this->window)
+    QQuickWindow* window = MainWindow();
+    if(!window)
+    {
         return;
-    this->window->show();
-    this->window->setWindowState(this->window->windowState() & ~Qt::WindowMinimized);
-    this->window->raise();
-    this->window->activateWindow();
+    }
+    window->show();
+    window->setWindowStates(window->windowStates() & ~Qt::WindowMinimized);
+    window->raise();
+    window->requestActivate();
 }
 
 void Application::quit()
@@ -111,7 +135,8 @@ void Application::setupTray()
     this->trayIcon = new QSystemTrayIcon(QIcon(QStringLiteral(":/icons/app.svg")), this);
     this->trayIcon->setToolTip(QStringLiteral("AITalk"));
 
-    auto* menu = new QMenu(this->window.get());
+    this->trayMenu = std::make_unique<QMenu>();
+    QMenu* menu = this->trayMenu.get();
     menu->addAction(Text("tray.open"), this, &Application::showMainWindow);
     QAction* power = menu->addAction(Text("room.powerOn"));
     connect(power, &QAction::triggered, this, [this] {

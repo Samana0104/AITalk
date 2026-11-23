@@ -1,7 +1,7 @@
 # AITalk 작업 규칙
 
 ## 프로젝트
-- C++20 / Qt 6.8+ Widgets·Svg / CMake 3.21+ 데스크톱 앱이다.
+- C++20 / Qt 6.8+ Quick(QML)·Widgets·Svg / CMake 3.21+ 데스크톱 앱이다. 화면은 `qml/`, QML 연결 계층은 `src/ui/`다.
 - 구조와 실행 방법은 `README.md`, 빌드 정의는 `CMakeLists.txt`를 확인한다. 필요한 파일만 읽는다.
 - 사용자와의 설명 및 주석은 한국어를 기본으로 하고, 코드 식별자는 영어로 작성한다.
 
