@@ -4,6 +4,9 @@
 #include <QMap>
 #include <QString>
 
+namespace AITalk
+{
+
 // 멤버 한 명의 모델 설정. boost* 는 진심모드 턴에서 덮어쓸 값(비우면 평소 값 유지).
 struct AgentConfig {
     QString model;
@@ -53,3 +56,5 @@ struct AppConfig {
     QJsonObject toJson() const;
     static AppConfig fromJson(const QJsonObject& o);
 };
+
+} // namespace AITalk

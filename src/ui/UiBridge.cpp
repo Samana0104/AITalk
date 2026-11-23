@@ -22,6 +22,9 @@
 #include "manager/ThemeManager.h"
 #include "manager/DataManager.h"
 
+namespace AITalk
+{
+
 UiBridge::UiBridge(Application* app, QObject* parent)
     : QObject(parent)
     , app(app)
@@ -361,3 +364,5 @@ bool UiBridge::RequestClose()
     this->app->quit();
     return true;
 }
+
+} // namespace AITalk

@@ -3,6 +3,9 @@
 #include <QCoreApplication>
 #include <QDir>
 
+namespace AITalk
+{
+
 namespace {
 QString ensure(const QString& path)
 {
@@ -38,3 +41,5 @@ QString workDir(const QString &memberId)
 QString tempDir(const QString &name) { return ensure(QDir(dataRoot()).filePath(QStringLiteral("tmp/") + name)); }
 
 } // namespace AppPaths
+
+} // namespace AITalk

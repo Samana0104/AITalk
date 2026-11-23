@@ -3,6 +3,9 @@
 #include <QList>
 #include <QString>
 
+namespace AITalk
+{
+
 // 멤버별 SD 캐릭터 이모티콘 (CodePet 에서 가져옴).
 // 그림은 res/emoticons/<멤버 id>/<file>.png 이고, AI 는 한국어 키("우헤헤")로 고른다.
 struct EmoticonInfo {
@@ -19,3 +22,5 @@ bool isAvailable(const QString& memberId, const QString& key);
 // ":/emoticons/<멤버>/<file>.png" (없으면 빈 문자열)
 QString resourcePath(const QString& memberId, const QString& key);
 }
+
+} // namespace AITalk

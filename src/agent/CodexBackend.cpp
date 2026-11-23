@@ -3,6 +3,9 @@
 #include <QDir>
 #include <QFile>
 
+namespace AITalk
+{
+
 AgentCall* CodexBackend::start(const QString& bin, const AgentRequest& req, QObject* parent)
 {
     const QString outFile = QDir(req.workDir).filePath(BackendUtil::uniqueName(QStringLiteral("reply-"), QStringLiteral(".txt")));
@@ -41,3 +44,5 @@ AgentCall* CodexBackend::start(const QString& bin, const AgentRequest& req, QObj
     call->run(bin, args, input.toUtf8(), req.workDir, req.timeoutMs);
     return call;
 }
+
+} // namespace AITalk

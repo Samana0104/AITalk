@@ -5,11 +5,15 @@
 
 #include "core/AppConfig.h"
 
-class AgentHub;
 class QMenu;
 class QQmlApplicationEngine;
 class QQuickWindow;
 class QSystemTrayIcon;
+
+namespace AITalk
+{
+
+class AgentHub;
 class RoomEngine;
 class SessionManager;
 class UiBridge;
@@ -52,3 +56,5 @@ private:
     UiBridge* uiBridge = nullptr;
     std::unique_ptr<QQmlApplicationEngine> qmlEngine;
 };
+
+} // namespace AITalk

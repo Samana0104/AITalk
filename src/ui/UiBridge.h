@@ -10,10 +10,14 @@
 #include "ui/MessageListModel.h"
 #include "ui/SessionListModel.h"
 
-class Application;
-class ChatSession;
 class QJSEngine;
 class QQmlEngine;
+
+namespace AITalk
+{
+
+class Application;
+class ChatSession;
 
 // QML 쪽 창구 (QML 싱글턴 App). 서비스(Application)의 상태·동작을 QML 속성과 호출로 풀어 준다.
 class UiBridge : public QObject
@@ -30,9 +34,10 @@ class UiBridge : public QObject
     Q_PROPERTY(QString roomTitle READ RoomTitle NOTIFY RoomChanged)
     Q_PROPERTY(QString roomSpeed READ RoomSpeed NOTIFY RoomChanged)
     Q_PROPERTY(QString roomBoostMode READ RoomBoostMode NOTIFY RoomChanged)
-    Q_PROPERTY(MessageListModel* messageModel READ MessageModel CONSTANT)
-    Q_PROPERTY(SessionListModel* sessionModel READ SessionModel CONSTANT)
-    Q_PROPERTY(MemberListModel* memberModel READ MemberModel CONSTANT)
+    // QML 이 타입을 찾도록 네임스페이스까지 적는다.
+    Q_PROPERTY(AITalk::MessageListModel* messageModel READ MessageModel CONSTANT)
+    Q_PROPERTY(AITalk::SessionListModel* sessionModel READ SessionModel CONSTANT)
+    Q_PROPERTY(AITalk::MemberListModel* memberModel READ MemberModel CONSTANT)
     Q_PROPERTY(QUrl uiSettingsUrl READ UiSettingsUrl CONSTANT)
 
 public:
@@ -112,3 +117,5 @@ private:
     QList<QMetaObject::Connection> sessionConnections;
     bool isTrayHintShown = false;
 };
+
+} // namespace AITalk

@@ -5,6 +5,9 @@
 #include "engine/RoomEngine.h"
 #include "manager/DataManager.h"
 
+namespace AITalk
+{
+
 MemberListModel::MemberListModel(RoomEngine* engine, AgentHub* hub, QObject* parent)
     : QAbstractListModel(parent)
     , engine(engine)
@@ -111,3 +114,5 @@ QHash<int, QByteArray> MemberListModel::roleNames() const
         { int(Role::IS_BOOSTING), "isBoosting" },
     };
 }
+
+} // namespace AITalk

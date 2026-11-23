@@ -5,6 +5,9 @@
 #include <QStringList>
 #include <optional>
 
+namespace AITalk
+{
+
 class ChatSession;
 struct AppConfig;
 
@@ -41,3 +44,5 @@ private:
     QHash<QString, qint64> pending;  // /boost 로 예약된 멤버 -> 시각
     QHash<QString, qint64> lastAutoBoostAt; // AI 요청으로 켠 마지막 시각
 };
+
+} // namespace AITalk

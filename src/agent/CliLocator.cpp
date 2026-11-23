@@ -5,6 +5,9 @@
 #include <QFileInfo>
 #include <QStandardPaths>
 
+namespace AITalk
+{
+
 namespace {
 
 #ifdef Q_OS_WIN
@@ -119,3 +122,5 @@ QString installHint(const QString& key)
 }
 
 }
+
+} // namespace AITalk

@@ -2,6 +2,9 @@
 
 #include "manager/ThemeManager.h"
 
+namespace AITalk
+{
+
 IconImageProvider::IconImageProvider()
     : QQuickImageProvider(QQuickImageProvider::Pixmap)
 {
@@ -19,3 +22,5 @@ QPixmap IconImageProvider::requestPixmap(const QString& id, QSize* size, const Q
     return ThemeManager::instance().svgPixmap(QStringLiteral(":/icons/%1.svg").arg(name), target,
                                               tint.isValid() ? tint : QColor(Qt::black), 1.0);
 }
+
+} // namespace AITalk

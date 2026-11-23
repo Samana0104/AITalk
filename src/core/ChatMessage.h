@@ -5,6 +5,9 @@
 #include <QString>
 #include <QStringList>
 
+namespace AITalk
+{
+
 // 대화 기록 한 줄. messages.jsonl 에 한 줄씩 JSON 으로 쌓인다.
 struct ChatMessage {
     qint64 id = 0;
@@ -27,3 +30,5 @@ struct ChatMessage {
     QJsonObject toJson() const;
     static ChatMessage fromJson(const QJsonObject& o);
 };
+
+} // namespace AITalk

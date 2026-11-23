@@ -4,6 +4,9 @@
 
 #include "manager/DataManager.h"
 
+namespace AITalk
+{
+
 namespace {
 
 const QList<MemberInfo>& registry()
@@ -113,3 +116,5 @@ QString withJosa(const QString& id, const QString& userName, const QString& pair
 }
 
 }
+
+} // namespace AITalk

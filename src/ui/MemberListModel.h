@@ -3,6 +3,9 @@
 #include <QAbstractListModel>
 #include <QtQml/qqmlregistration.h>
 
+namespace AITalk
+{
+
 class AgentHub;
 class RoomEngine;
 
@@ -45,3 +48,5 @@ private:
     RoomEngine* engine;
     AgentHub* hub;
 };
+
+} // namespace AITalk

@@ -11,6 +11,9 @@
 #include "core/Member.h"
 #include "storage/ChatSession.h"
 
+namespace AITalk
+{
+
 namespace {
 
 QString readResource(const QString& path)
@@ -296,3 +299,5 @@ QString buildTurn(const TurnInput& in, const AppConfig& cfg)
 }
 
 }
+
+} // namespace AITalk

@@ -8,6 +8,9 @@
 #include "core/AppConfig.h"
 #include "core/Member.h"
 
+namespace AITalk
+{
+
 AgentHub::AgentHub(QObject* parent)
     : QObject(parent)
 {
@@ -73,3 +76,5 @@ AgentCall* AgentHub::chat(const QString& memberId, const QString& brief, const Q
     req.workDir = AppPaths::workDir(memberId);
     return b->start(binOf(memberId), req, parent);
 }
+
+} // namespace AITalk

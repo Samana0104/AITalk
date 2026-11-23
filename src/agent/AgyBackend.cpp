@@ -6,6 +6,9 @@
 
 #include "app/AppPaths.h"
 
+namespace AITalk
+{
+
 AgentCall* AgyBackend::start(const QString& bin, const AgentRequest& req, QObject* parent)
 {
     // 진심모드 턴은 다른 모델이라 대화를 따로 쓴다.
@@ -66,3 +69,5 @@ AgentCall* AgyBackend::start(const QString& bin, const AgentRequest& req, QObjec
     call->run(bin, args, QByteArray(), req.workDir, req.timeoutMs + 10000, env);
     return call;
 }
+
+} // namespace AITalk

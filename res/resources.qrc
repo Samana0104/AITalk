@@ -1,6 +1,9 @@
 <!DOCTYPE RCC>
 <RCC version="1.0">
   <qresource prefix="/">
+    <!-- Qt Quick Controls 스타일 고정 (Basic) -->
+    <file>qtquickcontrols2.conf</file>
+
     <file>icons/app.svg</file>
     <file>icons/close.svg</file>
     <file>icons/copy.svg</file>

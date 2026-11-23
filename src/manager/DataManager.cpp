@@ -7,6 +7,9 @@
 
 #include "util/CsvReader.h"
 
+namespace AITalk
+{
+
 bool DataManager::LoadLocales(const QString& directory, QString* error)
 {
     const QDir localeDirectory(directory);
@@ -177,3 +180,5 @@ bool DataManager::contains(const QString& key) const
     QReadLocker lock(&this->lock);
     return this->strings.contains(key);
 }
+
+} // namespace AITalk

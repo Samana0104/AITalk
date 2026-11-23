@@ -4,6 +4,9 @@
 #include <QObject>
 #include <QPointer>
 
+namespace AITalk
+{
+
 class ChatSession;
 struct AppConfig;
 
@@ -44,3 +47,5 @@ private:
     QList<ChatSession*> loadedSessions;
     QPointer<ChatSession> currentSession;
 };
+
+} // namespace AITalk

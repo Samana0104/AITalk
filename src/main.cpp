@@ -13,8 +13,10 @@ int main(int argc, char* argv[])
     // 창을 닫아도 트레이에 남을 수 있으니 종료는 Application 이 직접 정한다.
     QApplication::setQuitOnLastWindowClosed(false);
 
-    Application app;
-    if (!app.initialize())
+    AITalk::Application app;
+    if(!app.initialize())
+    {
         return 1;
+    }
     return qapp.exec();
 }

@@ -14,6 +14,9 @@
 #include "engine/BoostRouter.h"
 #include "storage/ChatSession.h"
 
+namespace AITalk
+{
+
 class AgentCall;
 class AgentHub;
 struct AppConfig;
@@ -136,3 +139,5 @@ private:
     qint64 lastUserAt = 0;
     quint64 epoch = 0; // 방을 끄거나 세션을 바꾸면 올라간다. 그 전 턴의 콜백은 무시된다.
 };
+
+} // namespace AITalk

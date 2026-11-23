@@ -9,6 +9,9 @@
 
 #include "util/Singleton.h"
 
+namespace AITalk
+{
+
 // 앱 전역 데이터 창구 (싱글턴). 지금은 다국어 문자열 표를 맡는다.
 //
 // 문자열 표: res/locale/<언어-지역>.csv (key,value). 파일 이름이 언어 코드다.
@@ -73,3 +76,5 @@ QString Text(const char* key, const Args&... args)
     ((s = s.arg(args)), ...);
     return s;
 }
+
+} // namespace AITalk

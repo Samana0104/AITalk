@@ -4,6 +4,9 @@
 
 #include "core/Member.h"
 
+namespace AITalk
+{
+
 bool ChatMessage::isUser() const { return from == Members::User; }
 bool ChatMessage::isSystem() const { return from == Members::System; }
 bool ChatMessage::isAgent() const { return Members::isAgent(from); }
@@ -64,3 +67,5 @@ ChatMessage ChatMessage::fromJson(const QJsonObject& o)
     }
     return m;
 }
+
+} // namespace AITalk

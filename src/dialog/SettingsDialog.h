@@ -5,7 +5,6 @@
 
 #include "core/AppConfig.h"
 
-class AgentHub;
 class QCheckBox;
 class QComboBox;
 class QGroupBox;
@@ -13,6 +12,11 @@ class QLineEdit;
 class QScrollArea;
 class QSpinBox;
 class QTabWidget;
+
+namespace AITalk
+{
+
+class AgentHub;
 
 // 설정 창: 일반(이름·방·속도·잠들기·진심모드) / 에이전트(모델·effort·CLI 경로) / 화면(테마·글자 크기·트레이).
 class SettingsDialog : public QDialog {
@@ -60,3 +64,5 @@ private:
     QMap<QString, AgentFields> agents;
     QScrollArea* agentScroll = nullptr;
 };
+
+} // namespace AITalk

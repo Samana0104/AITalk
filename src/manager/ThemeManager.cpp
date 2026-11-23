@@ -12,6 +12,9 @@
 #include <QStyleHints>
 #include <QSvgRenderer>
 
+namespace AITalk
+{
+
 namespace {
 QByteArray readResource(const QString& path)
 {
@@ -125,3 +128,5 @@ QIcon ThemeManager::icon(const QString& name, const QString& token) const
     }
     return ic;
 }
+
+} // namespace AITalk

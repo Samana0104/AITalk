@@ -9,6 +9,9 @@
 #include "core/AppConfig.h"
 #include "storage/ChatSession.h"
 
+namespace AITalk
+{
+
 SessionManager::SessionManager(const QString& root, const AppConfig* config, QObject* parent)
     : QObject(parent)
     , root(root)
@@ -132,3 +135,5 @@ QList<SessionManager::SearchHit> SessionManager::search(const QString& query, in
     }
     return hits;
 }
+
+} // namespace AITalk

@@ -7,6 +7,9 @@
 #include "core/Member.h"
 #include "storage/ChatSession.h"
 
+namespace AITalk
+{
+
 namespace {
 
 using Patterns = QList<QRegularExpression>;
@@ -185,3 +188,5 @@ void BoostRouter::reset()
     this->pending.clear();
     this->lastAutoBoostAt.clear();
 }
+
+} // namespace AITalk

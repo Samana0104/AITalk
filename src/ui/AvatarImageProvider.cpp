@@ -6,6 +6,9 @@
 
 #include "core/Member.h"
 
+namespace AITalk
+{
+
 AvatarImageProvider::AvatarImageProvider()
     : QQuickImageProvider(QQuickImageProvider::Image)
 {
@@ -47,3 +50,5 @@ QImage AvatarImageProvider::requestImage(const QString& id, QSize* size, const Q
     painter.drawText(QRectF(0, 0, side, side), Qt::AlignCenter, Members::displayName(id, {}).left(1).toUpper());
     return out;
 }
+
+} // namespace AITalk

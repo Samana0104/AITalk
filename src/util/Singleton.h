@@ -1,5 +1,8 @@
 #pragma once
 
+namespace AITalk
+{
+
 // 앱 전역에 하나만 있는 객체의 공통 바탕 (CRTP).
 //
 //   class Foo : public QObject, public Singleton<Foo> {   // QObject 는 꼭 첫 번째로
@@ -35,3 +38,5 @@ protected:
                                    \
 private:                           \
     Class() = default;
+
+} // namespace AITalk

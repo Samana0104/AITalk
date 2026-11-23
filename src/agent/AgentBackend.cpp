@@ -3,6 +3,9 @@
 #include <QSaveFile>
 #include <QUuid>
 
+namespace AITalk
+{
+
 AgentReply AgentReply::fromProcess(const CliResult& r, const QString& text)
 {
     AgentReply reply;
@@ -73,3 +76,5 @@ QString uniqueName(const QString& prefix, const QString& suffix)
 }
 
 }
+
+} // namespace AITalk

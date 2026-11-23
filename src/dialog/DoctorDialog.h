@@ -2,10 +2,14 @@
 
 #include <QDialog>
 
-class AgentHub;
 class QLabel;
 class QPlainTextEdit;
 class QTableWidget;
+
+namespace AITalk
+{
+
+class AgentHub;
 
 // 환경 진단 (CodePet 의 doctor): 멤버별 CLI 경로와 `--version` 결과, 없는 CLI 설치 명령.
 class DoctorDialog : public QDialog {
@@ -25,3 +29,5 @@ private:
     int pending = 0;
     int found = 0;
 };
+
+} // namespace AITalk

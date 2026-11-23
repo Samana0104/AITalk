@@ -7,6 +7,9 @@
 
 #include "core/ChatMessage.h"
 
+namespace AITalk
+{
+
 class ChatSession;
 
 // 현재 세션의 메시지 목록 (QML ListView 용).
@@ -60,3 +63,5 @@ private:
     // 세션 목록은 signal 전에 이미 늘어나 있으므로, 모델이 보여 주는 행 수를 따로 센다.
     int rows = 0;
 };
+
+} // namespace AITalk

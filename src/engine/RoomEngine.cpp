@@ -15,6 +15,9 @@
 #include "storage/ChatSession.h"
 #include "manager/DataManager.h"
 
+namespace AITalk
+{
+
 namespace {
 
 qint64 nowMs() { return QDateTime::currentMSecsSinceEpoch(); }
@@ -738,3 +741,5 @@ int RoomEngine::typingDelay(const QString& text) const
     const SpeedPreset sp = speedPreset(this->activeSession ? this->activeSession->speed() : QStringLiteral("normal"));
     return int(std::min(700.0 + text.size() * 40.0, 4000.0) * sp.typing);
 }
+
+} // namespace AITalk

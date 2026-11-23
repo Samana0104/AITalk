@@ -2,6 +2,9 @@
 
 #include "agent/AgentBackend.h"
 
+namespace AITalk
+{
+
 // Antigravity CLI (Gemini): 프롬프트를 명령줄 인자(-p)로 넘기고 JSON 출력을 읽는다.
 // 매 턴 새 대화가 agy 기록에 쌓이지 않게 대화 하나를 몇 턴(rotate) 재사용한다.
 class AgyBackend : public AgentBackend {
@@ -19,3 +22,5 @@ private:
     int turns = 0;
     int rotate;
 };
+
+} // namespace AITalk

@@ -2,6 +2,9 @@
 
 #include <QFile>
 
+namespace AITalk
+{
+
 namespace CsvReader {
 
 QList<QStringList> parse(const QString& text)
@@ -102,3 +105,5 @@ QString unescape(const QString& value)
 }
 
 }
+
+} // namespace AITalk

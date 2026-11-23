@@ -12,6 +12,9 @@
 #include "core/Member.h"
 #include "manager/DataManager.h"
 
+namespace AITalk
+{
+
 namespace {
 
 constexpr int maxNoteChars = 4000;
@@ -319,3 +322,5 @@ void ChatSession::log(const QString& who, const QString& text) const
         f.write(QStringLiteral("[%1] %2\n").arg(stamp, text).toUtf8());
     }
 }
+
+} // namespace AITalk

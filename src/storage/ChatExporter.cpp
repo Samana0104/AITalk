@@ -8,6 +8,9 @@
 #include "storage/ChatSession.h"
 #include "manager/DataManager.h"
 
+namespace AITalk
+{
+
 namespace ChatExporter {
 
 QString suggestedFileName(const ChatSession& session)
@@ -62,3 +65,5 @@ bool exportMarkdown(const ChatSession& session, const QString& userName, const Q
 }
 
 }
+
+} // namespace AITalk

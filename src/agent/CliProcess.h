@@ -7,6 +7,9 @@
 #include <QProcessEnvironment>
 #include <QTimer>
 
+namespace AITalk
+{
+
 struct CliResult {
     int exitCode = -1;
     bool timedOut = false;
@@ -48,3 +51,5 @@ private:
     bool timedOut = false;
     bool done = false;
 };
+
+} // namespace AITalk

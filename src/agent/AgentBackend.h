@@ -6,6 +6,9 @@
 
 #include "agent/CliProcess.h"
 
+namespace AITalk
+{
+
 // 한 턴 호출 입력. model/effort 는 AgentHub 가 진심모드 여부까지 반영해서 채운다.
 struct AgentRequest {
     QString memberId;
@@ -72,3 +75,5 @@ namespace BackendUtil {
 bool writeText(const QString& path, const QString& text);
 QString uniqueName(const QString& prefix, const QString& suffix);
 }
+
+} // namespace AITalk

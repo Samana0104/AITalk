@@ -9,6 +9,9 @@
 #include "manager/SessionManager.h"
 #include "manager/DataManager.h"
 
+namespace AITalk
+{
+
 namespace
 {
 QString PreviewOf(const ChatSession* session)
@@ -184,3 +187,5 @@ QString SessionListModel::RelativeTime(qint64 timestamp)
     }
     return QDateTime::fromMSecsSinceEpoch(timestamp).toString(QStringLiteral("M/d"));
 }
+
+} // namespace AITalk

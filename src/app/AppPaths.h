@@ -2,6 +2,9 @@
 
 #include <QString>
 
+namespace AITalk
+{
+
 // 설정은 실행 파일 옆 config/ 에 둔다 (빌드할 때 프로젝트의 config/ 가 복사된다).
 //   <exe>/config/config.json      설정
 //   <exe>/config/ui.ini           창 크기·분할 위치
@@ -22,3 +25,5 @@ QString trashDir();
 QString workDir(const QString &memberId);
 QString tempDir(const QString &name);
 } // namespace AppPaths
+
+} // namespace AITalk

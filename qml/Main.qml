@@ -1,5 +1,8 @@
 import QtCore
 import QtQuick
+// ToolTip 첨부 속성은 Qt 내부에서 QtQuick.Controls 로 툴팁을 만든다. 배포 도구가 이 모듈도 넣도록 import 한다.
+// 스타일은 res/qtquickcontrols2.conf 에서 Basic 으로 고정하고, 아래 Basic import 가 우선한다.
+import QtQuick.Controls
 import QtQuick.Controls.Basic
 import QtQuick.Layouts
 

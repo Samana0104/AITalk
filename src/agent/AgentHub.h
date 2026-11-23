@@ -5,6 +5,9 @@
 #include <map>
 #include <memory>
 
+namespace AITalk
+{
+
 class AgentBackend;
 class AgentCall;
 struct AppConfig;
@@ -37,3 +40,5 @@ private:
     std::map<QString, std::unique_ptr<AgentBackend>> backends;
     QMap<QString, QString> bins; // CLI 키 -> 경로 (없으면 빈 문자열)
 };
+
+} // namespace AITalk

@@ -20,6 +20,9 @@
 #include "ui/UiBridge.h"
 #include "manager/DataManager.h"
 
+namespace AITalk
+{
+
 Application::Application(QObject* parent)
     : QObject(parent)
 {
@@ -165,3 +168,5 @@ void Application::setupTray()
     });
     this->trayIcon->show();
 }
+
+} // namespace AITalk

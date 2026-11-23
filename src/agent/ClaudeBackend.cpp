@@ -2,6 +2,9 @@
 
 #include <QDir>
 
+namespace AITalk
+{
+
 AgentCall* ClaudeBackend::start(const QString& bin, const AgentRequest& req, QObject* parent)
 {
     const QString sysFile = QDir(req.workDir).filePath(QStringLiteral("system.md"));
@@ -25,3 +28,5 @@ AgentCall* ClaudeBackend::start(const QString& bin, const AgentRequest& req, QOb
     call->run(bin, args, req.turn.toUtf8(), req.workDir, req.timeoutMs);
     return call;
 }
+
+} // namespace AITalk

@@ -1,5 +1,8 @@
 #include "agent/CliProcess.h"
 
+namespace AITalk
+{
+
 namespace {
 #ifdef Q_OS_WIN
 constexpr unsigned long createNoWindow = 0x08000000; // CREATE_NO_WINDOW: 콘솔 창을 띄우지 않는다
@@ -104,3 +107,5 @@ void CliProcess::finish(int exitCode, bool failedToStart)
     r.ms = this->clock.isValid() ? this->clock.elapsed() : 0;
     QMetaObject::invokeMethod(this, [this, r] { emit finished(r); }, Qt::QueuedConnection);
 }
+
+} // namespace AITalk

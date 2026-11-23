@@ -15,6 +15,9 @@
 #include "core/Member.h"
 #include "manager/DataManager.h"
 
+namespace AITalk
+{
+
 namespace {
 enum Column { ColMember, ColCli, ColStatus, ColVersion, ColPath, ColCount };
 }
@@ -110,3 +113,5 @@ void DoctorDialog::finishOne()
     if (--this->pending <= 0)
         this->table->resizeColumnToContents(ColVersion);
 }
+
+} // namespace AITalk

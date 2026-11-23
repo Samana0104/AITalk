@@ -24,6 +24,8 @@
 - 들여쓰기는 공백 4칸. 중괄호는 Allman 스타일로 여는 중괄호와 닫는 중괄호를 각각 독립된 줄에 배치한다. 함수·클래스·구조체·enum class·네임스페이스·람다·제어문에 적용한다. `else`, `else if`, `catch`도 닫는 중괄호 다음 줄에 작성한다.
 - `if`, `for`, `while` 등 제어문은 본문이 한 줄이어도 중괄호를 생략하지 않는다. 제어문 키워드와 여는 소괄호 사이에는 공백을 넣지 않는다: `if(isReady)`.
 - 새로 작성하거나 수정하는 블록에는 위 중괄호 규칙을 적용한다. 관련 없는 기존 코드를 일괄 재포맷하지 않는다. include 구성은 수정하는 파일을 따르고, 헤더는 `#pragma once`를 사용한다.
+- `main.cpp`를 제외한 모든 코드는 `namespace AITalk` 안에 둔다. include와 Qt 클래스 앞쪽 선언(`class QMenu;`)은 밖에, 우리 타입 앞쪽 선언은 안에 둔다. 네임스페이스 안은 들여쓰지 않고 `} // namespace AITalk`로 닫는다. `using namespace`는 쓰지 않는다. `.cpp`도 정의를 같은 블록으로 감싼다.
+- QML에 노출하는 `Q_PROPERTY`·`Q_INVOKABLE`·signal의 인자와 반환형에 우리 타입을 쓸 때는 `AITalk::MessageListModel*`처럼 네임스페이스까지 적는다.
 - 클래스 선언은 `Q_OBJECT`·`Q_PROPERTY` 다음에 `public` 함수 → `public slots` → `signals` → `protected` → `private` 함수·slot → `private` 멤버 변수 순서로 쓴다. 함수 구역과 멤버 변수 구역은 같은 접근 수준이어도 접근 지정자를 따로 적어 나눈다. 새로 작성하거나 수정하는 클래스에 적용한다.
 - 구조체·클래스의 멤버 변수는 같은 자료형끼리 연속해서 선언한다. 필드 순서를 바꾸면 `{ ... }` 순서 초기화 사용처도 함께 고친다.
 - 읽기 전용 멤버 함수는 `const`, 복사할 필요 없는 큰 입력은 `const T&`, 널 포인터는 `nullptr`를 사용한다. 소유권은 Qt 부모 객체나 RAII로 명확히 한다.

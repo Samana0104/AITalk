@@ -2,6 +2,9 @@
 
 #include <QFile>
 
+namespace AITalk
+{
+
 namespace Emoticons {
 
 const QList<EmoticonInfo>& all()
@@ -50,3 +53,5 @@ bool isAvailable(const QString& memberId, const QString& key)
 }
 
 }
+
+} // namespace AITalk

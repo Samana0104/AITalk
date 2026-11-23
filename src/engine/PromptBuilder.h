@@ -5,6 +5,9 @@
 
 #include "engine/BoostRouter.h"
 
+namespace AITalk
+{
+
 class ChatSession;
 struct AppConfig;
 
@@ -32,3 +35,5 @@ QString buildBrief(const BriefInput& in, const AppConfig& cfg);
 QString buildTurn(const TurnInput& in, const AppConfig& cfg);
 
 }
+
+} // namespace AITalk

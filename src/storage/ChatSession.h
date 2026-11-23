@@ -8,6 +8,9 @@
 
 #include "core/ChatMessage.h"
 
+namespace AITalk
+{
+
 // 대화방(세션) 하나. 폴더 하나에 저장된다.
 //   session.json     제목, 방 설정(속도·진심모드·참여 멤버), 멤버별 읽은 위치
 //   messages.jsonl   메시지 (추가만 하는 로그. 반응은 별도 레코드로 덧붙인다)
@@ -86,3 +89,5 @@ private:
     QHash<qint64, int> index;
     qint64 nextId = 1;
 };
+
+} // namespace AITalk

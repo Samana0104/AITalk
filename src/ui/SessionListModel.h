@@ -5,6 +5,9 @@
 #include <QTimer>
 #include <QtQml/qqmlregistration.h>
 
+namespace AITalk
+{
+
 class SessionManager;
 
 // 왼쪽 세션 목록. query 가 비어 있으면 최근 활동 순 세션, 아니면 검색 결과다.
@@ -57,3 +60,5 @@ private:
     QList<Row> rows;
     QTimer rebuildTimer;
 };
+
+} // namespace AITalk

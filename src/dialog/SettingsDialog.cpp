@@ -19,6 +19,9 @@
 #include "core/Member.h"
 #include "manager/DataManager.h"
 
+namespace AITalk
+{
+
 namespace {
 
 QComboBox* effortCombo(const QString& current, QWidget* parent)
@@ -235,3 +238,5 @@ AppConfig SettingsDialog::editedConfig() const
     }
     return c;
 }
+
+} // namespace AITalk

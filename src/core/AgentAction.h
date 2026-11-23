@@ -4,6 +4,9 @@
 #include <QStringList>
 #include <optional>
 
+namespace AITalk
+{
+
 // AI 가 한 턴에 돌려주는 JSON 액션 (res/prompts/ko/brief.md 의 "응답 형식").
 struct AgentAction {
     QString action;          // say | pass
@@ -19,3 +22,5 @@ struct AgentAction {
     // 모델 답에서 첫 번째로 온전한 JSON 객체를 찾아 읽는다. 코드펜스나 앞뒤 잡담은 무시.
     static std::optional<AgentAction> parse(const QString& raw);
 };
+
+} // namespace AITalk

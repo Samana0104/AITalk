@@ -4,6 +4,9 @@
 #include <QJsonDocument>
 #include <QSaveFile>
 
+namespace AITalk
+{
+
 QString AgentConfig::effectiveModel(bool boost) const
 {
     return boost && !boostModel.isEmpty() ? boostModel : model;
@@ -163,3 +166,5 @@ AppConfig AppConfig::fromJson(const QJsonObject& o)
         c.closeToTray = ui.value(QLatin1String("closeToTray")).toBool();
     return c;
 }
+
+} // namespace AITalk

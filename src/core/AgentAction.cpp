@@ -5,6 +5,9 @@
 #include <QJsonObject>
 #include <QRegularExpression>
 
+namespace AITalk
+{
+
 namespace {
 
 constexpr int maxBubbles = 4;
@@ -95,3 +98,5 @@ std::optional<AgentAction> AgentAction::parse(const QString& raw)
     }
     return std::nullopt;
 }
+
+} // namespace AITalk

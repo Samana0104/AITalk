@@ -5,6 +5,9 @@
 #include <QString>
 #include <QStringList>
 
+namespace AITalk
+{
+
 // 방 멤버(AI)의 고정 정보. 성격이나 말투는 일부러 넣지 않는다:
 // 대화하면서 생기도록 둔다 (engine/PromptBuilder 참고).
 struct MemberInfo {
@@ -40,3 +43,5 @@ bool atMentions(const QString& text, const QString& id);
 QString withJosa(const QString& id, const QString& userName, const QString& pair);
 
 }
+
+} // namespace AITalk

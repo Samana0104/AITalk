@@ -7,6 +7,9 @@
 #include "core/Member.h"
 #include "storage/ChatSession.h"
 
+namespace AITalk
+{
+
 MessageListModel::MessageListModel(QObject* parent)
     : QAbstractListModel(parent)
 {
@@ -192,3 +195,5 @@ void MessageListModel::UpdateMessage(const ChatMessage& message)
     const QModelIndex changed = index(this->rows - 1 - at);
     emit dataChanged(changed, changed);
 }
+
+} // namespace AITalk

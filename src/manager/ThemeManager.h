@@ -9,6 +9,9 @@
 
 #include "util/Singleton.h"
 
+namespace AITalk
+{
+
 // 테마(라이트/다크)와 글꼴 크기를 앱 전체에 적용한다.
 //  - res/styles/<theme>.json 의 색 토큰과 글꼴 크기 토큰으로 res/styles/base.qss 의 @{토큰} 을 치환
 //  - res/icons/*.svg 의 currentColor 를 토큰 색으로 칠해서 아이콘을 만든다
@@ -33,3 +36,5 @@ private:
     QString themeName;
     QHash<QString, QString> tokens;
 };
+
+} // namespace AITalk
