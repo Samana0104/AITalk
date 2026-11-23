@@ -172,7 +172,7 @@ QWidget* SettingsDialog::buildAppearanceTab()
     form->setContentsMargins(16, 16, 16, 16);
     form->setSpacing(10);
 
-    // locale/*.csv의 파일 이름과 lang.name에서 언어 목록을 구성한다.
+    // res/locale/*.csv의 파일 이름과 lang.name에서 언어 목록을 구성한다.
     QList<QPair<QString, QString>> langs { { Text("settings.languageAuto"), QStringLiteral("auto") } };
     const DataManager& data = DataManager::instance();
     for(const QString& code : data.languages())

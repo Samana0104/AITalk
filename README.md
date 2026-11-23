@@ -35,12 +35,11 @@ res/                     리소스 (resources.qrc 로 실행 파일에 포함)
   emoticons/<멤버>/      멤버별 캐릭터 이모티콘 15종 PNG (CodePet)
   styles/                base.qss + light.json / dark.json 색 토큰
   prompts/ko/            멤버에게 주는 방 규칙(brief.md), 침묵 깨기 카드
-
-locale/                  언어별 UI 문자열 (locale.qrc로 실행 파일에 포함)
-  en-us.csv              영어 (미국)
-  ko-kr.csv              한국어
-  zh-cn.csv              중국어 간체
-  ja-jp.csv              일본어
+  locale/                언어별 UI 문자열 (locale.qrc로 실행 파일에 포함)
+    en-us.csv            영어 (미국)
+    ko-kr.csv            한국어
+    zh-cn.csv            중국어 간체
+    ja-jp.csv            일본어
 
 src/
   main.cpp
@@ -57,10 +56,13 @@ src/
                 IconImageProvider(image://icon), AvatarImageProvider(image://avatar)
   dialog/       SettingsDialog, DoctorDialog (아직 위젯. base.qss 로 꾸민다)
 
-qml/                     화면 (Qt Quick, AITalk QML 모듈)
+qml/                     화면 (Qt Quick, AITalk QML 모듈. 하위 폴더도 한 모듈이라 타입 이름은 파일 이름)
   Main.qml               프레임 없는 메인 창: TitleBar · SessionPanel | ChatPanel | InspectorPanel
-  ChatPanel.qml          RoomHeader · 메시지 목록(MessageDelegate) · TypingIndicator · Composer
-  그 밖                  재사용 부품: IconButton, ChipButton, Avatar, StatusDot, Toast, PopMenu, GameDialog …
+  panels/                화면 영역: TitleBar, SessionPanel, ChatPanel, InspectorPanel(+ MemberCard)
+  chat/                  채팅 영역 부품: RoomHeader, RoomComboBox, AgentChip, MessageDelegate, ReactionPicker,
+                         TypingIndicator, Composer
+  components/            재사용 부품: Icon, IconButton, ChipButton, Avatar, StatusDot, Toast, PopMenu,
+                         PanelDivider, GameDialog
 ```
 
 의존 방향은 한쪽으로만: `util` ← `core` ← `storage` ← `agent`/`engine` ← `component` ← `widget` ← `panel`/`dialog` ← `window` ← `app`.
@@ -92,10 +94,10 @@ showToast(Text("toast.exported", path));              // 값의 %1 에 path
 Text("doctor.summary", found, total);                 // %1, %2 차례로
 ```
 
-- 표는 루트의 `locale/<언어-지역>.csv`이며 머리줄은 `key,value`다. 파일 이름이 언어 코드이고,
+- 표는 `res/locale/<언어-지역>.csv`이며 머리줄은 `key,value`다. 파일 이름이 언어 코드이고,
   `lang.name` 값이 설정 → 화면 → 언어에 표시되는 이름이다. 영어(`en-us`), 한국어(`ko-kr`), 중국어 간체(`zh-cn`), 일본어(`ja-jp`)를 제공한다.
-- 새 언어는 기존 CSV를 복사해 값을 번역하고 `locale/locale.qrc`에 등록하면 언어 목록에 자동으로 추가된다.
-  모든 언어에서 같은 키와 `%1`, `%2` 자리표시자를 유지한다. 자세한 형식과 검증 방법은 [locale/README.md](locale/README.md)를 참고한다.
+- 새 언어는 기존 CSV를 복사해 값을 번역하고 `res/locale/locale.qrc`에 등록하면 언어 목록에 자동으로 추가된다.
+  모든 언어에서 같은 키와 `%1`, `%2` 자리표시자를 유지한다. 자세한 형식과 검증 방법은 [res/locale/README.md](res/locale/README.md)를 참고한다.
 - 값 안의 줄바꿈은 `\n`, 쉼표나 따옴표가 있으면 `"..."`로 감싸고 따옴표는 `""`.
 - 찾는 순서: 현재 언어 → `ko-kr`(대체 언어) → 키 그대로(경고 한 번). 빈 값은 번역 안 된 것으로 보고 `ko-kr`을 쓴다.
 - 언어는 `config.json`의 `ui.language`(`auto`면 OS 언어). 위젯을 만들 때 문자열이 들어가므로 바꾸면 다시 시작해야 한다.

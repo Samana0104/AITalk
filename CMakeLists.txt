@@ -16,14 +16,15 @@ file(GLOB_RECURSE AITALK_SOURCES CONFIGURE_DEPENDS
     ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/*.h
 )
-file(GLOB AITALK_QML_FILES CONFIGURE_DEPENDS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
+# qml/ 하위 폴더(components, panels, chat)까지 수집한다. 타입 이름은 파일 이름이다.
+file(GLOB_RECURSE AITALK_QML_FILES CONFIGURE_DEPENDS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/qml/*.qml
 )
 
 qt_add_executable(AITalk
     ${AITALK_SOURCES}
     res/resources.qrc
-    locale/locale.qrc
+    res/locale/locale.qrc
 )
 
 # QML 화면(qml/)과 QML_ELEMENT 로 등록하는 C++ 타입(src/ui/)을 AITalk 모듈로 묶는다.

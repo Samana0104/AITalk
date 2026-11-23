@@ -1,7 +1,7 @@
 # AITalk 작업 규칙
 
 ## 프로젝트
-- C++20 / Qt 6.8+ Quick(QML)·Widgets·Svg / CMake 3.21+ 데스크톱 앱이다. 화면은 `qml/`, QML 연결 계층은 `src/ui/`다.
+- C++20 / Qt 6.8+ Quick(QML)·Widgets·Svg / CMake 3.21+ 데스크톱 앱이다. 화면은 `qml/`(`panels/`·`chat/`·`components/`), QML 연결 계층은 `src/ui/`다.
 - 구조와 실행 방법은 `README.md`, 빌드 정의는 `CMakeLists.txt`를 확인한다. 필요한 파일만 읽는다.
 - 사용자와의 설명 및 주석은 한국어를 기본으로 하고, 코드 식별자는 영어로 작성한다.
 
@@ -58,7 +58,7 @@ void SendIfReady(bool isReady)
 - 검색은 `rg`로 범위를 좁히고, 이미 확인한 내용을 불필요하게 다시 읽지 않는다. 문서·로그·답변은 필요한 정보 위주로 유지한다.
 
 ## 프로젝트별 구현 규칙
-- UI 문자열은 `Text("key")`와 `locale/<언어-지역>.csv`(`key,value`)로 관리한다. UI 코드에 표시 문구를 직접 넣지 않는다. 언어 파일 추가 시 `locale/locale.qrc`에도 등록한다.
+- UI 문자열은 `Text("key")`와 `res/locale/<언어-지역>.csv`(`key,value`)로 관리한다. UI 코드에 표시 문구를 직접 넣지 않는다. 언어 파일 추가 시 `res/locale/locale.qrc`에도 등록한다.
 - 테마는 `res/styles/`, 에이전트 프롬프트는 `res/prompts/ko/`의 기존 구성을 활용한다.
 - 리소스 파일을 추가하면 `res/resources.qrc` 등록도 확인한다.
 - CLI 실행은 기존 `agent` 계층을 재사용한다. UI 스레드를 동기 대기나 긴 작업으로 막지 않는다.
