@@ -22,9 +22,12 @@ cmake --build build
 
 Qt Creator에서는 `CMakeLists.txt`를 열면 된다. 빌드 폴더 밖에서 실행하려면 `windeployqt build/AITalk.exe`.
 
-데이터는 `%APPDATA%/AITalk` (환경 변수 `AITALK_HOME`으로 변경)에 저장된다:
-`config/{config.json, ui.ini}`, `sessions/<id>/{session.json, messages.jsonl, notes/, logs/}`.
-예전 버전이 루트에 만든 `config.json`, `ui.ini`는 처음 실행할 때 `config/`로 옮겨진다.
+설정은 실행 파일 옆 `config/{config.json, ui.ini}`에 저장된다. 빌드할 때 프로젝트의 `config/`가 복사되며,
+이미 있는 파일은 덮어쓰지 않는다. 기본 설정값을 바꾸려면 프로젝트의 `config/config.json`을 고친다.
+예전 버전이 `%APPDATA%/AITalk`에 둔 설정은 처음 실행할 때 가져오고, 원본은 `.migrated`를 붙여 남긴다.
+
+대화 데이터는 `%APPDATA%/AITalk` (환경 변수 `AITALK_HOME`으로 변경)에 저장된다:
+`sessions/<id>/{session.json, messages.jsonl, notes/, logs/}`.
 CLI가 실제로 무엇을 받고 돌려줬는지는 `logs/<멤버>.log`에서 볼 수 있다.
 
 ## 대화가 굴러가는 방식

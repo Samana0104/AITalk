@@ -1,0 +1,60 @@
+{
+    "agents": {
+        "claude": {
+            "boost": {
+                "effort": "",
+                "model": "opus"
+            },
+            "effort": "",
+            "model": "sonnet",
+            "rotate": 4
+        },
+        "gemini": {
+            "boost": {
+                "effort": "",
+                "model": "gemini-3.8-flash-high"
+            },
+            "effort": "",
+            "model": "gemini-3.8-flash-medium",
+            "rotate": 4
+        },
+        "gpt": {
+            "boost": {
+                "effort": "medium",
+                "model": "gpt-6-astra"
+            },
+            "effort": "low",
+            "model": "gpt-6-sol",
+            "rotate": 4
+        }
+    },
+    "autoSleepMinutes": 30,
+    "bins": {
+        "agy": "",
+        "claude": "",
+        "codex": ""
+    },
+    "boost": {
+        "aiRequestCooldownSec": 180,
+        "mode": "auto",
+        "selfCooldownSec": 180,
+        "timeoutSec": 360
+    },
+    "defaultRoomName": "",
+    "historyForPrompt": 40,
+    "maxInFlight": 3,
+    "spark": {
+        "backoff": 1.6,
+        "enabled": true,
+        "maxWaitSec": 1800
+    },
+    "speed": "normal",
+    "turnTimeoutSec": 150,
+    "ui": {
+        "closeToTray": false,
+        "fontSize": 10,
+        "language": "auto",
+        "theme": "light"
+    },
+    "userName": ""
+}

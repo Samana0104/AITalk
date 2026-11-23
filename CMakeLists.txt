@@ -46,6 +46,17 @@ set_target_properties(AITalk PROPERTIES
     MACOSX_BUNDLE ON
 )
 
+# 설정 파일(config/)을 빌드마다 실행 파일 옆 config/ 로 복사한다. 이미 있으면 사용자 설정이므로 두고 넘어간다.
+add_custom_target(AITalkConfig ALL
+    COMMAND ${CMAKE_COMMAND}
+        -DSOURCE_DIR=${CMAKE_CURRENT_SOURCE_DIR}/config
+        -DTARGET_DIR=$<TARGET_FILE_DIR:AITalk>/config
+        -P ${CMAKE_CURRENT_SOURCE_DIR}/cmake/CopyConfig.cmake
+    COMMENT "Copying config files"
+    VERBATIM
+)
+add_dependencies(AITalkConfig AITalk)
+
 if(MSVC)
     target_compile_options(AITalk PRIVATE /utf-8 /W4 /permissive-)
 else()

@@ -1,5 +1,6 @@
 #include "app/AppPaths.h"
 
+#include <QCoreApplication>
 #include <QDebug>
 #include <QDir>
 #include <QFile>
@@ -12,27 +13,43 @@ QString ensure(const QString& path)
     return path;
 }
 
-// 예전 버전은 설정 파일을 루트에 두었다. 루트에만 있으면 config/ 로 옮기고,
-// 옮기지 못하면 기존 파일을 그대로 써서 설정을 잃지 않게 한다.
-QString ConfigFilePath(const QString& name)
+// 설정 파일은 실행 파일 옆 config/ 에 둔다 (빌드할 때 프로젝트의 config/ 가 복사된다).
+// 예전 버전은 데이터 폴더(<root>/config/ 또는 <root>/)에 두었으므로, 남아 있으면 한 번 가져온다.
+// 가져온 원본은 지우지 않고 ".migrated" 를 붙여 백업으로 남긴다. 가져오지 못하면 원본을 그대로 쓴다.
+QString ConfigFilePath(const QString &name)
 {
+    const QString newPath =
+        QDir(ensure(QCoreApplication::applicationDirPath() + QStringLiteral("/config"))).filePath(name);
     const QDir root(AppPaths::dataRoot());
-    const QString newPath = QDir(ensure(root.filePath(QStringLiteral("config")))).filePath(name);
-    const QString oldPath = root.filePath(name);
-    if(QFile::exists(oldPath) && !QFile::exists(newPath) && !QFile::rename(oldPath, newPath))
+    for (const QString &oldPath : {root.filePath(QStringLiteral("config/") + name), root.filePath(name)})
     {
-        qWarning() << "failed to move" << oldPath << "to" << newPath;
-        return oldPath;
+        if (!QFile::exists(oldPath))
+        {
+            continue;
+        }
+        QFile::remove(newPath); // 빌드가 복사해 둔 초기 설정보다 기존 사용자 설정이 우선이다.
+        if (!QFile::copy(oldPath, newPath))
+        {
+            qWarning() << "failed to import" << oldPath << "to" << newPath;
+            return oldPath;
+        }
+        if (!QFile::rename(oldPath, oldPath + QStringLiteral(".migrated")))
+        {
+            qWarning() << "failed to mark" << oldPath << "as migrated";
+        }
+        break;
     }
     return newPath;
 }
-}
+} // namespace
 
-namespace AppPaths {
+namespace AppPaths
+{
 
 QString dataRoot()
 {
-    static const QString root = [] {
+    static const QString root = []
+    {
         const QString env = qEnvironmentVariable("AITALK_HOME");
         if (!env.isEmpty())
             return ensure(QDir::cleanPath(env));
@@ -45,7 +62,10 @@ QString configFile() { return ConfigFilePath(QStringLiteral("config.json")); }
 QString uiSettingsFile() { return ConfigFilePath(QStringLiteral("ui.ini")); }
 QString sessionsDir() { return ensure(QDir(dataRoot()).filePath(QStringLiteral("sessions"))); }
 QString trashDir() { return ensure(QDir(dataRoot()).filePath(QStringLiteral("trash"))); }
-QString workDir(const QString& memberId) { return ensure(QDir(dataRoot()).filePath(QStringLiteral("cwd/") + memberId)); }
-QString tempDir(const QString& name) { return ensure(QDir(dataRoot()).filePath(QStringLiteral("tmp/") + name)); }
-
+QString workDir(const QString &memberId)
+{
+    return ensure(QDir(dataRoot()).filePath(QStringLiteral("cwd/") + memberId));
 }
+QString tempDir(const QString &name) { return ensure(QDir(dataRoot()).filePath(QStringLiteral("tmp/") + name)); }
+
+} // namespace AppPaths

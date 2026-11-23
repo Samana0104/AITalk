@@ -49,10 +49,20 @@ bool Application::initialize()
     data.setFallbackLanguage(QStringLiteral("ko-kr"));
     data.setLanguage(this->appConfig.language);
 
-    if (!QFile::exists(cfgFile)) {
-        // 처음 실행: 이름 기본값도 고른 언어로
+    // 처음 실행: 이름 기본값도 고른 언어로. 배포용 config/config.json 은 이름을 비워 둔다.
+    const bool hasConfigFile = QFile::exists(cfgFile);
+    const bool isUserNameMissing = !hasConfigFile || this->appConfig.userName.isEmpty();
+    const bool isRoomNameMissing = !hasConfigFile || this->appConfig.defaultRoomName.isEmpty();
+    if(isUserNameMissing)
+    {
         this->appConfig.userName = Text("config.defaultUserName");
+    }
+    if(isRoomNameMissing)
+    {
         this->appConfig.defaultRoomName = Text("config.defaultRoomName");
+    }
+    if(isUserNameMissing || isRoomNameMissing)
+    {
         this->appConfig.save(cfgFile);
     }
 
