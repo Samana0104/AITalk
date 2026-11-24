@@ -13,7 +13,7 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Widgets 는 트레이 메뉴와 아직 옮기지 않은 설정·진단 다이얼로그가 쓴다.
-find_package(Qt6 6.8 REQUIRED COMPONENTS Widgets Svg Quick)
+find_package(Qt6 6.8 REQUIRED COMPONENTS Widgets Svg Quick Network)
 qt_standard_project_setup(REQUIRES 6.8)
 set(CMAKE_AUTORCC ON) # res/resources.qrc (qt_standard_project_setup 은 AUTORCC 를 켜지 않는다)
 
@@ -32,6 +32,7 @@ qt_add_executable(AITalk
     ${AITALK_SOURCES}
     res/resources.qrc
     res/locale/locale.qrc
+    $<$<BOOL:${WIN32}>:res/app.rc>
 )
 
 # QML 화면(qml/)과 QML_ELEMENT 로 등록하는 C++ 타입(src/ui/)을 AITalk 모듈로 묶는다.
@@ -45,7 +46,7 @@ target_include_directories(AITalk PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/src
     ${CMAKE_CURRENT_SOURCE_DIR}/src/ui
 )
-target_link_libraries(AITalk PRIVATE Qt6::Widgets Qt6::Svg Qt6::Quick)
+target_link_libraries(AITalk PRIVATE Qt6::Widgets Qt6::Svg Qt6::Quick Qt6::Network)
 target_compile_definitions(AITalk PRIVATE AITALK_VERSION="${PROJECT_VERSION}")
 
 set_target_properties(AITalk PROPERTIES
@@ -65,15 +66,19 @@ add_custom_target(AITalkConfig ALL
 add_dependencies(AITalkConfig AITalk)
 
 # 설치(dist/): exe → Qt·컴파일러 런타임 DLL, 플러그인, QML 모듈(Qt 배포 도구) → config(이미 있으면 사용자 설정이므로 유지).
-# 첫 규칙에서 Release 가 아니면 멈춰 Debug 빌드가 dist/ 를 덮어쓰지 않게 한다.
-install(CODE "
-    if(NOT CMAKE_INSTALL_CONFIG_NAME STREQUAL \"Release\")
-        message(FATAL_ERROR \"dist/ 에는 Release 빌드만 설치한다. 지금 빌드: \${CMAKE_INSTALL_CONFIG_NAME}\\n\"
-            \"  cmake -S . -B build-release -G Ninja -DCMAKE_BUILD_TYPE=Release\\n\"
-            \"  cmake --build build-release\\n\"
-            \"  cmake --install build-release\")
-    endif()
-")
+# Debug 빌드에서 install 하면 cmake/InstallRelease.cmake 가 build-release(Release) 로 빌드·설치한다.
+if(NOT CMAKE_BUILD_TYPE STREQUAL "Release")
+    install(CODE "
+        set(SOURCE_DIR \"${CMAKE_CURRENT_SOURCE_DIR}\")
+        set(INSTALL_PREFIX \"\${CMAKE_INSTALL_PREFIX}\")
+        set(GENERATOR \"${CMAKE_GENERATOR}\")
+        set(CXX_COMPILER \"${CMAKE_CXX_COMPILER}\")
+        set(MAKE_PROGRAM \"${CMAKE_MAKE_PROGRAM}\")
+        set(QT6_DIR \"${Qt6_DIR}\")
+        include(\"${CMAKE_CURRENT_SOURCE_DIR}/cmake/InstallRelease.cmake\")
+        return()
+    ")
+endif()
 install(TARGETS AITalk
     BUNDLE DESTINATION .
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
